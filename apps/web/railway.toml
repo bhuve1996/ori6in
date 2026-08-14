@@ -1,5 +1,6 @@
 # Railway service: Web (optional — Vercel also works)
 # Set Docker build args in Railway for NEXT_PUBLIC_* before first deploy.
+# Auto-deploy watch paths — keep in sync with monorepo packages this image needs.
 
 [build]
 builder = "DOCKERFILE"
@@ -8,8 +9,10 @@ watchPatterns = [
   "apps/web/**",
   "packages/shared/**",
   "packages/ui/**",
+  "packages/config/**",
   "package.json",
   "pnpm-lock.yaml",
+  "pnpm-workspace.yaml",
 ]
 
 [deploy]

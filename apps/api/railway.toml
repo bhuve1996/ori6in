@@ -1,6 +1,7 @@
 # Railway service: API
 # In Railway UI: Root Directory = monorepo root (leave blank / ".")
 # Dockerfile path is set below.
+# Auto-deploy only when API-related paths change.
 
 [build]
 builder = "DOCKERFILE"
@@ -12,6 +13,7 @@ watchPatterns = [
   "packages/shared/**",
   "package.json",
   "pnpm-lock.yaml",
+  "pnpm-workspace.yaml",
 ]
 
 [deploy]
