@@ -11,9 +11,17 @@ import { BANNERS } from '../../../lib/media';
 
 type Dashboard = {
   openRoles: number;
+  totalRoles?: number;
+  pendingApproval?: number;
   applicants: number;
   interviews: number;
-  recentListings: Array<{ id: string; title: string; location: string; published: boolean }>;
+  recentListings: Array<{
+    id: string;
+    title: string;
+    location: string;
+    published: boolean;
+    approvalStatus?: string;
+  }>;
 };
 
 export default function CompanyHubPage() {
@@ -42,7 +50,8 @@ export default function CompanyHubPage() {
 
           <StatGrid
             items={[
-              { value: dash.openRoles, label: 'Open roles' },
+              { value: dash.openRoles, label: 'Live roles' },
+              { value: dash.pendingApproval ?? 0, label: 'Pending approval' },
               { value: dash.applicants, label: 'Applicants' },
               { value: dash.interviews, label: 'Interviews' },
             ]}
@@ -55,7 +64,9 @@ export default function CompanyHubPage() {
                 {dash.recentListings.map((l) => (
                   <li key={l.id}>
                     <strong>{l.title}</strong> · {l.location}
-                    {l.published ? ' · live' : ' · draft'}
+                    {l.published
+                      ? ' · live'
+                      : ` · ${l.approvalStatus ?? 'draft'}`}
                   </li>
                 ))}
               </ul>

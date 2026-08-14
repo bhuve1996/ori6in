@@ -52,5 +52,15 @@ Source: [Website Overview Google Doc](https://docs.google.com/document/d/1wqEzCW
 ## Month 1 MVP include
 Public Website, Authentication, Student Portal (core), Mentor Portal (core), Admin Portal (core), Programs & courses, Internship listings, Payments, AI Chat (basic), Notifications (email + in-app)
 
-## Deferred (Month 2+)
-Parent Portal, Company Portal, Advanced AI, Community & Forums, Video Meetings, Referral, Gamification, Super Admin
+## Current focus (Phase 2)
+Parent Portal depth, Company Portal depth, Mentor booking / richer reviews, Internship approval workflows.  
+Public role guide: `/roles`.
+
+## Explicitly deferred right now
+- **AI depth** — memory/RAG, career coach, resume, roadmap, voice (basic chat stays)
+- **Hardening** — live Razorpay/Stripe, production email, S3 hardening, launch ops
+
+## Later (after Phase 2 depth)
+Community & Forums, Video Meetings, Referral, Gamification, Super Admin, Advanced analytics
+
+Full notes: [roadmap.md](./roadmap.md)

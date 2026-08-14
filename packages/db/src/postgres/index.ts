@@ -196,10 +196,16 @@ async function migrate(pool: pg.Pool) {
       company TEXT NOT NULL,
       location TEXT NOT NULL,
       description TEXT NOT NULL,
+      company_user_id TEXT,
+      approval_status TEXT NOT NULL DEFAULT 'approved',
+      payment_status TEXT NOT NULL DEFAULT 'waived',
       published BOOLEAN NOT NULL DEFAULT TRUE,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+    ALTER TABLE internships ADD COLUMN IF NOT EXISTS company_user_id TEXT;
+    ALTER TABLE internships ADD COLUMN IF NOT EXISTS approval_status TEXT NOT NULL DEFAULT 'approved';
+    ALTER TABLE internships ADD COLUMN IF NOT EXISTS payment_status TEXT NOT NULL DEFAULT 'waived';
     CREATE TABLE IF NOT EXISTS internship_applications (
       id UUID PRIMARY KEY,
       user_id TEXT NOT NULL,
@@ -313,6 +319,9 @@ function mapInternship(row: Record<string, unknown>): Internship {
     company: String(row.company),
     location: String(row.location),
     description: String(row.description),
+    companyUserId: row.company_user_id ? String(row.company_user_id) : null,
+    approvalStatus: (row.approval_status as Internship['approvalStatus']) ?? 'approved',
+    paymentStatus: (row.payment_status as Internship['paymentStatus']) ?? 'waived',
     published: Boolean(row.published),
     createdAt: new Date(row.created_at as string),
     updatedAt: new Date(row.updated_at as string),
@@ -1090,8 +1099,9 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     async create(input) {
       const id = randomUUID();
       const r = await pool.query(
-        `INSERT INTO internships (id, slug, title, company, location, description, published)
-         VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+        `INSERT INTO internships
+          (id, slug, title, company, location, description, company_user_id, approval_status, payment_status, published)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
         [
           id,
           input.slug,
@@ -1099,10 +1109,38 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           input.company,
           input.location,
           input.description,
+          input.companyUserId,
+          input.approvalStatus,
+          input.paymentStatus,
           input.published,
         ],
       );
       return mapInternship(r.rows[0]);
+    },
+    async update(id, input) {
+      const existing = await internships.findById(id);
+      if (!existing) return null;
+      const next = { ...existing, ...input, updatedAt: new Date() };
+      const r = await pool.query(
+        `UPDATE internships SET
+           slug = $2, title = $3, company = $4, location = $5, description = $6,
+           company_user_id = $7, approval_status = $8, payment_status = $9, published = $10,
+           updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [
+          id,
+          next.slug,
+          next.title,
+          next.company,
+          next.location,
+          next.description,
+          next.companyUserId,
+          next.approvalStatus,
+          next.paymentStatus,
+          next.published,
+        ],
+      );
+      return r.rows[0] ? mapInternship(r.rows[0]) : null;
     },
     async findById(id) {
       const r = await pool.query('SELECT * FROM internships WHERE id = $1', [id]);
@@ -1114,7 +1152,22 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     },
     async listPublished() {
       const r = await pool.query(
-        `SELECT * FROM internships WHERE published = TRUE ORDER BY created_at DESC`,
+        `SELECT * FROM internships
+         WHERE published = TRUE AND approval_status = 'approved'
+         ORDER BY created_at DESC`,
+      );
+      return r.rows.map(mapInternship);
+    },
+    async listByCompanyUser(companyUserId) {
+      const r = await pool.query(
+        `SELECT * FROM internships WHERE company_user_id = $1 ORDER BY created_at DESC`,
+        [companyUserId],
+      );
+      return r.rows.map(mapInternship);
+    },
+    async listPendingApproval() {
+      const r = await pool.query(
+        `SELECT * FROM internships WHERE approval_status = 'pending_approval' ORDER BY created_at DESC`,
       );
       return r.rows.map(mapInternship);
     },
@@ -1148,12 +1201,43 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       );
       return r.rows[0] ? mapApplication(r.rows[0]) : null;
     },
+    async findApplicationById(id) {
+      const r = await pool.query('SELECT * FROM internship_applications WHERE id = $1', [id]);
+      return r.rows[0] ? mapApplication(r.rows[0]) : null;
+    },
     async listApplicationsByUser(userId) {
       const r = await pool.query(
         `SELECT * FROM internship_applications WHERE user_id = $1 ORDER BY created_at DESC`,
         [userId],
       );
       return r.rows.map(mapApplication);
+    },
+    async listApplicationsByInternship(internshipId) {
+      const r = await pool.query(
+        `SELECT * FROM internship_applications WHERE internship_id = $1 ORDER BY created_at DESC`,
+        [internshipId],
+      );
+      return r.rows.map(mapApplication);
+    },
+    async updateApplicationStatus(id, status, note) {
+      const existing = await internships.findApplicationById(id);
+      if (!existing) return null;
+      const t = new Date();
+      const timeline = [
+        ...existing.timeline,
+        { at: t, status, note },
+      ].map((ev) => ({
+        at: ev.at.toISOString(),
+        status: ev.status,
+        note: ev.note,
+      }));
+      const r = await pool.query(
+        `UPDATE internship_applications
+         SET status = $2, timeline = $3::jsonb, updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [id, status, JSON.stringify(timeline)],
+      );
+      return r.rows[0] ? mapApplication(r.rows[0]) : null;
     },
   };
 

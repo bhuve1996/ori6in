@@ -824,6 +824,117 @@ select {
   opacity: 0.45;
 }
 
+.roles-intro {
+  max-width: 42rem;
+  margin: 0 0 1.25rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.roles-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 1.75rem;
+}
+
+.roles-jump a {
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: var(--tile-border);
+  background: var(--paper-elevated);
+  box-shadow: var(--tile-shadow);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none !important;
+  transition: transform 0.25s var(--ease-out), border-color 0.2s ease;
+}
+
+.roles-jump a:hover {
+  transform: translateY(-2px);
+  border: var(--tile-border-hover);
+  color: inherit !important;
+}
+
+.roles-stack {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.roles-card {
+  padding: 1.35rem 1.35rem 1.5rem;
+  background: var(--paper-elevated);
+  border: var(--tile-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--tile-shadow);
+}
+
+.roles-card__kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--brown);
+}
+
+.roles-card__head h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  letter-spacing: -0.02em;
+}
+
+.roles-card__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.75rem;
+  margin-bottom: 1.15rem;
+}
+
+.roles-card__cols h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.roles-card__cols ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.roles-skip {
+  margin-top: 2rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed color-mix(in srgb, var(--ink) 18%, transparent);
+  background: color-mix(in srgb, var(--theme-a) 45%, transparent);
+}
+
+.roles-skip h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-size: 1.25rem;
+}
+
+.roles-skip ul {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+  display: grid;
+  gap: 0.45rem;
+}
+
+@media (max-width: 760px) {
+  .roles-card__cols {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 820px) {
   .mkt-program-grid {
     grid-template-columns: 1fr;
@@ -992,6 +1103,20 @@ select {
 
 .section-block {
   margin: 1.75rem 0;
+}
+
+.stack-form {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 32rem;
+  margin-top: 0.75rem;
+}
+
+.stack-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+  font-size: 0.92rem;
 }
 
 .plain-list {

@@ -56,6 +56,8 @@ export type {
   InternshipRepository,
   Internship,
   InternshipApplication,
+  InternshipApprovalStatus,
+  InternshipPaymentStatus,
   ApplicationStatus,
   ApplicationTimelineEvent,
 } from './internship.repository.js';

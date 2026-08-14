@@ -17,6 +17,7 @@ import { Role } from '@ori6in/shared';
 import { REPOSITORIES } from '../../common/database.service';
 import { AdminService } from '../admin/admin.service';
 import { CmsService } from '../cms/cms.service';
+import { CompanyPortalService } from '../company-portal/company-portal.service';
 import { ProgramsService } from '../programs/programs.service';
 import { JwtAuthGuard, Roles, RolesGuard, type AuthUser } from '../rbac/rbac';
 
@@ -149,5 +150,26 @@ export class AdminImpersonationController {
       },
       impersonatedBy: req.user.sub,
     };
+  }
+}
+
+@Controller('admin/approvals')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.Admin, Role.SuperAdmin)
+export class AdminApprovalsController {
+  constructor(@Inject(CompanyPortalService) private readonly company: CompanyPortalService) {}
+
+  @Get('internships')
+  listPending() {
+    return this.company.listPendingApprovals();
+  }
+
+  @Post('internships/:id/review')
+  review(
+    @Req() req: { user: AuthUser },
+    @Param('id') id: string,
+    @Body() body: unknown,
+  ) {
+    return this.company.reviewApproval(req.user.sub, id, body);
   }
 }

@@ -442,6 +442,13 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
       await internshipsCol.insertOne(row);
       return row;
     },
+    async update(id, input) {
+      const existing = await internshipsCol.findOne({ id });
+      if (!existing) return null;
+      const row: Internship = { ...existing, ...input, updatedAt: new Date() };
+      await internshipsCol.replaceOne({ id }, row);
+      return row;
+    },
     async findById(id) {
       return (await internshipsCol.findOne({ id })) ?? null;
     },
@@ -449,7 +456,19 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
       return (await internshipsCol.findOne({ slug })) ?? null;
     },
     async listPublished() {
-      return internshipsCol.find({ published: true }).sort({ createdAt: -1 }).toArray();
+      return internshipsCol
+        .find({ published: true, approvalStatus: 'approved' })
+        .sort({ createdAt: -1 })
+        .toArray();
+    },
+    async listByCompanyUser(companyUserId) {
+      return internshipsCol.find({ companyUserId }).sort({ createdAt: -1 }).toArray();
+    },
+    async listPendingApproval() {
+      return internshipsCol
+        .find({ approvalStatus: 'pending_approval' })
+        .sort({ createdAt: -1 })
+        .toArray();
     },
     async createApplication(input) {
       const t = new Date();
@@ -465,8 +484,27 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     async findApplication(userId, internshipId) {
       return (await internshipAppsCol.findOne({ userId, internshipId })) ?? null;
     },
+    async findApplicationById(id) {
+      return (await internshipAppsCol.findOne({ id })) ?? null;
+    },
     async listApplicationsByUser(userId) {
       return internshipAppsCol.find({ userId }).sort({ createdAt: -1 }).toArray();
+    },
+    async listApplicationsByInternship(internshipId) {
+      return internshipAppsCol.find({ internshipId }).sort({ createdAt: -1 }).toArray();
+    },
+    async updateApplicationStatus(id, status, note) {
+      const existing = await internshipAppsCol.findOne({ id });
+      if (!existing) return null;
+      const t = new Date();
+      const row: InternshipApplication = {
+        ...existing,
+        status,
+        timeline: [...existing.timeline, { at: t, status, note }],
+        updatedAt: t,
+      };
+      await internshipAppsCol.replaceOne({ id }, row);
+      return row;
     },
   };
 

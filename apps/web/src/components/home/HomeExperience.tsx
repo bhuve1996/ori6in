@@ -125,6 +125,7 @@ export function HomeExperience({ programs, mentors }: Props) {
           <a href="/programs">Programs</a>
           <a href="/mentors">Mentors</a>
           <a href="/how-it-works">How it works</a>
+          <a href="/roles">What you can do</a>
           <a href="/pricing">Pricing</a>
           <a href="/blog">Blog</a>
           <a href="/about">About</a>

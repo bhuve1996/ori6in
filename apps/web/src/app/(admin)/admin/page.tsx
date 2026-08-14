@@ -92,6 +92,7 @@ export default function AdminPortalPage() {
           { href: '/admin/users', label: 'Users' },
           { href: '/admin/catalog', label: 'Catalog' },
           { href: '/admin/cms', label: 'CMS' },
+          { href: '/admin/approvals', label: 'Internship approvals' },
         ]}
       />
 

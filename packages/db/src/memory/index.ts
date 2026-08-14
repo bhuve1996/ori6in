@@ -447,6 +447,13 @@ export function createMemoryRepositories(): Repositories {
       internships.set(row.id, row);
       return row;
     },
+    async update(id, input) {
+      const existing = internships.get(id);
+      if (!existing) return null;
+      const row: Internship = { ...existing, ...input, updatedAt: now() };
+      internships.set(id, row);
+      return row;
+    },
     async findById(id) {
       return internships.get(id) ?? null;
     },
@@ -455,7 +462,17 @@ export function createMemoryRepositories(): Repositories {
     },
     async listPublished() {
       return [...internships.values()]
-        .filter((i) => i.published)
+        .filter((i) => i.published && i.approvalStatus === 'approved')
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async listByCompanyUser(companyUserId) {
+      return [...internships.values()]
+        .filter((i) => i.companyUserId === companyUserId)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async listPendingApproval() {
+      return [...internships.values()]
+        .filter((i) => i.approvalStatus === 'pending_approval')
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     },
     async createApplication(input) {
@@ -476,10 +493,31 @@ export function createMemoryRepositories(): Repositories {
         ) ?? null
       );
     },
+    async findApplicationById(id) {
+      return internshipApps.get(id) ?? null;
+    },
     async listApplicationsByUser(userId) {
       return [...internshipApps.values()]
         .filter((a) => a.userId === userId)
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async listApplicationsByInternship(internshipId) {
+      return [...internshipApps.values()]
+        .filter((a) => a.internshipId === internshipId)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async updateApplicationStatus(id, status, note) {
+      const existing = internshipApps.get(id);
+      if (!existing) return null;
+      const t = now();
+      const row: InternshipApplication = {
+        ...existing,
+        status,
+        timeline: [...existing.timeline, { at: t, status, note }],
+        updatedAt: t,
+      };
+      internshipApps.set(id, row);
+      return row;
     },
   };
 

@@ -4,6 +4,7 @@ import type { AppConfig } from '@ori6in/config';
 import type { Repositories } from '@ori6in/db';
 import {
   DEMO_CURRICULUM,
+  DEMO_EMAIL_DOMAIN,
   DEMO_INTERNSHIPS,
   DEMO_MENTORS,
   DEMO_PAGES,
@@ -122,11 +123,44 @@ export class DemoContentService implements OnModuleInit {
   }
 
   private async seedInternships() {
+    const company = await this.repos.users.findByEmail(`company@${DEMO_EMAIL_DOMAIN}`);
+    const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
+
     for (const listing of DEMO_INTERNSHIPS) {
-      const existing = await this.repos.internships.findBySlug(listing.slug);
-      if (existing) continue;
-      await this.repos.internships.create({ ...listing });
-      this.log.log(`Seeded internship ${listing.slug}`);
+      let existing = await this.repos.internships.findBySlug(listing.slug);
+      if (!existing) {
+        existing = await this.repos.internships.create({
+          ...listing,
+          companyUserId: company?.id ?? null,
+        });
+        this.log.log(`Seeded internship ${listing.slug}`);
+      } else if (company && !existing.companyUserId) {
+        await this.repos.internships.update(existing.id, {
+          companyUserId: company.id,
+          approvalStatus: listing.approvalStatus,
+          paymentStatus: listing.paymentStatus,
+          published: listing.published,
+        });
+      }
+    }
+
+    // Seed one demo application so company applicants pipeline is non-empty
+    if (student) {
+      const role = await this.repos.internships.findBySlug('frontend-intern');
+      if (role) {
+        const existingApp = await this.repos.internships.findApplication(student.id, role.id);
+        if (!existingApp) {
+          await this.repos.internships.createApplication({
+            userId: student.id,
+            internshipId: role.id,
+            notes: 'Demo application for company pipeline walkthrough.',
+            documentKeys: [],
+            status: 'applied',
+            timeline: [{ at: new Date(), status: 'applied', note: 'Applied via demo seed' }],
+          });
+          this.log.log('Seeded demo internship application');
+        }
+      }
     }
   }
 

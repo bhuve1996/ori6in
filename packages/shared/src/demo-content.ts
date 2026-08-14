@@ -163,6 +163,8 @@ export const DEMO_INTERNSHIPS = [
     description:
       'Help build the student portal (courses, checkout, progress). React/Next.js experience preferred.',
     published: true,
+    approvalStatus: 'approved' as const,
+    paymentStatus: 'waived' as const,
   },
   {
     slug: 'data-intern',
@@ -172,6 +174,8 @@ export const DEMO_INTERNSHIPS = [
     description:
       'Support learning analytics pipelines and internship funnel reporting. SQL + Python helpful.',
     published: true,
+    approvalStatus: 'approved' as const,
+    paymentStatus: 'waived' as const,
   },
   {
     slug: 'mentor-ops-intern',
@@ -181,6 +185,8 @@ export const DEMO_INTERNSHIPS = [
     description:
       'Coordinate mentor sessions, notes templates, and student check-ins for Career Launchpad.',
     published: true,
+    approvalStatus: 'approved' as const,
+    paymentStatus: 'waived' as const,
   },
 ] as const;
 

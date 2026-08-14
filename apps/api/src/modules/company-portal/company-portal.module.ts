@@ -5,5 +5,6 @@ import { CompanyPortalService } from './company-portal.service';
 @Module({
   controllers: [CompanyPortalController],
   providers: [CompanyPortalService],
+  exports: [CompanyPortalService],
 })
 export class CompanyPortalModule {}

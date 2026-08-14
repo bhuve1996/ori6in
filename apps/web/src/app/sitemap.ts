@@ -7,6 +7,7 @@ const STATIC_PATHS = [
   '/programs',
   '/mentors',
   '/how-it-works',
+  '/roles',
   '/blog',
   '/pricing',
   '/about',

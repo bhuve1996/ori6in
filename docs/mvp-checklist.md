@@ -43,3 +43,16 @@
 
 ## Phase 2+ scaffolds
 - [x] parent-*, company-*, approvals, community, analytics, super-admin, advanced AI shells
+
+## Current focus
+See [roadmap.md](./roadmap.md) — Phase 2 product depth.
+
+### Phase 2 progress
+- [x] Company — role CRUD, applicant pipeline statuses, sandbox pay-to-post, admin approval queue  
+- [ ] Parent — linking, messaging, payment/internship approvals  
+- [ ] Mentor — booking/calendar, richer reviews  
+- [ ] Internships UX polish across roles  
+
+### Deferred on purpose
+- [ ] AI depth (memory/RAG, career coach, resume, roadmap) — skipped for now  
+- [ ] Production hardening (live payments, email, S3, launch ops) — later  

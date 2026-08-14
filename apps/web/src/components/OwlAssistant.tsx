@@ -29,7 +29,7 @@ function localReply(message: string): string {
     return 'Internships open after you sign in as a student. Build your portfolio in a program, then apply from your portal.';
   }
   if (q.includes('how') || q.includes('work') || q.includes('path')) {
-    return 'Student → Mentor → Internship. Enroll, ship weekly work, get mentor reviews, then apply to roles. See /how-it-works.';
+    return 'Student → Mentor → Internship. Enroll, ship weekly work, get mentor reviews, then apply to roles. See /how-it-works and /roles for what each person can do.';
   }
   if (q.includes('start') || q.includes('register') || q.includes('sign')) {
     return 'Create an account at /register, pick a program, and you are in. Demo logins are also on /demo-login if you want a walkthrough.';

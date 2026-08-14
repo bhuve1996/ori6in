@@ -24,6 +24,7 @@ Set `DATABASE_DRIVER=postgres` or `DATABASE_DRIVER=mongo` in `.env`. Feature cod
 - [Website Overview](./docs/website-overview.md)
 - [Architecture](./docs/architecture.md)
 - [MVP Checklist](./docs/mvp-checklist.md)
+- [Roadmap (Phase 2 focus / skips)](./docs/roadmap.md)
 - [Demo logins](./docs/demo-logins.md) (temporary walkthrough accounts)
 - [Deploy (Railway + Docker)](./docs/deploy-railway.md)
 - Scope Decision Sheet: `docs/scope-decision-sheet/`
