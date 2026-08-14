@@ -1,16 +1,33 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import type { Program } from '../../lib/api';
+import { useSectionTheme } from '../../hooks/useSectionTheme';
 import { HomeBlobs } from './HomeBlobs';
-import { HomeClosing } from './HomeClosing';
 import { HomeHero } from './HomeHero';
-import { HomeInternships } from './HomeInternships';
-import { HomeMentors, type HomeMentor } from './HomeMentors';
+import type { HomeMentor } from './HomeMentors';
 import { HomeMotifs } from './HomeMotifs';
-import { HomeOutcomes } from './HomeOutcomes';
-import { HomePath } from './HomePath';
-import { HomePrograms } from './HomePrograms';
+
+const HomePath = dynamic(() => import('./HomePath').then((m) => m.HomePath), {
+  loading: () => null,
+});
+const HomePrograms = dynamic(() => import('./HomePrograms').then((m) => m.HomePrograms), {
+  loading: () => null,
+});
+const HomeMentors = dynamic(() => import('./HomeMentors').then((m) => m.HomeMentors), {
+  loading: () => null,
+});
+const HomeInternships = dynamic(
+  () => import('./HomeInternships').then((m) => m.HomeInternships),
+  { loading: () => null },
+);
+const HomeOutcomes = dynamic(() => import('./HomeOutcomes').then((m) => m.HomeOutcomes), {
+  loading: () => null,
+});
+const HomeClosing = dynamic(() => import('./HomeClosing').then((m) => m.HomeClosing), {
+  loading: () => null,
+});
 
 const THEMES = [
   'hero',
@@ -30,17 +47,10 @@ type Props = {
 };
 
 export function HomeExperience({ programs, mentors }: Props) {
-  const [theme, setTheme] = useState<Theme>('hero');
-  const [ready, setReady] = useState(false);
-  const sectionRefs = useRef<Partial<Record<Theme, HTMLElement | null>>>({});
-
-  useEffect(() => {
-    const id = window.requestAnimationFrame(() => {
-      setReady(true);
-      sectionRefs.current.hero?.classList.add('is-inview');
-    });
-    return () => window.cancelAnimationFrame(id);
-  }, []);
+  const { theme, ready, setSectionRef } = useSectionTheme<Theme>({
+    themes: THEMES,
+    initial: 'hero',
+  });
 
   useEffect(() => {
     document.body.dataset.homeTheme = theme;
@@ -48,52 +58,6 @@ export function HomeExperience({ programs, mentors }: Props) {
       delete document.body.dataset.homeTheme;
     };
   }, [theme]);
-
-  useEffect(() => {
-    const sections = THEMES.map((id) => sectionRefs.current[id]).filter(
-      (el): el is HTMLElement => Boolean(el),
-    );
-    if (sections.length === 0) return;
-
-    const ratios = new Map<Theme, number>();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = entry.target.getAttribute('data-theme') as Theme | null;
-          if (!id) continue;
-          ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-inview');
-          }
-        }
-
-        let best: Theme = 'hero';
-        let bestRatio = -1;
-        for (const id of THEMES) {
-          const r = ratios.get(id) ?? 0;
-          if (r > bestRatio) {
-            bestRatio = r;
-            best = id;
-          }
-        }
-        if (bestRatio > 0) setTheme(best);
-      },
-      {
-        threshold: [0.15, 0.35, 0.55, 0.75],
-        rootMargin: '-20% 0px -35% 0px',
-      },
-    );
-
-    for (const section of sections) observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  function setSectionRef(id: Theme) {
-    return (el: HTMLElement | null) => {
-      sectionRefs.current[id] = el;
-    };
-  }
 
   return (
     <main id="main-content" className={`home${ready ? ' is-ready' : ''}`} tabIndex={-1}>

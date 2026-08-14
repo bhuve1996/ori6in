@@ -1,10 +1,13 @@
+'use client';
+
+import { memo } from 'react';
+
 type Props = {
   className?: string;
   tone?: 'light' | 'dark';
 };
 
-/** Shared Student → Mentor style connector (line + arrow). */
-export function FlowConnector({ className, tone = 'light' }: Props) {
+function FlowConnectorInner({ className, tone = 'light' }: Props) {
   const classes = ['flow-connector', tone === 'dark' ? 'flow-connector--dark' : '', className]
     .filter(Boolean)
     .join(' ');
@@ -15,3 +18,5 @@ export function FlowConnector({ className, tone = 'light' }: Props) {
     </span>
   );
 }
+
+export const FlowConnector = memo(FlowConnectorInner);

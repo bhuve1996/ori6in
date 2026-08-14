@@ -153,7 +153,7 @@ export default function StudentProfilePage() {
       </div>
       {error && <p className="text-error">{error}</p>}
 
-      <form onSubmit={(e) => void onSave(e)} className="form-grid wide">
+      <form onSubmit={(e) => void onSave(e)} className="form-grid form-grid-wide">
         <section className="section-block form-grid">
           <h2>Basics</h2>
           <input
@@ -209,7 +209,7 @@ export default function StudentProfilePage() {
               />
               <button
                 type="button"
-                className="btn secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   setProfile((p) => ({
                     ...p,
@@ -223,7 +223,7 @@ export default function StudentProfilePage() {
           ))}
           <button
             type="button"
-            className="btn secondary"
+            className="btn btn-secondary"
             onClick={() =>
               setProfile((p) => ({
                 ...p,
@@ -258,7 +258,7 @@ export default function StudentProfilePage() {
               />
               <button
                 type="button"
-                className="btn secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   setProfile((p) => ({
                     ...p,
@@ -272,7 +272,7 @@ export default function StudentProfilePage() {
           ))}
           <button
             type="button"
-            className="btn secondary"
+            className="btn btn-secondary"
             onClick={() =>
               setProfile((p) => ({
                 ...p,
@@ -307,7 +307,7 @@ export default function StudentProfilePage() {
               />
               <button
                 type="button"
-                className="btn secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   setProfile((p) => ({
                     ...p,
@@ -321,7 +321,7 @@ export default function StudentProfilePage() {
           ))}
           <button
             type="button"
-            className="btn secondary"
+            className="btn btn-secondary"
             onClick={() =>
               setProfile((p) => ({
                 ...p,
@@ -334,7 +334,7 @@ export default function StudentProfilePage() {
         </section>
 
         <div className="cta-row">
-          <button className="btn accent" type="submit" disabled={saving}>
+          <button className="btn btn-accent" type="submit" disabled={saving}>
             {saving ? 'Saving…' : 'Save profile'}
           </button>
         </div>

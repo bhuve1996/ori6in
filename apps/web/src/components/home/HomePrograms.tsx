@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
+import { Button } from '@ori6in/ui';
+import { ProgramCard } from '../cards';
 import type { Program } from '../../lib/api';
-import { formatPrice } from '../../lib/format';
-import { programImage } from '../../lib/media';
 
 type Props = {
   programs: Program[];
@@ -39,31 +39,22 @@ export function HomePrograms({ programs, sectionRef }: Props) {
         ) : (
           <div className="home-program-strip">
             {featured.map((p, i) => (
-              <a
+              <ProgramCard
                 key={p.id}
-                href={`/programs/${p.slug}`}
-                className="home-program-card reveal series"
-                style={series(3 + i)}
-              >
-                <div className="home-program-card__media">
-                  <img src={programImage(p.slug)} alt="" loading="lazy" />
-                </div>
-                <div className="home-program-card__body">
-                  <h3>{p.title}</h3>
-                  <p className="tile-sub">{p.summary}</p>
-                  <div className="home-program-card__foot">
-                    <span className="price">{formatPrice(p.priceCents, p.currency)}</span>
-                    <span className="tile-cta">View</span>
-                  </div>
-                </div>
-              </a>
+                program={p}
+                surface="home"
+                cta="View"
+                summaryLines={2}
+                titleAs="h3"
+                index={i}
+              />
             ))}
           </div>
         )}
         <p className="reveal series" style={{ ...series(6), marginTop: '1.75rem' }}>
-          <a className="btn secondary" href="/programs">
+          <Button href="/programs" variant="secondary">
             View all programs
-          </a>
+          </Button>
         </p>
       </div>
     </section>

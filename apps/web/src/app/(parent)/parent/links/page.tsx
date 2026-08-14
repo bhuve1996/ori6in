@@ -85,7 +85,7 @@ export default function ParentLinksPage() {
               placeholder="student@demo.ori6in.test"
             />
           </label>
-          <button className="btn accent" type="submit" disabled={busy}>
+          <button className="btn btn-accent" type="submit" disabled={busy}>
             {busy ? 'Sending…' : 'Send invite'}
           </button>
         </form>
@@ -111,7 +111,7 @@ export default function ParentLinksPage() {
                   {item.status !== 'revoked' ? (
                     <button
                       type="button"
-                      className="btn secondary"
+                      className="btn btn-secondary"
                       disabled={busy}
                       onClick={() => void revoke(item.id)}
                     >

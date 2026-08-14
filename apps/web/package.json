@@ -11,14 +11,20 @@
   "dependencies": {
     "@ori6in/shared": "workspace:*",
     "@ori6in/ui": "workspace:*",
+    "clsx": "^2.1.1",
+    "motion": "^13.1.0",
     "next": "^15.1.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.7.2"
   }
 }

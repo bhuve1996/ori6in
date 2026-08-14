@@ -99,7 +99,7 @@ export default function StudentLessonPage() {
         <div className="cta-row">
           <Tooltip label="Saves progress on this lesson">
             <button
-              className="btn accent"
+              className="btn btn-accent"
               type="button"
               disabled={busy}
               onClick={() => void markComplete()}

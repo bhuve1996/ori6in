@@ -1,9 +1,11 @@
 'use client';
 
+import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { usePathname } from 'next/navigation';
 import { apiFetch, getStoredRole, getToken } from '../lib/auth';
 import { BRAND } from '../lib/media';
+import { easeOut, softSpring } from '../lib/motion';
 
 type Turn = { role: 'user' | 'assistant'; content: string };
 
@@ -26,7 +28,7 @@ function localReply(message: string): string {
     return 'Mentors review your weekly work and leave notes. Meet them on /mentors — after you enroll, they guide your path.';
   }
   if (q.includes('intern')) {
-    return 'Internships open after you sign in as a student. Build your portfolio in a program, then apply from your portal.';
+    return 'Internships open after you sign in as a student. Build your portfolio in a program, then apply to roles.';
   }
   if (q.includes('how') || q.includes('work') || q.includes('path')) {
     return 'Student → Mentor → Internship. Enroll, ship weekly work, get mentor reviews, then apply to roles. See /how-it-works and /roles for what each person can do.';
@@ -86,10 +88,7 @@ export function OwlAssistant() {
         method: 'POST',
         body: JSON.stringify({ message: trimmed }),
       });
-      const reply =
-        ok && data.reply
-          ? data.reply
-          : localReply(trimmed);
+      const reply = ok && data.reply ? data.reply : localReply(trimmed);
       setTurns((t) => [...t, { role: 'assistant', content: reply }]);
     } else {
       await new Promise((r) => window.setTimeout(r, 280));
@@ -107,84 +106,99 @@ export function OwlAssistant() {
 
   return (
     <div className="owl-assist" data-open={open ? 'true' : 'false'}>
-      {open ? (
-        <section
-          id={panelId}
-          className="owl-assist__panel"
-          role="dialog"
-          aria-label="Ori, ORI6IN assistant"
-          aria-modal="false"
-        >
-          <header className="owl-assist__head">
-            <img src={BRAND.owl} alt="" width={44} height={44} className="owl-assist__avatar" />
-            <div>
-              <strong>Ori</strong>
-              <p>Your ORI6IN guide</p>
-            </div>
-            <button
-              type="button"
-              className="owl-assist__close"
-              aria-label="Close assistant"
-              onClick={() => setOpen(false)}
-            >
-              ×
-            </button>
-          </header>
-
-          <div className="owl-assist__chips" aria-label="Quick questions">
-            {QUICK.map((q) => (
-              <button
-                key={q.label}
-                type="button"
-                className="owl-assist__chip"
-                disabled={busy}
-                onClick={() => void send(q.prompt)}
-              >
-                {q.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="owl-assist__log" ref={listRef}>
-            {turns.map((t, i) => (
-              <div
-                key={`${t.role}-${i}`}
-                className={`owl-assist__bubble owl-assist__bubble--${t.role}`}
-              >
-                {t.content}
+      <AnimatePresence>
+        {open ? (
+          <motion.section
+            key="owl-panel"
+            id={panelId}
+            className="owl-assist__panel"
+            role="dialog"
+            aria-label="Ori, ORI6IN assistant"
+            aria-modal="false"
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.97 }}
+            transition={{ duration: 0.32, ease: easeOut }}
+          >
+            <header className="owl-assist__head">
+              <img src={BRAND.owl} alt="" width={44} height={44} className="owl-assist__avatar" />
+              <div>
+                <strong>Ori</strong>
+                <p>Your ORI6IN guide</p>
               </div>
-            ))}
-            {busy ? <p className="owl-assist__typing">Ori is thinking…</p> : null}
-          </div>
+              <button
+                type="button"
+                className="owl-assist__close"
+                aria-label="Close assistant"
+                onClick={() => setOpen(false)}
+              >
+                ×
+              </button>
+            </header>
 
-          <form className="owl-assist__form" onSubmit={onSubmit}>
-            <textarea
-              ref={inputRef}
-              rows={2}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Ask Ori…"
-              aria-label="Message Ori"
-              disabled={busy}
-            />
-            <button className="btn accent" type="submit" disabled={busy || !message.trim()}>
-              Send
-            </button>
-          </form>
-        </section>
-      ) : null}
+            <div className="owl-assist__chips" aria-label="Quick questions">
+              {QUICK.map((q) => (
+                <button
+                  key={q.label}
+                  type="button"
+                  className="owl-assist__chip"
+                  disabled={busy}
+                  onClick={() => void send(q.prompt)}
+                >
+                  {q.label}
+                </button>
+              ))}
+            </div>
 
-      <button
+            <div className="owl-assist__log" ref={listRef}>
+              <AnimatePresence initial={false}>
+                {turns.map((t, i) => (
+                  <motion.div
+                    key={`${t.role}-${i}`}
+                    className={`owl-assist__bubble owl-assist__bubble--${t.role}`}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, ease: easeOut }}
+                  >
+                    {t.content}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              {busy ? <p className="owl-assist__typing">Ori is thinking…</p> : null}
+            </div>
+
+            <form className="owl-assist__form" onSubmit={onSubmit}>
+              <textarea
+                ref={inputRef}
+                rows={2}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Ask Ori…"
+                aria-label="Message Ori"
+                disabled={busy}
+              />
+              <button className="btn btn-accent" type="submit" disabled={busy || !message.trim()}>
+                Send
+              </button>
+            </form>
+          </motion.section>
+        ) : null}
+      </AnimatePresence>
+
+      <motion.button
         type="button"
         className="owl-assist__fab"
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         aria-label={open ? 'Close Ori assistant' : 'Open Ori assistant'}
         onClick={() => setOpen((v) => !v)}
+        whileHover={{ y: -2, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={softSpring}
       >
         <img src={BRAND.owl} alt="" width={56} height={56} />
         <span className="owl-assist__fab-label">Ask Ori</span>
-      </button>
+      </motion.button>
     </div>
   );
 }

@@ -185,7 +185,7 @@ export default function AdminUsersPage() {
                   <Tooltip label="Open their portal with a temporary session">
                     <button
                       type="button"
-                      className="btn secondary"
+                      className="btn btn-secondary"
                       onClick={() => void impersonate(u.id)}
                     >
                       Impersonate
@@ -222,7 +222,7 @@ export default function AdminUsersPage() {
             minLength={8}
             required
           />
-          <button className="btn accent" type="submit">
+          <button className="btn btn-accent" type="submit">
             Create company
           </button>
         </form>
@@ -267,7 +267,7 @@ export default function AdminUsersPage() {
               </option>
             ))}
           </select>
-          <button className="btn accent" type="submit">
+          <button className="btn btn-accent" type="submit">
             Assign
           </button>
         </form>

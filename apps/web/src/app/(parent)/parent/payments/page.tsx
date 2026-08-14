@@ -89,7 +89,7 @@ export default function ParentPaymentsPage() {
                   <p className="price-tag">{formatPrice(p.priceCents, p.currency)}</p>
                   <button
                     type="button"
-                    className="btn accent"
+                    className="btn btn-accent"
                     disabled={busy === p.programId}
                     onClick={() => void payForProgram(p.programId)}
                   >
@@ -121,7 +121,7 @@ export default function ParentPaymentsPage() {
                   {o.status === 'pending_payment' ? (
                     <button
                       type="button"
-                      className="btn accent"
+                      className="btn btn-accent"
                       disabled={busy === o.id}
                       onClick={() => void payOrder(o.id)}
                     >

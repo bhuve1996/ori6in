@@ -137,7 +137,7 @@ export default function StudentInternshipsPage() {
                       )}
                     </span>
                   ) : (
-                    <a className="btn accent" href={`/student/internships/${i.id}`}>
+                    <a className="btn btn-accent" href={`/student/internships/${i.id}`}>
                       View & apply
                     </a>
                   )}

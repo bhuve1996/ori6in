@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { DEMO_MENTORS } from '@ori6in/shared';
-import { publicFetch } from '../../../../lib/api';
 import { Avatar } from '../../../../components/Avatar';
 import { PageBanner } from '../../../../components/PageBanner';
 import { BANNERS, HOME } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
+import { getMentorById } from '../../../../services/public-content';
 
 type MentorDetail = {
   id: string;
@@ -22,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mentor = await publicFetch<MentorDetail>(`/mentors/${id}`);
+  const mentor = await getMentorById<MentorDetail>(id);
   if (!mentor) return { title: 'Mentor' };
   return pageMeta({
     title: mentor.fullName,
@@ -37,7 +37,7 @@ export default async function MentorDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mentor = await publicFetch<MentorDetail>(`/mentors/${id}`);
+  const mentor = await getMentorById<MentorDetail>(id);
   if (!mentor) notFound();
 
   const demo = DEMO_MENTORS.find(
@@ -75,7 +75,7 @@ export default async function MentorDetailPage({
         title={mentor.fullName}
         lead={mentor.title}
       />
-      <main id="main-content" className="page page-after-banner page--wide" tabIndex={-1}>
+      <main id="main-content" className="page page-after-banner page-wide" tabIndex={-1}>
         <a className="back-link" href="/mentors">
           ← Mentors
         </a>
@@ -132,10 +132,10 @@ export default async function MentorDetailPage({
           </section>
 
           <div className="cta-row">
-            <a className="btn accent" href="/programs">
+            <a className="btn btn-accent" href="/programs">
               Explore programs
             </a>
-            <a className="btn secondary" href="/register">
+            <a className="btn btn-secondary" href="/register">
               Get started
             </a>
           </div>

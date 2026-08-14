@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
-import { publicFetch, type Program } from '../../lib/api';
 import { HomeExperience } from '../../components/home/HomeExperience';
-import type { HomeMentor } from '../../components/home/HomeMentors';
 import { JsonLd } from '../../components/JsonLd';
 import {
   SITE_DESCRIPTION,
@@ -9,6 +7,7 @@ import {
   SITE_TAGLINE,
   absoluteUrl,
 } from '../../lib/site';
+import { listMentors, listPrograms } from '../../services/public-content';
 
 export const metadata: Metadata = {
   title: { absolute: `${SITE_NAME} — ${SITE_TAGLINE}` },
@@ -22,10 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [programs, mentors] = await Promise.all([
-    publicFetch<Program[]>('/programs'),
-    publicFetch<HomeMentor[]>('/mentors'),
-  ]);
+  const [programs, mentors] = await Promise.all([listPrograms(), listMentors()]);
 
   return (
     <>
@@ -48,7 +44,7 @@ export default async function HomePage() {
           },
         ]}
       />
-      <HomeExperience programs={programs ?? []} mentors={mentors ?? []} />
+      <HomeExperience programs={programs} mentors={mentors} />
     </>
   );
 }

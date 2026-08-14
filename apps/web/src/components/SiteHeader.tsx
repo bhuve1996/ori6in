@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { clearSession, getStoredRole, getToken } from '../lib/auth';
 import { BRAND } from '../lib/media';
@@ -21,9 +21,21 @@ export function SiteHeader() {
   const router = useRouter();
   const toast = useToast();
   const [open, setOpen] = useState(false);
+  const [compactNav, setCompactNav] = useState(false);
   const [tone, setTone] = useState<'light' | 'dark'>('light');
   const [role, setRole] = useState<string | null>(null);
-  const links = navLinksForPath(pathname, role);
+  const links = useMemo(() => navLinksForPath(pathname, role), [pathname, role]);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 820px)');
+    const sync = () => {
+      setCompactNav(mq.matches);
+      if (!mq.matches) setOpen(false);
+    };
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
   useEffect(() => {
     const syncRole = () => {
@@ -52,6 +64,11 @@ export function SiteHeader() {
   }, [open]);
 
   useEffect(() => {
+    document.body.classList.toggle('nav-open', open && compactNav);
+    return () => document.body.classList.remove('nav-open');
+  }, [open, compactNav]);
+
+  useEffect(() => {
     if (pathname !== '/') {
       setTone('light');
       return;
@@ -71,14 +88,20 @@ export function SiteHeader() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  function onNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    if (href !== '#logout') return;
-    e.preventDefault();
-    clearSession();
-    setRole(null);
-    toast.info('Signed out');
-    router.push('/');
-  }
+  const onNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      if (href !== '#logout') return;
+      e.preventDefault();
+      clearSession();
+      setRole(null);
+      toast.info('Signed out');
+      router.push('/');
+    },
+    [router, toast],
+  );
+
+  const toggleNav = useCallback(() => setOpen((v) => !v), []);
+  const navInert = compactNav && !open;
 
   return (
     <header className="site-header" data-tone={tone}>
@@ -98,11 +121,16 @@ export function SiteHeader() {
         aria-expanded={open}
         aria-controls="site-nav"
         aria-label={open ? 'Close menu' : 'Open menu'}
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggleNav}
       >
         <span className="nav-toggle-bars" aria-hidden="true" />
       </button>
-      <nav id="site-nav" aria-label="Primary" data-open={open ? 'true' : 'false'}>
+      <nav
+        id="site-nav"
+        aria-label="Primary"
+        data-open={open ? 'true' : 'false'}
+        {...(navInert ? { inert: true } : {})}
+      >
         {links.map((link) => {
           const tip =
             link.label === 'Alerts'

@@ -123,7 +123,7 @@ export default function MentorStudentDetailPage() {
             <li key={n.id}>{n.note}</li>
           ))}
         </ul>
-        <div className="form-grid wide">
+        <div className="form-grid form-grid-wide">
           <textarea
             placeholder="Add a session note"
             value={note}
@@ -131,7 +131,7 @@ export default function MentorStudentDetailPage() {
             rows={3}
           />
           <div className="cta-row">
-            <button className="btn accent" type="button" onClick={() => void saveNote()}>
+            <button className="btn btn-accent" type="button" onClick={() => void saveNote()}>
               Save note
             </button>
           </div>

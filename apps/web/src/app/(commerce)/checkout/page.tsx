@@ -1,12 +1,14 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch, getToken } from '../../../lib/auth';
-import { publicFetch, type Program } from '../../../lib/api';
 import { useToast } from '../../../components/Toast';
 import { Tooltip } from '../../../components/Tooltip';
+import { useAsyncAction } from '../../../hooks/useAsyncAction';
 import { formatPrice } from '../../../lib/format';
+import { catalogItemToProgram, listCatalog } from '../../../services/catalog';
+import type { Program } from '../../../lib/api';
 
 function CheckoutInner() {
   const router = useRouter();
@@ -15,9 +17,8 @@ function CheckoutInner() {
   const programId = params.get('programId') ?? '';
   const [program, setProgram] = useState<Program | null>(null);
   const [couponCode, setCouponCode] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
   const [status, setStatus] = useState('');
+  const { busy, error, setError, run } = useAsyncAction();
 
   useEffect(() => {
     if (!getToken()) {
@@ -26,96 +27,71 @@ function CheckoutInner() {
     }
     if (!programId) return;
     void (async () => {
-      const catalog =
-        (await publicFetch<
-          Array<{
-            programId: string;
-            slug: string;
-            title: string;
-            summary: string;
-            priceCents: number;
-            currency: string;
-          }>
-        >('/catalog')) ?? [];
+      const catalog = await listCatalog();
       const item = catalog.find((c) => c.programId === programId);
       if (!item) {
         setError('Program not available for purchase');
         return;
       }
-      setProgram({
-        id: item.programId,
-        slug: item.slug,
-        title: item.title,
-        summary: item.summary,
-        description: '',
-        priceCents: item.priceCents,
-        currency: item.currency,
-        published: true,
-      });
+      setProgram(catalogItemToProgram(item));
     })();
-  }, [programId, router]);
+  }, [programId, router, setError]);
 
-  async function purchase() {
+  const purchase = useCallback(() => {
     if (!program) return;
-    setBusy(true);
-    setError('');
-    setStatus('Creating order…');
+    void run(async () => {
+      setStatus('Creating order…');
 
-    const checkout = await apiFetch<{
-      order?: { id: string; amountCents: number; currency: string };
-      message?: unknown;
-    }>('/checkout', {
-      method: 'POST',
-      body: JSON.stringify({
-        programId: program.id,
-        ...(couponCode.trim() ? { couponCode: couponCode.trim() } : {}),
-      }),
+      const checkout = await apiFetch<{
+        order?: { id: string; amountCents: number; currency: string };
+        message?: unknown;
+      }>('/checkout', {
+        method: 'POST',
+        body: JSON.stringify({
+          programId: program.id,
+          ...(couponCode.trim() ? { couponCode: couponCode.trim() } : {}),
+        }),
+      });
+
+      if (!checkout.ok || !checkout.data.order) {
+        const msg =
+          typeof checkout.data.message === 'string'
+            ? checkout.data.message
+            : JSON.stringify(checkout.data.message ?? checkout.data);
+        toast.error('Checkout failed');
+        throw new Error(msg);
+      }
+
+      setStatus('Creating payment…');
+      const pay = await apiFetch<{
+        payment?: { id: string };
+        message?: unknown;
+      }>('/payments/create', {
+        method: 'POST',
+        body: JSON.stringify({ orderId: checkout.data.order.id }),
+      });
+
+      if (!pay.ok || !pay.data.payment) {
+        toast.error('Payment create failed');
+        throw new Error('Payment create failed');
+      }
+
+      setStatus('Completing sandbox payment…');
+      const done = await apiFetch<{ order?: { id: string } }>('/payments/mock-complete', {
+        method: 'POST',
+        body: JSON.stringify({ paymentId: pay.data.payment.id }),
+      });
+
+      if (!done.ok || !done.data.order) {
+        toast.error('Payment completion failed');
+        throw new Error('Payment completion failed');
+      }
+
+      toast.success('Purchase complete');
+      setStatus('Purchase complete');
+      router.push(`/student/orders?highlight=${done.data.order.id}`);
     });
-
-    if (!checkout.ok || !checkout.data.order) {
-      setBusy(false);
-      const msg =
-        typeof checkout.data.message === 'string'
-          ? checkout.data.message
-          : JSON.stringify(checkout.data.message ?? checkout.data);
-      setError(msg);
-      toast.error('Checkout failed');
-      return;
-    }
-
-    setStatus('Creating payment…');
-    const pay = await apiFetch<{
-      payment?: { id: string };
-      message?: unknown;
-    }>('/payments/create', {
-      method: 'POST',
-      body: JSON.stringify({ orderId: checkout.data.order.id }),
-    });
-
-    if (!pay.ok || !pay.data.payment) {
-      setBusy(false);
-      setError('Payment create failed');
-      toast.error('Payment create failed');
-      return;
-    }
-
-    setStatus('Completing sandbox payment…');
-    const done = await apiFetch<{ order?: { id: string } }>('/payments/mock-complete', {
-      method: 'POST',
-      body: JSON.stringify({ paymentId: pay.data.payment.id }),
-    });
-
-    setBusy(false);
-    if (!done.ok || !done.data.order) {
-      setError('Payment completion failed');
-      toast.error('Payment completion failed');
-      return;
-    }
-
-    toast.success('Purchase complete');
-    setStatus('Purchase complete');
-    router.push(`/student/orders?highlight=${done.data.order.id}`);
-  }
+  }, [couponCode, program, router, run, toast]);
 
   if (!programId) {
     return (
@@ -153,10 +129,10 @@ function CheckoutInner() {
             />
           </Tooltip>
           <button
-            className="btn accent"
+            className="btn btn-accent"
             type="button"
             disabled={busy}
-            onClick={() => void purchase()}
+            onClick={purchase}
           >
             {busy ? 'Processing…' : 'Pay (sandbox)'}
           </button>

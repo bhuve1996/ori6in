@@ -1,6 +1,10 @@
+'use client';
+
+import { memo } from 'react';
+
 type Link = { href: string; label: string };
 
-export function PortalNavGrid({ links }: { links: Link[] }) {
+function PortalNavGridInner({ links }: { links: Link[] }) {
   return (
     <div className="portal-grid">
       {links.map((link) => (
@@ -11,3 +15,5 @@ export function PortalNavGrid({ links }: { links: Link[] }) {
     </div>
   );
 }
+
+export const PortalNavGrid = memo(PortalNavGridInner);

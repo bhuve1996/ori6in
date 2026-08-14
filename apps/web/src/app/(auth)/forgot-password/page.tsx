@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
             <a href={`/reset-password?token=${devToken}`}>Reset password</a>
           </p>
         )}
-        <button className="btn accent" type="submit">
+        <button className="btn btn-accent" type="submit">
           Send reset link
         </button>
       </form>

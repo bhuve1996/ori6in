@@ -1,14 +1,14 @@
-import type { CSSProperties } from 'react';
+'use client';
+
+import { Button } from '@ori6in/ui';
+import { motion } from 'motion/react';
 import { BRAND } from '../../lib/media';
+import { easeOut, fadeUp, scaleIn } from '../../lib/motion';
 
 type Props = {
   ready: boolean;
   sectionRef: (el: HTMLElement | null) => void;
 };
-
-function series(n: number): CSSProperties {
-  return { '--series': n } as CSSProperties;
-}
 
 export function HomeHero({ ready, sectionRef }: Props) {
   return (
@@ -36,33 +36,70 @@ export function HomeHero({ ready, sectionRef }: Props) {
 
       <div className="home-section__inner home-hero__layout">
         <div className="home-hero__copy">
-          <p className="home-hero__tag reveal series" style={series(0)}>
+          <motion.p
+            className="home-hero__tag"
+            variants={fadeUp}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+            transition={{ delay: 0.05, duration: 0.4, ease: easeOut }}
+          >
             {BRAND.tagline}
-          </p>
-          <h1 id="home-hero-brand" className="home-hero__brand">
+          </motion.p>
+          <motion.h1
+            id="home-hero-brand"
+            className="home-hero__brand"
+            variants={scaleIn}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+            transition={{ delay: 0.12, duration: 0.5, ease: easeOut }}
+          >
             <span className="home-hero__word">
               ORI<span className="brand__six">6</span>IN
             </span>
-          </h1>
-          <p className="home-hero__headline reveal series" style={series(1)}>
+          </motion.h1>
+          <motion.p
+            className="home-hero__headline"
+            variants={fadeUp}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+            transition={{ delay: 0.2, duration: 0.45, ease: easeOut }}
+          >
             Learn with mentors. Build real work. Step into your next role.
-          </p>
-          <p className="home-hero__support reveal series" style={series(2)}>
+          </motion.p>
+          <motion.p
+            className="home-hero__support"
+            variants={fadeUp}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+            transition={{ delay: 0.28, duration: 0.45, ease: easeOut }}
+          >
             Programs, mentorship, and internships in one crisp path from skill to opportunity.
-          </p>
-          <div className="home-hero__cta reveal series" style={series(3)}>
-            <a className="btn accent" href="/programs">
+          </motion.p>
+          <motion.div
+            className="home-hero__cta"
+            variants={fadeUp}
+            initial="hidden"
+            animate={ready ? 'show' : 'hidden'}
+            transition={{ delay: 0.36, duration: 0.45, ease: easeOut }}
+          >
+            <Button href="/programs" variant="accent">
               Explore programs
-            </a>
-            <a className="btn ghost-light" href="/register">
+            </Button>
+            <Button href="/register" variant="ghost">
               Get started
-            </a>
-          </div>
+            </Button>
+          </motion.div>
         </div>
 
-        <figure className="home-hero__owl reveal series" style={series(2)}>
+        <motion.figure
+          className="home-hero__owl"
+          variants={scaleIn}
+          initial="hidden"
+          animate={ready ? 'show' : 'hidden'}
+          transition={{ delay: 0.22, duration: 0.55, ease: easeOut }}
+        >
           <img src={BRAND.owl} alt="ORI6IN owl mascot" width={420} height={420} />
-        </figure>
+        </motion.figure>
       </div>
     </section>
   );

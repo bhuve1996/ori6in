@@ -139,7 +139,7 @@ export default function MentorSessionsPage() {
               placeholder="https://meet.example/…"
             />
           </label>
-          <button className="btn accent" type="submit" disabled={busy || students.length === 0}>
+          <button className="btn btn-accent" type="submit" disabled={busy || students.length === 0}>
             {busy ? 'Saving…' : 'Book session'}
           </button>
         </form>
@@ -173,7 +173,7 @@ export default function MentorSessionsPage() {
                     <div className="cta-row">
                       <button
                         type="button"
-                        className="btn accent"
+                        className="btn btn-accent"
                         disabled={busy}
                         onClick={() => void setStatus(s.id, 'completed')}
                       >
@@ -181,7 +181,7 @@ export default function MentorSessionsPage() {
                       </button>
                       <button
                         type="button"
-                        className="btn secondary"
+                        className="btn btn-secondary"
                         disabled={busy}
                         onClick={() => void setStatus(s.id, 'cancelled')}
                       >

@@ -31,4 +31,12 @@ REDIS_URL=...
 - `packages/shared` — DTOs, roles, schemas
 - `packages/db` — ports + adapters + factory
 - `packages/config` — typed env
-- `packages/ui` — shared UI primitives
+- `packages/ui` — shared UI primitives (Button, Card, Badge, tiles) styled with Tailwind tokens from `apps/web`
+
+## Web UI layering
+1. `@ori6in/ui` — design-system primitives
+2. `apps/web/src/components/cards` — product cards (`ProgramCard`, `MentorCard`, `BlogCard`, `MediaStepCard`)
+3. `apps/web/src/services/public-content` — public catalog/CMS reads (DRY over `publicFetch`)
+4. Route pages compose cards + services; avoid re-implementing card markup per page
+5. Motion (`motion/react`) — intentional entrance/hover animations via `MotionConfig reducedMotion="user"`
+6. Styles — `apps/web/src/app/globals.css` is a thin barrel; rules live in `apps/web/src/styles/`. Prefer Tailwind `@utility` in `utilities.css` (`btn`, `btn-accent`, `page`, `cta-row`, `meta`, `type-*`, `surface-tile*`) for shared chrome. Keep `home.css` / `marketing.css` for cinematic layouts until those sections are componentized.

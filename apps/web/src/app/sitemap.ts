@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
-import { publicFetch, type BlogPost, type Program } from '../lib/api';
 import { absoluteUrl } from '../lib/site';
+import { listBlogPosts, listPrograms } from '../services/public-content';
 
 const STATIC_PATHS = [
   '/',
@@ -22,12 +22,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === '/' ? 1 : 0.7,
   }));
 
-  const [programs, posts] = await Promise.all([
-    publicFetch<Program[]>('/programs'),
-    publicFetch<BlogPost[]>('/blog'),
-  ]);
+  const [programs, posts] = await Promise.all([listPrograms(), listBlogPosts()]);
 
-  for (const p of programs ?? []) {
+  for (const p of programs) {
     entries.push({
       url: absoluteUrl(`/programs/${p.slug}`),
       lastModified: now,
@@ -36,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  for (const post of posts ?? []) {
+  for (const post of posts) {
     entries.push({
       url: absoluteUrl(`/blog/${post.slug}`),
       lastModified: now,

@@ -1,0 +1,47 @@
+:root {
+  /* Brand from logo + owl mascot: ink black, gold 6, cream feathers */
+  --ink: #0c0c0c;
+  --ink-soft: #3d3832;
+  --paper: #f7f3ec;
+  --paper-elevated: #fffcf7;
+  --accent: #c2a772;
+  --accent-ink: #0c0c0c;
+  --teal: #9a7b3c; /* warm bronze (legacy token → brand gold family) */
+  --gold: #c2a772;
+  --gold-bright: #d4b87a;
+  --brown: #8b6240;
+  --cream: #f3ebe0;
+  --line: #e2d8c8;
+  --muted: #6e655a;
+  --header-h: 4.25rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --theme-a: #efe6d6;
+  --theme-b: #e8dfd0;
+  --theme-c: #f3ebe0;
+  --theme-d: #e5d5b8;
+  --theme-e: #0c0c0c;
+  --radius-sm: 0.55rem;
+  --radius-md: 0.95rem;
+  --radius-lg: 1.4rem;
+  --radius-blob: 42% 58% 55% 45% / 48% 42% 58% 52%;
+  --radius-media: 1.35rem 0.7rem 1.55rem 0.95rem;
+  /* Soft 3D tiles — warm ink, one shadow stack (no glow) */
+  --tile-border: 1px solid color-mix(in srgb, var(--ink) 11%, transparent);
+  --tile-border-hover: 1px solid color-mix(in srgb, var(--gold) 42%, var(--line));
+  --tile-shadow:
+    0 1px 0 color-mix(in srgb, #fff 65%, transparent),
+    0 2px 4px rgba(12, 12, 12, 0.04),
+    0 10px 22px -8px rgba(61, 50, 32, 0.22);
+  --tile-shadow-hover:
+    0 1px 0 color-mix(in srgb, #fff 75%, transparent),
+    0 4px 8px rgba(12, 12, 12, 0.06),
+    0 18px 36px -10px rgba(61, 50, 32, 0.3);
+  --tile-shadow-dark:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 2px 4px rgba(0, 0, 0, 0.18),
+    0 14px 28px -10px rgba(0, 0, 0, 0.45);
+  --tile-shadow-dark-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 10px rgba(0, 0, 0, 0.22),
+    0 22px 40px -12px rgba(0, 0, 0, 0.55);
+}

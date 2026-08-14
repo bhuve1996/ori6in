@@ -1,9 +1,13 @@
+'use client';
+
+import { memo, type ReactNode } from 'react';
+
 type StatItem = {
-  value: React.ReactNode;
+  value: ReactNode;
   label: string;
 };
 
-export function StatGrid({ items }: { items: StatItem[] }) {
+function StatGridInner({ items }: { items: StatItem[] }) {
   return (
     <div className="stat-grid">
       {items.map((item) => (
@@ -15,3 +19,5 @@ export function StatGrid({ items }: { items: StatItem[] }) {
     </div>
   );
 }
+
+export const StatGrid = memo(StatGridInner);

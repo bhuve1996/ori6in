@@ -74,7 +74,7 @@ export default function MentorApprovalsPage() {
                   <div className="cta-row">
                     <button
                       type="button"
-                      className="btn accent"
+                      className="btn btn-accent"
                       disabled={busy === item.id}
                       onClick={() => void decide(item.id, 'approved')}
                     >
@@ -82,7 +82,7 @@ export default function MentorApprovalsPage() {
                     </button>
                     <button
                       type="button"
-                      className="btn secondary"
+                      className="btn btn-secondary"
                       disabled={busy === item.id}
                       onClick={() => void decide(item.id, 'rejected')}
                     >

@@ -78,7 +78,7 @@ export default function StudentNotificationsPage() {
       </p>
       {unread > 0 && (
         <div className="cta-row">
-          <button type="button" className="btn secondary" onClick={() => void markAllRead()}>
+          <button type="button" className="btn btn-secondary" onClick={() => void markAllRead()}>
             Mark all read
           </button>
         </div>
@@ -96,7 +96,7 @@ export default function StudentNotificationsPage() {
               {!n.read && (
                 <>
                   {' · '}
-                  <button type="button" className="btn secondary" onClick={() => void markRead(n.id)}>
+                  <button type="button" className="btn btn-secondary" onClick={() => void markRead(n.id)}>
                     Mark read
                   </button>
                 </>

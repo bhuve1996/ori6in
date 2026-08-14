@@ -174,7 +174,7 @@ export default function MentorReviewsPage() {
               <option value="draft">Save as draft</option>
             </select>
           </label>
-          <button className="btn accent" type="submit" disabled={busy || !form.studentId}>
+          <button className="btn btn-accent" type="submit" disabled={busy || !form.studentId}>
             {busy ? 'Saving…' : 'Save review'}
           </button>
         </form>
@@ -203,7 +203,7 @@ export default function MentorReviewsPage() {
                   {r.status === 'draft' ? (
                     <button
                       type="button"
-                      className="btn accent"
+                      className="btn btn-accent"
                       disabled={busy}
                       onClick={() => void publish(r.id)}
                     >

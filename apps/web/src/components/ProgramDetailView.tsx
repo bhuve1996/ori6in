@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { FlowConnector } from './FlowConnector';
+import { useInView } from '../hooks/useInView';
 import { formatPrice } from '../lib/format';
 import { HOME } from '../lib/media';
 
@@ -58,24 +59,10 @@ function series(n: number): CSSProperties {
 }
 
 function RevealSection({ children, className = '' }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLElement | null>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, inView } = useInView<HTMLElement>({
+    threshold: 0.12,
+    rootMargin: '0px 0px -6% 0px',
+  });
 
   return (
     <section
@@ -89,8 +76,14 @@ function RevealSection({ children, className = '' }: { children: ReactNode; clas
 
 export function ProgramDetailView({ program, image, curriculum }: Props) {
   const courseCount = curriculum.length;
-  const lessonCount = curriculum.reduce((n, c) => n + c.lessons.length, 0);
-  const descriptionBlocks = program.description.split(/\n\n+/).filter(Boolean);
+  const lessonCount = useMemo(
+    () => curriculum.reduce((n, c) => n + c.lessons.length, 0),
+    [curriculum],
+  );
+  const descriptionBlocks = useMemo(
+    () => program.description.split(/\n\n+/).filter(Boolean),
+    [program.description],
+  );
 
   return (
     <div className="program-detail">
@@ -124,10 +117,10 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
             </ul>
 
             <div className="cta-row reveal series" style={series(4)}>
-              <a className="btn accent" href={`/checkout?programId=${program.id}`}>
+              <a className="btn btn-accent" href={`/checkout?programId=${program.id}`}>
                 Buy now
               </a>
-              <a className="btn secondary" href="/register">
+              <a className="btn btn-secondary" href="/register">
                 Create account
               </a>
             </div>
@@ -225,10 +218,10 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
         </ol>
 
         <div className="cta-row reveal series" style={series(7)}>
-          <a className="btn accent" href={`/checkout?programId=${program.id}`}>
+          <a className="btn btn-accent" href={`/checkout?programId=${program.id}`}>
             Buy now
           </a>
-          <a className="btn secondary" href="/how-it-works">
+          <a className="btn btn-secondary" href="/how-it-works">
             How it works
           </a>
         </div>

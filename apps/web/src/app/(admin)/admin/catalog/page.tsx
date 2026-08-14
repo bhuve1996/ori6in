@@ -93,7 +93,7 @@ export default function AdminCatalogPage() {
               {p.currency} — {p.published ? 'published' : 'draft'}{' '}
               <button
                 type="button"
-                className="btn secondary"
+                className="btn btn-secondary"
                 onClick={() => void togglePublish(p)}
               >
                 {p.published ? 'Unpublish' : 'Publish'}
@@ -105,7 +105,7 @@ export default function AdminCatalogPage() {
 
       <section className="section-block">
         <h2>Create program</h2>
-        <form onSubmit={onCreate} className="form-grid wide">
+        <form onSubmit={onCreate} className="form-grid form-grid-wide">
           <input
             placeholder="Title"
             value={form.title}
@@ -146,7 +146,7 @@ export default function AdminCatalogPage() {
             />{' '}
             Published
           </label>
-          <button className="btn accent" type="submit">
+          <button className="btn btn-accent" type="submit">
             Create
           </button>
         </form>

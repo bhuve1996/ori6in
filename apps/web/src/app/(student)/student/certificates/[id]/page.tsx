@@ -52,7 +52,7 @@ export default function StudentCertificateDetailPage() {
             </p>
           </article>
           <div className="cta-row">
-            <button type="button" className="btn accent" onClick={() => window.print()}>
+            <button type="button" className="btn btn-accent" onClick={() => window.print()}>
               Print / Save PDF
             </button>
           </div>

@@ -113,7 +113,7 @@ export default function CompanyInternshipsPage() {
               rows={4}
             />
           </label>
-          <button className="btn accent" type="submit" disabled={busy === 'create'}>
+          <button className="btn btn-accent" type="submit" disabled={busy === 'create'}>
             {busy === 'create' ? 'Saving…' : 'Save draft'}
           </button>
         </form>
@@ -141,7 +141,7 @@ export default function CompanyInternshipsPage() {
                     {item.paymentStatus === 'unpaid' ? (
                       <button
                         type="button"
-                        className="btn secondary"
+                        className="btn btn-secondary"
                         disabled={busy === item.id}
                         onClick={() => void pay(item.id)}
                       >
@@ -151,7 +151,7 @@ export default function CompanyInternshipsPage() {
                     {item.approvalStatus === 'draft' || item.approvalStatus === 'rejected' ? (
                       <button
                         type="button"
-                        className="btn accent"
+                        className="btn btn-accent"
                         disabled={busy === item.id || item.paymentStatus === 'unpaid'}
                         onClick={() => void submit(item.id)}
                       >

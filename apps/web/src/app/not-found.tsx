@@ -24,16 +24,16 @@ export default function NotFound() {
         </div>
 
         <div className="cta-row">
-          <a className="btn accent" href="/">
+          <a className="btn btn-accent" href="/">
             Back home
           </a>
-          <a className="btn secondary" href="/programs">
+          <a className="btn btn-secondary" href="/programs">
             Browse programs
           </a>
-          <a className="btn secondary" href="/mentors">
+          <a className="btn btn-secondary" href="/mentors">
             Meet mentors
           </a>
-          <a className="btn secondary" href="/login">
+          <a className="btn btn-secondary" href="/login">
             Log in
           </a>
         </div>

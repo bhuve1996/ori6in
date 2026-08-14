@@ -113,7 +113,7 @@ export default function ParentMessagingPage() {
               <option value="support">ORI6IN support</option>
             </select>
           </label>
-          <button className="btn accent" type="submit" disabled={busy}>
+          <button className="btn btn-accent" type="submit" disabled={busy}>
             Start thread
           </button>
         </form>
@@ -135,7 +135,7 @@ export default function ParentMessagingPage() {
                   <p>{t.preview}</p>
                   <button
                     type="button"
-                    className="btn secondary"
+                    className="btn btn-secondary"
                     onClick={() => void openThread(t.id)}
                   >
                     Open
@@ -172,7 +172,7 @@ export default function ParentMessagingPage() {
                 rows={3}
               />
             </label>
-            <button className="btn accent" type="submit" disabled={busy}>
+            <button className="btn btn-accent" type="submit" disabled={busy}>
               Send
             </button>
           </form>

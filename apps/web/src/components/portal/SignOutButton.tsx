@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { clearSession } from '../../lib/auth';
 import { useToast } from '../Toast';
 
-export function SignOutButton({ className = 'btn secondary' }: { className?: string }) {
+export function SignOutButton({ className = 'btn btn-secondary' }: { className?: string }) {
   const router = useRouter();
   const toast = useToast();
 

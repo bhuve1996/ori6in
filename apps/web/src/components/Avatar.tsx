@@ -1,3 +1,6 @@
+'use client';
+
+import { memo } from 'react';
 import { avatarFor, initialsFor } from '../lib/media';
 
 type Props = {
@@ -6,20 +9,21 @@ type Props = {
   kind?: 'mentor' | 'student' | 'person';
   size?: 'sm' | 'md' | 'lg';
   src?: string;
+  /** When true, hide from AT (parent already names the person). */
+  decorative?: boolean;
 };
 
-export function Avatar({
-  name,
-  seed,
-  kind = 'person',
-  size = 'md',
-  src,
-}: Props) {
+function AvatarInner({ name, seed, kind = 'person', size = 'md', src, decorative }: Props) {
   const image = src ?? avatarFor(seed || name, kind, name);
   const initials = initialsFor(name);
 
   return (
-    <span className={`avatar avatar--${size}`} title={name} aria-label={name} role="img">
+    <span
+      className={`avatar avatar--${size}`}
+      {...(decorative
+        ? { 'aria-hidden': true as const }
+        : { title: name, 'aria-label': name, role: 'img' as const })}
+    >
       <img src={image} alt="" loading="lazy" decoding="async" />
       <span className="avatar__fallback" aria-hidden="true">
         {initials}
@@ -27,3 +31,5 @@ export function Avatar({
     </span>
   );
 }
+
+export const Avatar = memo(AvatarInner);

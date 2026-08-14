@@ -98,7 +98,7 @@ export default function AdminCmsPage() {
             <li key={p.id}>
               <button
                 type="button"
-                className="btn secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   setPageForm({
                     slug: p.slug,
@@ -114,7 +114,7 @@ export default function AdminCmsPage() {
             </li>
           ))}
         </ul>
-        <form onSubmit={savePage} className="form-grid wide">
+        <form onSubmit={savePage} className="form-grid form-grid-wide">
           <input
             placeholder="slug"
             value={pageForm.slug}
@@ -142,7 +142,7 @@ export default function AdminCmsPage() {
             />{' '}
             Published
           </label>
-          <button className="btn accent" type="submit">
+          <button className="btn btn-accent" type="submit">
             Save page
           </button>
         </form>
@@ -157,7 +157,7 @@ export default function AdminCmsPage() {
             </li>
           ))}
         </ul>
-        <form onSubmit={saveBlog} className="form-grid wide">
+        <form onSubmit={saveBlog} className="form-grid form-grid-wide">
           <input
             placeholder="slug"
             value={blogForm.slug}
@@ -191,7 +191,7 @@ export default function AdminCmsPage() {
             />{' '}
             Published
           </label>
-          <button className="btn accent" type="submit">
+          <button className="btn btn-accent" type="submit">
             Save post
           </button>
         </form>

@@ -153,7 +153,7 @@ export default function InternshipDetailPage() {
                 <div className="cta-row" style={{ marginTop: '1rem' }}>
                   <button
                     type="button"
-                    className="btn secondary"
+                    className="btn btn-secondary"
                     disabled={busy}
                     onClick={() => void withdraw()}
                   >
@@ -176,7 +176,7 @@ export default function InternshipDetailPage() {
                   />
                 </label>
                 <button
-                  className="btn accent"
+                  className="btn btn-accent"
                   type="button"
                   disabled={busy}
                   onClick={() => void apply()}

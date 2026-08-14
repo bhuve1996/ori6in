@@ -1,3 +1,5 @@
+import { Button } from '@ori6in/ui';
+import { MediaStepCard } from '../../../components/cards';
 import { PageBanner } from '../../../components/PageBanner';
 import { FlowConnector } from '../../../components/FlowConnector';
 import { BANNERS, HOME } from '../../../lib/media';
@@ -39,7 +41,7 @@ export default function HowItWorksPage() {
         title="Student → mentor → role"
         lead="One path from learning to opportunity — in three chapters."
       />
-      <main id="main-content" className="page page-after-banner page--wide">
+      <main id="main-content" className="page page-after-banner page-wide">
         <div className="mkt-flow-mini" aria-label="ORI6IN flow">
           <span className="mkt-flow-mini__node">Student</span>
           <FlowConnector />
@@ -51,36 +53,28 @@ export default function HowItWorksPage() {
         <ol className="mkt-program-grid" style={{ listStyle: 'none', padding: 0 }}>
           {STEPS.map((step, i) => (
             <li key={step.role}>
-              <figure className="mkt-program-card">
-                <div className="mkt-program-card__media">
-                  <img
-                    src={step.image}
-                    alt=""
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                  />
-                </div>
-                <div className="mkt-program-card__body">
-                  <p className="tile-meta">
-                    0{i + 1} · {step.role}
-                  </p>
-                  <h2>{step.title}</h2>
-                  <p className="tile-sub">{step.caption}</p>
-                </div>
-              </figure>
+              <MediaStepCard
+                image={step.image}
+                meta={`0${i + 1} · ${step.role}`}
+                title={step.title}
+                caption={step.caption}
+                eager={i === 0}
+                index={i}
+              />
             </li>
           ))}
         </ol>
 
         <div className="cta-row" style={{ marginTop: '2rem' }}>
-          <a className="btn accent" href="/programs">
+          <Button href="/programs" variant="accent">
             Explore programs
-          </a>
-          <a className="btn secondary" href="/register">
+          </Button>
+          <Button href="/register" variant="secondary">
             Get started
-          </a>
-          <a className="btn secondary" href="/mentors">
+          </Button>
+          <Button href="/mentors" variant="secondary">
             Meet mentors
-          </a>
+          </Button>
         </div>
       </main>
     </>

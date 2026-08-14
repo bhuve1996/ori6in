@@ -1,13 +1,20 @@
+'use client';
+
+import { memo } from 'react';
+
 type Props = {
   theme: string;
 };
 
 /** Floating educational SVG motifs — never shown on hero. */
-export function HomeMotifs({ theme }: Props) {
-  if (theme === 'hero') return null;
-
+function HomeMotifsInner({ theme }: Props) {
   return (
-    <div className="home-motifs" data-active={theme} aria-hidden="true">
+    <div
+      className="home-motifs"
+      data-active={theme === 'hero' ? '' : theme}
+      aria-hidden="true"
+      hidden={theme === 'hero'}
+    >
       <svg className="home-motif home-motif--pencil" viewBox="0 0 64 64" fill="none">
         <path
           d="M12 44 L40 16 L48 24 L20 52 L12 52 Z"
@@ -57,3 +64,5 @@ export function HomeMotifs({ theme }: Props) {
     </div>
   );
 }
+
+export const HomeMotifs = memo(HomeMotifsInner);

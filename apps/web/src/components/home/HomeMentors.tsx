@@ -1,12 +1,9 @@
 import type { CSSProperties } from 'react';
 import { Avatar } from '../Avatar';
 import { FlowConnector } from '../FlowConnector';
+import type { MentorCardData } from '../cards';
 
-export type HomeMentor = {
-  id: string;
-  fullName: string;
-  title: string;
-};
+export type HomeMentor = Pick<MentorCardData, 'id' | 'fullName' | 'title'>;
 
 type Props = {
   mentors: HomeMentor[];
@@ -40,7 +37,7 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
 
         <div className="home-mentor-strip reveal series" style={series(3)}>
           <div className="home-mentor-strip__you" aria-hidden="true">
-            <Avatar name="You" seed="home-student" kind="student" size="lg" />
+            <Avatar name="You" seed="home-student" kind="student" size="lg" decorative />
             <span>You</span>
           </div>
 
@@ -54,7 +51,7 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
                 <li key={m.id} className="reveal series" style={series(4 + i)}>
                   <a href={`/mentors/${m.id}`} className="home-mentor-face">
                     <span className="home-mentor-face__avatar">
-                      <Avatar name={m.fullName} seed={m.fullName} kind="mentor" size="lg" />
+                      <Avatar name={m.fullName} seed={m.fullName} kind="mentor" size="lg" decorative />
                     </span>
                     <span className="home-mentor-face__name">{m.fullName}</span>
                     <span className="home-mentor-face__title">{m.title || 'Mentor'}</span>
@@ -69,7 +66,7 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
           className="reveal series"
           style={{ ...series(4 + Math.min(faces.length, 5)), marginTop: '1.75rem' }}
         >
-          <a className="btn accent" href="/mentors">
+          <a className="btn btn-accent" href="/mentors">
             Meet mentors
           </a>
         </div>

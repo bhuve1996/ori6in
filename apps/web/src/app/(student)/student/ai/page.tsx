@@ -68,7 +68,7 @@ export default function StudentAiPage() {
           </article>
         ))}
       </div>
-      <form onSubmit={(e) => void onSubmit(e)} className="form-grid wide">
+      <form onSubmit={(e) => void onSubmit(e)} className="form-grid form-grid-wide">
         <textarea
           rows={3}
           placeholder="Type a message…"
@@ -76,7 +76,7 @@ export default function StudentAiPage() {
           onChange={(e) => setMessage(e.target.value)}
           required
         />
-        <button className="btn accent" type="submit" disabled={busy}>
+        <button className="btn btn-accent" type="submit" disabled={busy}>
           {busy ? 'Sending…' : 'Send'}
         </button>
       </form>

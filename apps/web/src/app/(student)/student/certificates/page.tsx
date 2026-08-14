@@ -43,7 +43,7 @@ export default function StudentCertificatesPage() {
                 <p className="meta">
                   {c.code} · issued {new Date(c.issuedAt).toLocaleDateString()}
                 </p>
-                <a className="btn accent" href={`/student/certificates/${c.id}`}>
+                <a className="btn btn-accent" href={`/student/certificates/${c.id}`}>
                   View certificate
                 </a>
               </article>

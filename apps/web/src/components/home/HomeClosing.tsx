@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { Button } from '@ori6in/ui';
 import { BRAND } from '../../lib/media';
 
 type Props = {
@@ -32,12 +33,12 @@ export function HomeClosing({ sectionRef }: Props) {
             Create an account, pick a program, and learn with a mentor beside you.
           </p>
           <div className="home-hero__cta reveal series" style={series(3)}>
-            <a className="btn accent" href="/register">
+            <Button href="/register" variant="accent">
               Create account
-            </a>
-            <a className="btn ghost-light" href="/programs">
+            </Button>
+            <Button href="/programs" variant="ghost">
               Explore programs
-            </a>
+            </Button>
           </div>
         </div>
       </div>

@@ -124,7 +124,7 @@ export default function RolesPage() {
         title="What you can do on ORI6IN"
         lead="Pick a seat — student, mentor, parent, company, or admin — and see what the platform unlocks."
       />
-      <main id="main-content" className="page page-after-banner page--wide">
+      <main id="main-content" className="page page-after-banner page-wide">
         <p className="roles-intro">
           Phase 1 shipped the public site plus core student, mentor, and admin portals. Phase 2 company,
           parent, mentor, internship status, and certificates are in place. Community extras and production
@@ -167,11 +167,11 @@ export default function RolesPage() {
               </div>
 
               <div className="cta-row">
-                <a className="btn accent" href={r.cta.href}>
+                <a className="btn btn-accent" href={r.cta.href}>
                   {r.cta.label}
                 </a>
                 {r.id === 'student' ? (
-                  <a className="btn secondary" href="/programs">
+                  <a className="btn btn-secondary" href="/programs">
                     Browse programs
                   </a>
                 ) : null}
@@ -198,13 +198,13 @@ export default function RolesPage() {
         </section>
 
         <div className="cta-row" style={{ marginTop: '2rem' }}>
-          <a className="btn accent" href="/how-it-works">
+          <a className="btn btn-accent" href="/how-it-works">
             How it works
           </a>
-          <a className="btn secondary" href="/register">
+          <a className="btn btn-secondary" href="/register">
             Get started
           </a>
-          <a className="btn secondary" href="/demo-login">
+          <a className="btn btn-secondary" href="/demo-login">
             Demo logins
           </a>
         </div>

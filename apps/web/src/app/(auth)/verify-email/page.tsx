@@ -49,7 +49,7 @@ function VerifyEmailInner() {
         </p>
       )}
       <div className="cta-row">
-        <a className="btn accent" href="/login">
+        <a className="btn btn-accent" href="/login">
           Go to login
         </a>
       </div>

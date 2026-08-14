@@ -69,7 +69,7 @@ export default function StudentPortalPage() {
         <p>
           <Tooltip label="Sends a verification email (or a local dev link)">
             <button
-              className="btn secondary"
+              className="btn btn-secondary"
               type="button"
               onClick={() => void requestVerification()}
             >

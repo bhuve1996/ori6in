@@ -89,7 +89,7 @@ export default function AdminApprovalsPage() {
                 <div className="cta-row">
                   <button
                     type="button"
-                    className="btn accent"
+                    className="btn btn-accent"
                     disabled={busy === item.id}
                     onClick={() => void review(item.id, 'approved')}
                   >
@@ -97,7 +97,7 @@ export default function AdminApprovalsPage() {
                   </button>
                   <button
                     type="button"
-                    className="btn secondary"
+                    className="btn btn-secondary"
                     disabled={busy === item.id}
                     onClick={() => void review(item.id, 'rejected')}
                   >

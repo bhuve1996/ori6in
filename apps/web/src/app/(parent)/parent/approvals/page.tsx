@@ -71,7 +71,7 @@ export default function ParentApprovalsPage() {
                   {item.needsParentAck ? (
                     <div className="cta-row">
                       <button
-                        className="btn accent"
+                        className="btn btn-accent"
                         type="button"
                         disabled={busy === item.id}
                         onClick={() => void decide(item.id, 'approved')}
@@ -79,7 +79,7 @@ export default function ParentApprovalsPage() {
                         Approve
                       </button>
                       <button
-                        className="btn secondary"
+                        className="btn btn-secondary"
                         type="button"
                         disabled={busy === item.id}
                         onClick={() => void decide(item.id, 'rejected')}

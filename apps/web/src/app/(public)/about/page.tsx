@@ -1,9 +1,10 @@
 import { DEMO_PAGES } from '@ori6in/shared';
-import { publicFetch, type CmsPage } from '../../../lib/api';
+import { Button } from '@ori6in/ui';
 import { FlowConnector } from '../../../components/FlowConnector';
 import { PageBanner } from '../../../components/PageBanner';
 import { BANNERS, HOME } from '../../../lib/media';
 import { pageMeta } from '../../../lib/seo';
+import { getCmsPage, resolveCmsCopy } from '../../../services/public-content';
 
 const ABOUT_FALLBACK = DEMO_PAGES.find((p) => p.slug === 'about')!;
 
@@ -15,20 +16,18 @@ export const metadata = pageMeta({
 });
 
 export default async function AboutPage() {
-  const page = await publicFetch<CmsPage>('/cms/pages/about');
-  const apiBody = page?.body ?? '';
-  const body =
-    apiBody.length > 220 && !/Phase 1/i.test(apiBody) ? apiBody : ABOUT_FALLBACK.body;
+  const page = await getCmsPage('about');
+  const { title, body } = resolveCmsCopy(page, ABOUT_FALLBACK, 220);
 
   return (
     <>
       <PageBanner
         image={BANNERS.about}
         kicker="About"
-        title={page?.title ?? ABOUT_FALLBACK.title}
+        title={title}
         lead="Programs, mentorship, and internships — in one place."
       />
-      <main id="main-content" className="page page-after-banner page--wide">
+      <main id="main-content" className="page page-after-banner page-wide">
         <div className="mkt-about">
           <div className="mkt-about__media">
             <img
@@ -47,12 +46,12 @@ export default async function AboutPage() {
               <span className="mkt-flow-mini__node">Internship</span>
             </div>
             <div className="cta-row">
-              <a className="btn accent" href="/programs">
+              <Button href="/programs" variant="accent">
                 Explore programs
-              </a>
-              <a className="btn secondary" href="/register">
+              </Button>
+              <Button href="/register" variant="secondary">
                 Get started
-              </a>
+              </Button>
             </div>
           </div>
         </div>

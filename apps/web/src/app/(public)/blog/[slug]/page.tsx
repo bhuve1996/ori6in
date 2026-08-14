@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { DEMO_POSTS } from '@ori6in/shared';
-import { publicFetch, type BlogPost } from '../../../../lib/api';
 import { PageBanner } from '../../../../components/PageBanner';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
 import { SITE_NAME } from '../../../../lib/site';
+import { getBlogPostBySlug, listBlogPosts } from '../../../../services/public-content';
 
 export async function generateMetadata({
   params,
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await publicFetch<BlogPost>(`/blog/${slug}`);
+  const post = await getBlogPostBySlug(slug);
   if (!post) return { title: 'Blog' };
   return pageMeta({
     title: post.title,
@@ -92,14 +92,14 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await publicFetch<BlogPost>(`/blog/${slug}`);
+  const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
 
   const demo = DEMO_POSTS.find((p) => p.slug === post.slug);
   const body =
     post.body && post.body.length > 180 ? post.body : (demo?.body ?? post.body);
 
-  const allPosts = (await publicFetch<BlogPost[]>('/blog')) ?? [];
+  const allPosts = await listBlogPosts();
   const related = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
@@ -110,7 +110,7 @@ export default async function BlogDetailPage({
         title={post.title}
         lead={post.excerpt}
       />
-      <main id="main-content" className="page page-after-banner page--wide" tabIndex={-1}>
+      <main id="main-content" className="page page-after-banner page-wide" tabIndex={-1}>
         <a className="back-link" href="/blog">
           ← Blog
         </a>

@@ -74,7 +74,7 @@ export default function RegisterPage() {
           <option value="parent">Parent</option>
         </select>
         {error && <p className="text-error">{error}</p>}
-        <button className="btn accent" type="submit">
+        <button className="btn btn-accent" type="submit">
           Create account
         </button>
       </form>
