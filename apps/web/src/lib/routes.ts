@@ -19,6 +19,12 @@ export const PUBLIC_PREFIXES = [
   '/demo-login',
 ] as const;
 
+/** True for `/mentor` and `/mentor/...`, but not `/mentors`. */
+export function isPortalSection(pathname: string, section: string) {
+  const p = pathname.split('?')[0] ?? pathname;
+  return p === section || p.startsWith(`${section}/`);
+}
+
 export function loginUrlFor(path: string) {
   const safe = sanitizeNext(path) ?? '/';
   if (safe === '/' || safe.startsWith('/login')) return '/login';
@@ -36,12 +42,13 @@ export function sanitizeNext(next: string | null | undefined): string | null {
 
 export function canRoleAccessPath(role: string, path: string): boolean {
   const p = path.split('?')[0] ?? path;
-  if (p.startsWith('/checkout')) return true;
-  if (p.startsWith('/student')) return role === 'student';
-  if (p.startsWith('/mentor')) return role === 'mentor';
-  if (p.startsWith('/admin')) return role === 'admin' || role === 'super_admin';
-  if (p.startsWith('/parent')) return role === 'parent';
-  if (p.startsWith('/company')) return role === 'company';
+  if (isPortalSection(p, '/checkout')) return true;
+  if (isPortalSection(p, '/student')) return role === 'student';
+  // Must use exact section match so /mentors stays public
+  if (isPortalSection(p, '/mentor')) return role === 'mentor';
+  if (isPortalSection(p, '/admin')) return role === 'admin' || role === 'super_admin';
+  if (isPortalSection(p, '/parent')) return role === 'parent';
+  if (isPortalSection(p, '/company')) return role === 'company';
   return true;
 }
 
@@ -54,23 +61,35 @@ export function resolvePostLoginPath(role: string, next: string | null | undefin
 
 export type NavLink = { href: string; label: string };
 
+/** Shared marketing links — always visible on public/auth surfaces. */
+export const MARKETING_LINKS: NavLink[] = [
+  { href: '/programs', label: 'Programs' },
+  { href: '/mentors', label: 'Mentors' },
+  { href: '/how-it-works', label: 'How it works' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+];
+
+function dashboardLabel(role: string) {
+  if (role === 'mentor') return 'Mentor hub';
+  if (role === 'admin' || role === 'super_admin') return 'Admin';
+  if (role === 'parent') return 'Parent hub';
+  if (role === 'company') return 'Company hub';
+  return 'Dashboard';
+}
+
 export function marketingNavLinks(opts: {
   loggedIn: boolean;
-  portalHref?: string;
+  role?: string | null;
 }): NavLink[] {
-  const links: NavLink[] = [
-    { href: '/programs', label: 'Programs' },
-    { href: '/mentors', label: 'Mentors' },
-    { href: '/how-it-works', label: 'How it works' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/about', label: 'About' },
-  ];
-  if (opts.loggedIn && opts.portalHref) {
-    links.push({ href: opts.portalHref, label: 'Portal' });
+  const links = [...MARKETING_LINKS];
+  if (opts.loggedIn && opts.role) {
+    links.push({ href: portalPathForRole(opts.role), label: dashboardLabel(opts.role) });
     links.push({ href: '#logout', label: 'Log out' });
   } else {
     links.push({ href: '/login', label: 'Login' });
+    links.push({ href: '/register', label: 'Register' });
   }
   return links;
 }
@@ -81,6 +100,8 @@ export function portalNavLinks(role: string): NavLink[] {
       { href: '/mentor', label: 'Hub' },
       { href: '/mentor/students', label: 'Students' },
       { href: '/mentor/reviews', label: 'Reviews' },
+      { href: '/mentors', label: 'Directory' },
+      { href: '/programs', label: 'Programs' },
       { href: '/', label: 'Home' },
       { href: '#logout', label: 'Log out' },
     ];
@@ -91,6 +112,7 @@ export function portalNavLinks(role: string): NavLink[] {
       { href: '/admin/users', label: 'Users' },
       { href: '/admin/catalog', label: 'Catalog' },
       { href: '/admin/cms', label: 'CMS' },
+      { href: '/programs', label: 'Programs' },
       { href: '/', label: 'Home' },
       { href: '#logout', label: 'Log out' },
     ];
@@ -118,43 +140,45 @@ export function portalNavLinks(role: string): NavLink[] {
       { href: '#logout', label: 'Log out' },
     ];
   }
-  // student default
+  // student
   return [
     { href: '/student', label: 'Hub' },
     { href: '/student/courses', label: 'Courses' },
     { href: '/student/internships', label: 'Internships' },
     { href: '/student/profile', label: 'Profile' },
     { href: '/student/notifications', label: 'Alerts' },
+    { href: '/student/ai', label: 'AI' },
     { href: '/programs', label: 'Programs' },
+    { href: '/mentors', label: 'Mentors' },
     { href: '/', label: 'Home' },
     { href: '#logout', label: 'Log out' },
   ];
 }
 
+/**
+ * Header nav for the current path.
+ * - Portal sections use portal links for that role
+ * - Public + auth pages always show the full marketing nav (no sparse auth-only strip)
+ */
 export function navLinksForPath(pathname: string, role: string | null): NavLink[] {
-  const loggedIn = Boolean(role);
-  if (pathname.startsWith('/student')) return portalNavLinks('student');
-  if (pathname.startsWith('/mentor')) return portalNavLinks('mentor');
-  if (pathname.startsWith('/admin')) return portalNavLinks(role ?? 'admin');
-  if (pathname.startsWith('/parent')) return portalNavLinks('parent');
-  if (pathname.startsWith('/company')) return portalNavLinks('company');
-  if (
-    pathname.startsWith('/login') ||
-    pathname.startsWith('/register') ||
-    pathname.startsWith('/forgot') ||
-    pathname.startsWith('/reset') ||
-    pathname.startsWith('/verify') ||
-    pathname.startsWith('/demo-login')
-  ) {
-    return [
-      { href: '/programs', label: 'Programs' },
-      { href: '/login', label: 'Login' },
-      { href: '/register', label: 'Register' },
-      { href: '/demo-login', label: 'Demo' },
-    ];
+  if (isPortalSection(pathname, '/student')) {
+    return portalNavLinks('student');
   }
+  if (isPortalSection(pathname, '/mentor')) {
+    return portalNavLinks('mentor');
+  }
+  if (isPortalSection(pathname, '/admin')) {
+    return portalNavLinks(role === 'super_admin' ? 'super_admin' : 'admin');
+  }
+  if (isPortalSection(pathname, '/parent')) {
+    return portalNavLinks('parent');
+  }
+  if (isPortalSection(pathname, '/company')) {
+    return portalNavLinks('company');
+  }
+
   return marketingNavLinks({
-    loggedIn,
-    portalHref: role ? portalPathForRole(role) : undefined,
+    loggedIn: Boolean(role),
+    role,
   });
 }

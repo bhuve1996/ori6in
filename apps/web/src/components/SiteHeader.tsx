@@ -109,9 +109,11 @@ export function SiteHeader() {
               ? 'Notifications'
               : link.label === 'How it works'
                 ? 'Student → mentor → role'
-                : link.href === '#logout'
-                  ? 'End your session'
-                  : null;
+                : link.label === 'AI'
+                  ? 'Career coach chat'
+                  : link.href === '#logout'
+                    ? 'End your session'
+                    : null;
           const current = pathMatches(pathname, link.href);
           const anchor = (
             <a

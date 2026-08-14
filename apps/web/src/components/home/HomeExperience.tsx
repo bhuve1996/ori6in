@@ -123,9 +123,13 @@ export function HomeExperience({ programs, mentors }: Props) {
         <p>© {new Date().getFullYear()} ORI6IN · Everything starts here.</p>
         <nav className="home-footer__nav" aria-label="Footer">
           <a href="/programs">Programs</a>
+          <a href="/mentors">Mentors</a>
           <a href="/how-it-works">How it works</a>
-          <a href="/about">About</a>
+          <a href="/pricing">Pricing</a>
           <a href="/blog">Blog</a>
+          <a href="/about">About</a>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
         </nav>
       </footer>
     </main>

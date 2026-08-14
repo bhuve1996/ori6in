@@ -2,11 +2,18 @@
 
 import { usePathname } from 'next/navigation';
 import { BRAND } from '../lib/media';
+import { MARKETING_LINKS } from '../lib/routes';
 
-/** Shared footer for non-home routes — matches black/gold brand. */
+/** Shared footer for non-home routes — matches header marketing links. */
 export function SiteFooter() {
   const pathname = usePathname();
   if (pathname === '/') return null;
+
+  // Portal areas keep a light footer; full marketing links still available
+  const hideAuthCtas =
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/demo-login');
 
   return (
     <footer className="site-footer">
@@ -19,13 +26,19 @@ export function SiteFooter() {
           </span>
         </a>
         <nav className="site-footer__nav" aria-label="Footer">
-          <a href="/programs">Programs</a>
-          <a href="/mentors">Mentors</a>
-          <a href="/how-it-works">How it works</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/blog">Blog</a>
-          <a href="/about">About</a>
-          <a href="/login">Login</a>
+          {MARKETING_LINKS.map((link) => (
+            <a key={link.href} href={link.href}>
+              {link.label}
+            </a>
+          ))}
+          {!hideAuthCtas ? (
+            <>
+              <a href="/login">Login</a>
+              <a href="/register">Register</a>
+            </>
+          ) : (
+            <a href="/demo-login">Demo</a>
+          )}
         </nav>
       </div>
     </footer>
