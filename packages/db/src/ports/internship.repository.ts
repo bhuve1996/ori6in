@@ -14,6 +14,8 @@ export type InternshipApprovalStatus =
 
 export type InternshipPaymentStatus = 'unpaid' | 'paid' | 'waived';
 
+export type ParentApplicationDecision = 'pending' | 'approved' | 'rejected';
+
 export interface Internship {
   id: string;
   slug: string;
@@ -45,6 +47,10 @@ export interface InternshipApplication {
   documentKeys: string[];
   status: ApplicationStatus;
   timeline: ApplicationTimelineEvent[];
+  /** Parent guardian decision on the application. */
+  parentDecision: ParentApplicationDecision;
+  parentDecidedAt: Date | null;
+  parentNote: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -75,6 +81,11 @@ export interface InternshipRepository {
   updateApplicationStatus(
     id: string,
     status: ApplicationStatus,
+    note?: string,
+  ): Promise<InternshipApplication | null>;
+  updateParentDecision(
+    id: string,
+    decision: Exclude<ParentApplicationDecision, 'pending'>,
     note?: string,
   ): Promise<InternshipApplication | null>;
 }

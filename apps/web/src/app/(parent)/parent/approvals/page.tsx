@@ -15,6 +15,7 @@ type ApprovalsPayload = {
     title: string;
     company: string;
     status: string;
+    parentDecision: string;
     needsParentAck: boolean;
   }>;
 };
@@ -27,18 +28,18 @@ export default function ParentApprovalsPage() {
   );
   const [busy, setBusy] = useState<string | null>(null);
 
-  async function acknowledge(id: string) {
+  async function decide(id: string, decision: 'approved' | 'rejected') {
     setBusy(id);
-    const { ok } = await apiFetch(`/parent/approvals/${id}/acknowledge`, {
+    const { ok } = await apiFetch(`/parent/approvals/${id}/decide`, {
       method: 'POST',
-      body: JSON.stringify({}),
+      body: JSON.stringify({ decision }),
     });
     setBusy(null);
     if (!ok) {
-      toast.error('Could not acknowledge');
+      toast.error('Could not save decision');
       return;
     }
-    toast.success('Marked as reviewed');
+    toast.success(decision === 'approved' ? 'Approved' : 'Rejected');
     reload();
   }
 
@@ -47,37 +48,53 @@ export default function ParentApprovalsPage() {
       banner={{
         image: BANNERS.internships,
         title: 'Approvals',
-        lead: 'Review internship applications and enrollment notices for your student.',
+        lead: data
+          ? `Review internship applications for ${data.student.fullName}.`
+          : 'Approve or reject internship applications for your linked student.',
       }}
       back={{ href: '/parent', label: 'Parent' }}
       loading={loading}
       error={error}
     >
       {data ? (
-        <ul className="card-list">
-          {data.items.map((item) => (
-            <li key={item.id}>
-              <article>
-                <h2>{item.title}</h2>
-                <p className="meta">
-                  {item.company} · {item.type} · {item.status}
-                </p>
-                {item.needsParentAck ? (
-                  <button
-                    className="btn accent"
-                    type="button"
-                    disabled={busy === item.id}
-                    onClick={() => void acknowledge(item.id)}
-                  >
-                    {busy === item.id ? 'Saving…' : 'Mark reviewed'}
-                  </button>
-                ) : (
-                  <p className="text-success">Reviewed</p>
-                )}
-              </article>
-            </li>
-          ))}
-        </ul>
+        data.items.length === 0 ? (
+          <p className="meta">No applications yet.</p>
+        ) : (
+          <ul className="card-list">
+            {data.items.map((item) => (
+              <li key={item.id}>
+                <article>
+                  <h2>{item.title}</h2>
+                  <p className="meta">
+                    {item.company} · app: {item.status} · parent: {item.parentDecision}
+                  </p>
+                  {item.needsParentAck ? (
+                    <div className="cta-row">
+                      <button
+                        className="btn accent"
+                        type="button"
+                        disabled={busy === item.id}
+                        onClick={() => void decide(item.id, 'approved')}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="btn secondary"
+                        type="button"
+                        disabled={busy === item.id}
+                        onClick={() => void decide(item.id, 'rejected')}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-success">Decision recorded</p>
+                  )}
+                </article>
+              </li>
+            ))}
+          </ul>
+        )
       ) : null}
     </PortalShell>
   );

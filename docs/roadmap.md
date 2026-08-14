@@ -7,7 +7,7 @@ Month 1 MVP (public site + core student / mentor / admin) is treated as the base
 
 ### Phase 2 build queue
 1. **Company** — ✅ role CRUD, applicant pipeline, sandbox pay-to-post + admin approval (interviews list from pipeline)  
-2. **Parent** — real student linking, 2-way messaging, payments & internship approvals end-to-end  
+2. **Parent** — ✅ student linking (invite/accept), 2-way messaging, sandbox payments & internship approvals  
 3. **Mentor** — session booking/calendar, richer review workflows, internship completion approvals  
 4. **Internships** — fuller student ↔ company ↔ admin status UX polish  
 5. **Platform extras (after the above)** — community, referrals/gamification, certificates, video meetings, analytics, super-admin

@@ -39,7 +39,11 @@ describe('InternshipRepository (memory adapter)', () => {
       documentKeys: [],
       status: 'applied',
       timeline: [{ at: new Date(), status: 'applied' }],
+      parentDecision: 'pending',
+      parentDecidedAt: null,
+      parentNote: null,
     });
+    assert.equal(app.parentDecision, 'pending');
     const updated = await repos.internships.updateApplicationStatus(
       app.id,
       'under_review',
@@ -47,5 +51,14 @@ describe('InternshipRepository (memory adapter)', () => {
     );
     assert.equal(updated?.status, 'under_review');
     assert.equal(updated?.timeline.length, 2);
+
+    const decided = await repos.internships.updateParentDecision(
+      app.id,
+      'approved',
+      'Looks good',
+    );
+    assert.equal(decided?.parentDecision, 'approved');
+    assert.equal(decided?.parentNote, 'Looks good');
+    assert.ok(decided?.parentDecidedAt);
   });
 });

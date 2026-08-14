@@ -13,7 +13,8 @@
 
 ## Phase 2 — **current build focus**
 - Company ops: role CRUD, applicant pipeline, interviews, paid posting + admin approval  
-- Parent ops: real linking, messaging, payments, internship approvals  
+- Parent ops: ✅ linking (invite/accept), messaging, sandbox payments, internship approvals
+- Mentor ops: session booking/calendar, richer reviews (next)
 - Mentor ops: session booking, richer reviews, internship completion approvals  
 - Internship approval workflows end-to-end  
 - Later in Phase 2+: community, referrals/gamification, certificates, video meetings, analytics, super-admin  

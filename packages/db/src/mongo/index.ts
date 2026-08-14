@@ -38,6 +38,12 @@ import type {
   ProfileRepository,
   StudentProfile,
 } from '../ports/profile.repository.js';
+import type {
+  ParentMessage,
+  ParentMessageThread,
+  ParentRepository,
+  ParentStudentLink,
+} from '../ports/parent.repository.js';
 
 export async function createMongoRepositories(config: AppConfig): Promise<Repositories> {
   const client = new MongoClient(config.MONGO_URL);
@@ -62,6 +68,9 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   const mentorAssignmentsCol = db.collection<MentorAssignment>('mentor_assignments');
   const mentorReviewsCol = db.collection<MentorReview>('mentor_reviews');
   const mentorNotesCol = db.collection<MentorSessionNote>('mentor_session_notes');
+  const parentLinksCol = db.collection<ParentStudentLink>('parent_student_links');
+  const parentThreadsCol = db.collection<ParentMessageThread>('parent_message_threads');
+  const parentMessagesCol = db.collection<ParentMessage>('parent_messages');
 
   await usersCol.createIndex({ email: 1 }, { unique: true });
   await authTokensCol.createIndex({ tokenHash: 1, purpose: 1 });
@@ -77,6 +86,11 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   await internshipAppsCol.createIndex({ userId: 1, internshipId: 1 }, { unique: true });
   await mentorAssignmentsCol.createIndex({ mentorId: 1, studentId: 1 });
   await profilesCol.createIndex({ userId: 1 }, { unique: true });
+  await parentLinksCol.createIndex({ parentUserId: 1, createdAt: -1 });
+  await parentLinksCol.createIndex({ studentUserId: 1, createdAt: -1 });
+  await parentLinksCol.createIndex({ parentUserId: 1, studentUserId: 1, status: 1 });
+  await parentThreadsCol.createIndex({ parentUserId: 1, updatedAt: -1 });
+  await parentMessagesCol.createIndex({ threadId: 1, createdAt: 1 });
 
   const users: UserRepository = {
     async findById(id) {
@@ -312,6 +326,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
         couponCode: input.couponCode ?? null,
         status: input.status,
         paymentId: input.paymentId ?? null,
+        paidByUserId: input.paidByUserId ?? null,
         createdAt: t,
         updatedAt: t,
       };
@@ -474,7 +489,15 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
       const t = new Date();
       const row: InternshipApplication = {
         id: randomUUID(),
-        ...input,
+        userId: input.userId,
+        internshipId: input.internshipId,
+        notes: input.notes,
+        documentKeys: input.documentKeys,
+        status: input.status,
+        timeline: input.timeline,
+        parentDecision: input.parentDecision ?? 'pending',
+        parentDecidedAt: input.parentDecidedAt ?? null,
+        parentNote: input.parentNote ?? null,
         createdAt: t,
         updatedAt: t,
       };
@@ -505,6 +528,100 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
       };
       await internshipAppsCol.replaceOne({ id }, row);
       return row;
+    },
+    async updateParentDecision(id, decision, note) {
+      const existing = await internshipAppsCol.findOne({ id });
+      if (!existing) return null;
+      const t = new Date();
+      const row: InternshipApplication = {
+        ...existing,
+        parentDecision: decision,
+        parentDecidedAt: t,
+        parentNote: note ?? null,
+        updatedAt: t,
+      };
+      await internshipAppsCol.replaceOne({ id }, row);
+      return row;
+    },
+  };
+
+  const parent: ParentRepository = {
+    async createLink(input) {
+      const t = new Date();
+      const row: ParentStudentLink = {
+        id: randomUUID(),
+        ...input,
+        createdAt: t,
+        updatedAt: t,
+      };
+      await parentLinksCol.insertOne(row);
+      return row;
+    },
+    async updateLinkStatus(id, status) {
+      const existing = await parentLinksCol.findOne({ id });
+      if (!existing) return null;
+      const row: ParentStudentLink = { ...existing, status, updatedAt: new Date() };
+      await parentLinksCol.replaceOne({ id }, row);
+      return row;
+    },
+    async findLinkById(id) {
+      return (await parentLinksCol.findOne({ id })) ?? null;
+    },
+    async findActiveLink(parentUserId, studentUserId) {
+      return (
+        (await parentLinksCol.findOne({
+          parentUserId,
+          studentUserId,
+          status: 'active',
+        })) ?? null
+      );
+    },
+    async listLinksByParent(parentUserId) {
+      return parentLinksCol.find({ parentUserId }).sort({ createdAt: -1 }).toArray();
+    },
+    async listLinksByStudent(studentUserId) {
+      return parentLinksCol.find({ studentUserId }).sort({ createdAt: -1 }).toArray();
+    },
+    async findPrimaryActiveStudent(parentUserId) {
+      return (
+        (await parentLinksCol.findOne(
+          { parentUserId, status: 'active' },
+          { sort: { createdAt: 1 } },
+        )) ?? null
+      );
+    },
+    async createThread(input) {
+      const t = new Date();
+      const row: ParentMessageThread = {
+        id: randomUUID(),
+        ...input,
+        createdAt: t,
+        updatedAt: t,
+      };
+      await parentThreadsCol.insertOne(row);
+      return row;
+    },
+    async findThreadById(id) {
+      return (await parentThreadsCol.findOne({ id })) ?? null;
+    },
+    async listThreadsByParent(parentUserId) {
+      return parentThreadsCol.find({ parentUserId }).sort({ updatedAt: -1 }).toArray();
+    },
+    async touchThread(id) {
+      await parentThreadsCol.updateOne({ id }, { $set: { updatedAt: new Date() } });
+    },
+    async createMessage(input) {
+      const row: ParentMessage = {
+        id: randomUUID(),
+        ...input,
+        createdAt: new Date(),
+      };
+      await parentMessagesCol.insertOne(row);
+      await parent.touchThread(input.threadId);
+      return row;
+    },
+    async listMessages(threadId) {
+      return parentMessagesCol.find({ threadId }).sort({ createdAt: 1 }).toArray();
     },
   };
 
@@ -582,6 +699,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     internships,
     mentors,
     profiles,
+    parent,
     async disconnect() {
       await client.close();
     },

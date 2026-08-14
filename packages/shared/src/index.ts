@@ -6,6 +6,7 @@ export * from './catalog.js';
 export * from './commerce.js';
 export * from './learning.js';
 export * from './internships.js';
+export * from './parent.js';
 export * from './mentor.js';
 export * from './admin.js';
 export * from './profile.js';

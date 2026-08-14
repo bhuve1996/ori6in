@@ -57,6 +57,7 @@ export class DemoContentService implements OnModuleInit {
     await this.seedMentorAssignment();
     await this.seedDemoStudentProfile();
     await this.seedDemoParentAlerts();
+    await this.seedParentLinkingAndMessages();
 
     this.log.log('Demo catalog synced from @ori6in/shared demo-content');
   }
@@ -157,6 +158,9 @@ export class DemoContentService implements OnModuleInit {
             documentKeys: [],
             status: 'applied',
             timeline: [{ at: new Date(), status: 'applied', note: 'Applied via demo seed' }],
+            parentDecision: 'pending',
+            parentDecidedAt: null,
+            parentNote: null,
           });
           this.log.log('Seeded demo internship application');
         }
@@ -276,5 +280,51 @@ export class DemoContentService implements OnModuleInit {
       body: 'Your linked student may apply to internships — review Approvals when needed.',
     });
     this.log.log('Seeded demo parent alerts');
+  }
+
+  private async seedParentLinkingAndMessages() {
+    const parent = await this.repos.users.findByEmail(`parent@${DEMO_EMAIL_DOMAIN}`);
+    const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
+    if (!parent || !student) return;
+
+    let link = await this.repos.parent.findActiveLink(parent.id, student.id);
+    if (!link) {
+      const existing = (await this.repos.parent.listLinksByParent(parent.id)).find(
+        (l) => l.studentUserId === student.id,
+      );
+      if (existing?.status === 'pending') {
+        link = await this.repos.parent.updateLinkStatus(existing.id, 'active');
+      } else if (!existing || existing.status === 'revoked') {
+        link = await this.repos.parent.createLink({
+          parentUserId: parent.id,
+          studentUserId: student.id,
+          status: 'active',
+          inviteEmail: student.email,
+        });
+        this.log.log('Seeded demo parent ↔ student link');
+      }
+    }
+
+    const threads = await this.repos.parent.listThreadsByParent(parent.id);
+    if (threads.length === 0 && link) {
+      const thread = await this.repos.parent.createThread({
+        parentUserId: parent.id,
+        studentUserId: student.id,
+        participantUserId: student.id,
+        participantRole: 'student',
+        topic: 'Weekly check-in',
+      });
+      await this.repos.parent.createMessage({
+        threadId: thread.id,
+        senderUserId: student.id,
+        body: 'Hi — I finished the first Career Launchpad lessons this week.',
+      });
+      await this.repos.parent.createMessage({
+        threadId: thread.id,
+        senderUserId: parent.id,
+        body: 'Proud of you! Keep going — I’ll review your internship applications here.',
+      });
+      this.log.log('Seeded demo parent messaging thread');
+    }
   }
 }

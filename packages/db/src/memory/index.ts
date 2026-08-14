@@ -36,6 +36,12 @@ import type {
   ProfileRepository,
   StudentProfile,
 } from '../ports/profile.repository.js';
+import type {
+  ParentMessage,
+  ParentMessageThread,
+  ParentRepository,
+  ParentStudentLink,
+} from '../ports/parent.repository.js';
 
 function now() {
   return new Date();
@@ -303,6 +309,7 @@ export function createMemoryRepositories(): Repositories {
         couponCode: input.couponCode ?? null,
         status: input.status,
         paymentId: input.paymentId ?? null,
+        paidByUserId: input.paidByUserId ?? null,
         createdAt: t,
         updatedAt: t,
       };
@@ -479,14 +486,21 @@ export function createMemoryRepositories(): Repositories {
       const t = now();
       const row: InternshipApplication = {
         id: randomUUID(),
-        ...input,
+        userId: input.userId,
+        internshipId: input.internshipId,
+        notes: input.notes,
+        documentKeys: input.documentKeys,
+        status: input.status,
+        timeline: input.timeline,
+        parentDecision: input.parentDecision ?? 'pending',
+        parentDecidedAt: input.parentDecidedAt ?? null,
+        parentNote: input.parentNote ?? null,
         createdAt: t,
         updatedAt: t,
       };
       internshipApps.set(row.id, row);
       return row;
-    },
-    async findApplication(userId, internshipId) {
+    },    async findApplication(userId, internshipId) {
       return (
         [...internshipApps.values()].find(
           (a) => a.userId === userId && a.internshipId === internshipId,
@@ -518,6 +532,100 @@ export function createMemoryRepositories(): Repositories {
       };
       internshipApps.set(id, row);
       return row;
+    },
+    async updateParentDecision(id, decision, note) {
+      const existing = internshipApps.get(id);
+      if (!existing) return null;
+      const t = now();
+      const row: InternshipApplication = {
+        ...existing,
+        parentDecision: decision,
+        parentDecidedAt: t,
+        parentNote: note ?? null,
+        updatedAt: t,
+      };
+      internshipApps.set(id, row);
+      return row;
+    },
+  };
+
+  const parentLinks = new Map<string, ParentStudentLink>();
+  const parentThreads = new Map<string, ParentMessageThread>();
+  const parentMessages = new Map<string, ParentMessage>();
+
+  const parentRepo: ParentRepository = {
+    async createLink(input) {
+      const t = now();
+      const row = { id: randomUUID(), ...input, createdAt: t, updatedAt: t };
+      parentLinks.set(row.id, row);
+      return row;
+    },
+    async updateLinkStatus(id, status) {
+      const existing = parentLinks.get(id);
+      if (!existing) return null;
+      const row = { ...existing, status, updatedAt: now() };
+      parentLinks.set(id, row);
+      return row;
+    },
+    async findLinkById(id) {
+      return parentLinks.get(id) ?? null;
+    },
+    async findActiveLink(parentUserId, studentUserId) {
+      return (
+        [...parentLinks.values()].find(
+          (l) =>
+            l.parentUserId === parentUserId &&
+            l.studentUserId === studentUserId &&
+            l.status === 'active',
+        ) ?? null
+      );
+    },
+    async listLinksByParent(parentUserId) {
+      return [...parentLinks.values()]
+        .filter((l) => l.parentUserId === parentUserId)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async listLinksByStudent(studentUserId) {
+      return [...parentLinks.values()]
+        .filter((l) => l.studentUserId === studentUserId)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async findPrimaryActiveStudent(parentUserId) {
+      return (
+        [...parentLinks.values()]
+          .filter((l) => l.parentUserId === parentUserId && l.status === 'active')
+          .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())[0] ?? null
+      );
+    },
+    async createThread(input) {
+      const t = now();
+      const row = { id: randomUUID(), ...input, createdAt: t, updatedAt: t };
+      parentThreads.set(row.id, row);
+      return row;
+    },
+    async findThreadById(id) {
+      return parentThreads.get(id) ?? null;
+    },
+    async listThreadsByParent(parentUserId) {
+      return [...parentThreads.values()]
+        .filter((t) => t.parentUserId === parentUserId)
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+    },
+    async touchThread(id) {
+      const existing = parentThreads.get(id);
+      if (!existing) return;
+      parentThreads.set(id, { ...existing, updatedAt: now() });
+    },
+    async createMessage(input) {
+      const row = { id: randomUUID(), ...input, createdAt: now() };
+      parentMessages.set(row.id, row);
+      await parentRepo.touchThread(input.threadId);
+      return row;
+    },
+    async listMessages(threadId) {
+      return [...parentMessages.values()]
+        .filter((m) => m.threadId === threadId)
+        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
     },
   };
 
@@ -595,6 +703,7 @@ export function createMemoryRepositories(): Repositories {
     internships: internshipRepo,
     mentors: mentorRepo,
     profiles: profileRepo,
+    parent: parentRepo,
     async disconnect() {},
   };
 }

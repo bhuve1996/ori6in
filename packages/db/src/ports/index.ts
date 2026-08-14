@@ -10,6 +10,7 @@ import type { LearningRepository } from './learning.repository.js';
 import type { InternshipRepository } from './internship.repository.js';
 import type { MentorRepository } from './mentor.repository.js';
 import type { ProfileRepository } from './profile.repository.js';
+import type { ParentRepository } from './parent.repository.js';
 
 export interface Repositories {
   users: UserRepository;
@@ -24,6 +25,7 @@ export interface Repositories {
   internships: InternshipRepository;
   mentors: MentorRepository;
   profiles: ProfileRepository;
+  parent: ParentRepository;
   disconnect(): Promise<void>;
 }
 
@@ -75,3 +77,12 @@ export type {
   ExperienceItem,
   ProjectItem,
 } from './profile.repository.js';
+export type {
+  ParentRepository,
+  ParentStudentLink,
+  ParentLinkStatus,
+  ParentMessageThread,
+  ParentMessage,
+  MessageParticipantRole,
+} from './parent.repository.js';
+export type { ParentApplicationDecision } from './internship.repository.js';

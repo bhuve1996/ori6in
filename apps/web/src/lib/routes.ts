@@ -123,6 +123,7 @@ export function portalNavLinks(role: string): NavLink[] {
   if (role === 'parent') {
     return [
       { href: '/parent', label: 'Hub' },
+      { href: '/parent/links', label: 'Links' },
       { href: '/parent/progress', label: 'Progress' },
       { href: '/parent/payments', label: 'Payments' },
       { href: '/parent/messaging', label: 'Messages' },
@@ -148,6 +149,7 @@ export function portalNavLinks(role: string): NavLink[] {
     { href: '/student', label: 'Hub' },
     { href: '/student/courses', label: 'Courses' },
     { href: '/student/internships', label: 'Internships' },
+    { href: '/student/parent-links', label: 'Parent links' },
     { href: '/student/profile', label: 'Profile' },
     { href: '/student/notifications', label: 'Alerts' },
     { href: '/student/ai', label: 'AI' },

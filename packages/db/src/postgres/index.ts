@@ -41,6 +41,12 @@ import type {
   ProjectItem,
   StudentProfile,
 } from '../ports/profile.repository.js';
+import type {
+  ParentMessage,
+  ParentMessageThread,
+  ParentRepository,
+  ParentStudentLink,
+} from '../ports/parent.repository.js';
 
 const { Pool } = pg;
 
@@ -258,6 +264,47 @@ async function migrate(pool: pg.Pool) {
       projects JSONB NOT NULL DEFAULT '[]',
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS parent_decision TEXT NOT NULL DEFAULT 'pending';
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS parent_decided_at TIMESTAMPTZ;
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS parent_note TEXT;
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS paid_by_user_id TEXT;
+    CREATE TABLE IF NOT EXISTS parent_student_links (
+      id UUID PRIMARY KEY,
+      parent_user_id TEXT NOT NULL,
+      student_user_id TEXT NOT NULL,
+      status TEXT NOT NULL,
+      invite_email TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS parent_student_links_parent_idx
+      ON parent_student_links (parent_user_id);
+    CREATE INDEX IF NOT EXISTS parent_student_links_student_idx
+      ON parent_student_links (student_user_id);
+    CREATE TABLE IF NOT EXISTS parent_message_threads (
+      id UUID PRIMARY KEY,
+      parent_user_id TEXT NOT NULL,
+      student_user_id TEXT NOT NULL,
+      participant_user_id TEXT NOT NULL,
+      participant_role TEXT NOT NULL,
+      topic TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS parent_message_threads_parent_idx
+      ON parent_message_threads (parent_user_id);
+    CREATE TABLE IF NOT EXISTS parent_messages (
+      id UUID PRIMARY KEY,
+      thread_id TEXT NOT NULL,
+      sender_user_id TEXT NOT NULL,
+      body TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS parent_messages_thread_idx
+      ON parent_messages (thread_id);
   `);
 }
 
@@ -342,6 +389,11 @@ function mapApplication(row: Record<string, unknown>): InternshipApplication {
       status: t.status as InternshipApplication['status'],
       note: t.note,
     })),
+    parentDecision: (row.parent_decision as InternshipApplication['parentDecision']) ?? 'pending',
+    parentDecidedAt: row.parent_decided_at
+      ? new Date(row.parent_decided_at as string)
+      : null,
+    parentNote: (row.parent_note as string | null) ?? null,
     createdAt: new Date(row.created_at as string),
     updatedAt: new Date(row.updated_at as string),
   };
@@ -395,8 +447,44 @@ function mapOrder(row: Record<string, unknown>): Order {
     couponCode: (row.coupon_code as string | null) ?? null,
     status: row.status as Order['status'],
     paymentId: (row.payment_id as string | null) ?? null,
+    paidByUserId: (row.paid_by_user_id as string | null) ?? null,
     createdAt: new Date(row.created_at as string),
     updatedAt: new Date(row.updated_at as string),
+  };
+}
+
+function mapParentLink(row: Record<string, unknown>): ParentStudentLink {
+  return {
+    id: String(row.id),
+    parentUserId: String(row.parent_user_id),
+    studentUserId: String(row.student_user_id),
+    status: row.status as ParentStudentLink['status'],
+    inviteEmail: String(row.invite_email),
+    createdAt: new Date(row.created_at as string),
+    updatedAt: new Date(row.updated_at as string),
+  };
+}
+
+function mapParentThread(row: Record<string, unknown>): ParentMessageThread {
+  return {
+    id: String(row.id),
+    parentUserId: String(row.parent_user_id),
+    studentUserId: String(row.student_user_id),
+    participantUserId: String(row.participant_user_id),
+    participantRole: row.participant_role as ParentMessageThread['participantRole'],
+    topic: String(row.topic),
+    createdAt: new Date(row.created_at as string),
+    updatedAt: new Date(row.updated_at as string),
+  };
+}
+
+function mapParentMessage(row: Record<string, unknown>): ParentMessage {
+  return {
+    id: String(row.id),
+    threadId: String(row.thread_id),
+    senderUserId: String(row.sender_user_id),
+    body: String(row.body),
+    createdAt: new Date(row.created_at as string),
   };
 }
 
@@ -864,8 +952,8 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       const id = randomUUID();
       const r = await pool.query(
         `INSERT INTO orders
-          (id, user_id, program_id, program_title, amount_cents, currency, coupon_code, status, payment_id)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+          (id, user_id, program_id, program_title, amount_cents, currency, coupon_code, status, payment_id, paid_by_user_id)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
         [
           id,
           input.userId,
@@ -876,6 +964,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           input.couponCode ?? null,
           input.status,
           input.paymentId ?? null,
+          input.paidByUserId ?? null,
         ],
       );
       return mapOrder(r.rows[0]);
@@ -923,7 +1012,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       const next = { ...existing, ...patch, id };
       const r = await pool.query(
         `UPDATE orders SET user_id=$2, program_id=$3, program_title=$4, amount_cents=$5,
-         currency=$6, coupon_code=$7, status=$8, payment_id=$9, updated_at=NOW()
+         currency=$6, coupon_code=$7, status=$8, payment_id=$9, paid_by_user_id=$10, updated_at=NOW()
          WHERE id=$1 RETURNING *`,
         [
           id,
@@ -935,6 +1024,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           next.couponCode,
           next.status,
           next.paymentId,
+          next.paidByUserId,
         ],
       );
       return mapOrder(r.rows[0]);
@@ -1180,8 +1270,9 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       }));
       const r = await pool.query(
         `INSERT INTO internship_applications
-          (id, user_id, internship_id, notes, document_keys, status, timeline)
-         VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7::jsonb) RETURNING *`,
+          (id, user_id, internship_id, notes, document_keys, status, timeline,
+           parent_decision, parent_decided_at, parent_note)
+         VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7::jsonb,$8,$9,$10) RETURNING *`,
         [
           id,
           input.userId,
@@ -1190,6 +1281,9 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           JSON.stringify(input.documentKeys),
           input.status,
           JSON.stringify(timeline),
+          input.parentDecision ?? 'pending',
+          input.parentDecidedAt ?? null,
+          input.parentNote ?? null,
         ],
       );
       return mapApplication(r.rows[0]);
@@ -1238,6 +1332,128 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
         [id, status, JSON.stringify(timeline)],
       );
       return r.rows[0] ? mapApplication(r.rows[0]) : null;
+    },
+    async updateParentDecision(id, decision, note) {
+      const existing = await internships.findApplicationById(id);
+      if (!existing) return null;
+      const r = await pool.query(
+        `UPDATE internship_applications
+         SET parent_decision = $2, parent_decided_at = NOW(), parent_note = $3, updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [id, decision, note ?? null],
+      );
+      return r.rows[0] ? mapApplication(r.rows[0]) : null;
+    },
+  };
+
+  const parent: ParentRepository = {
+    async createLink(input) {
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO parent_student_links
+          (id, parent_user_id, student_user_id, status, invite_email)
+         VALUES ($1,$2,$3,$4,$5) RETURNING *`,
+        [id, input.parentUserId, input.studentUserId, input.status, input.inviteEmail],
+      );
+      return mapParentLink(r.rows[0]);
+    },
+    async updateLinkStatus(id, status) {
+      const r = await pool.query(
+        `UPDATE parent_student_links SET status = $2, updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [id, status],
+      );
+      return r.rows[0] ? mapParentLink(r.rows[0]) : null;
+    },
+    async findLinkById(id) {
+      const r = await pool.query('SELECT * FROM parent_student_links WHERE id = $1', [id]);
+      return r.rows[0] ? mapParentLink(r.rows[0]) : null;
+    },
+    async findActiveLink(parentUserId, studentUserId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_student_links
+         WHERE parent_user_id = $1 AND student_user_id = $2 AND status = 'active'
+         LIMIT 1`,
+        [parentUserId, studentUserId],
+      );
+      return r.rows[0] ? mapParentLink(r.rows[0]) : null;
+    },
+    async listLinksByParent(parentUserId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_student_links WHERE parent_user_id = $1 ORDER BY created_at DESC`,
+        [parentUserId],
+      );
+      return r.rows.map(mapParentLink);
+    },
+    async listLinksByStudent(studentUserId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_student_links WHERE student_user_id = $1 ORDER BY created_at DESC`,
+        [studentUserId],
+      );
+      return r.rows.map(mapParentLink);
+    },
+    async findPrimaryActiveStudent(parentUserId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_student_links
+         WHERE parent_user_id = $1 AND status = 'active'
+         ORDER BY created_at ASC
+         LIMIT 1`,
+        [parentUserId],
+      );
+      return r.rows[0] ? mapParentLink(r.rows[0]) : null;
+    },
+    async createThread(input) {
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO parent_message_threads
+          (id, parent_user_id, student_user_id, participant_user_id, participant_role, topic)
+         VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
+        [
+          id,
+          input.parentUserId,
+          input.studentUserId,
+          input.participantUserId,
+          input.participantRole,
+          input.topic,
+        ],
+      );
+      return mapParentThread(r.rows[0]);
+    },
+    async findThreadById(id) {
+      const r = await pool.query('SELECT * FROM parent_message_threads WHERE id = $1', [id]);
+      return r.rows[0] ? mapParentThread(r.rows[0]) : null;
+    },
+    async listThreadsByParent(parentUserId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_message_threads
+         WHERE parent_user_id = $1
+         ORDER BY updated_at DESC`,
+        [parentUserId],
+      );
+      return r.rows.map(mapParentThread);
+    },
+    async touchThread(id) {
+      await pool.query(
+        `UPDATE parent_message_threads SET updated_at = NOW() WHERE id = $1`,
+        [id],
+      );
+    },
+    async createMessage(input) {
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO parent_messages (id, thread_id, sender_user_id, body)
+         VALUES ($1,$2,$3,$4) RETURNING *`,
+        [id, input.threadId, input.senderUserId, input.body],
+      );
+      await parent.touchThread(input.threadId);
+      return mapParentMessage(r.rows[0]);
+    },
+    async listMessages(threadId) {
+      const r = await pool.query(
+        `SELECT * FROM parent_messages WHERE thread_id = $1 ORDER BY created_at ASC`,
+        [threadId],
+      );
+      return r.rows.map(mapParentMessage);
     },
   };
 
@@ -1343,6 +1559,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     internships,
     mentors,
     profiles,
+    parent,
     async disconnect() {
       await pool.end();
     },

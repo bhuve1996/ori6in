@@ -45,6 +45,9 @@ export class InternshipsService {
       documentKeys: parsed.data.documentKeys ?? [],
       status: 'applied',
       timeline: [{ at: new Date(), status: 'applied', note: 'Application submitted' }],
+      parentDecision: 'pending',
+      parentDecidedAt: null,
+      parentNote: null,
     });
 
     await this.repos.notifications.create({
