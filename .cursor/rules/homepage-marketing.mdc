@@ -1,0 +1,30 @@
+---
+description: Homepage marketing UI — pictorial student-facing sections
+globs: apps/web/src/components/home/**/*,apps/web/src/app/(public)/page.tsx
+alwaysApply: false
+---
+
+# Homepage marketing
+
+## Picture first
+- Each section is led by imagery or visual composition. Short student-facing copy supports the pictures — do not lead with labels, stat strips, or dense paragraphs.
+- One job per section: one headline, one short support line, then visuals.
+
+## Hero budget
+- Brand `ORI6IN` is the dominant signal.
+- Allow only: brand, one headline, one short sentence, one CTA group, full-bleed photo backdrop.
+- No floating badges, chips, stickers, or motif icons on the hero.
+
+## Motifs and motion
+- Floating SVG motifs (pencil, book, laptop, badge) only outside the hero.
+- Prefer CSS keyframes + IntersectionObserver; no framer-motion/lenis for homepage.
+- Always respect `prefers-reduced-motion` (disable floats / Ken Burns / stagger).
+
+## Assets
+- Reuse `BANNERS`, `programImage`, `avatarFor` from `apps/web/src/lib/media.ts`.
+- Prefer local `/public/home` and `/public/programs` images over remote CDNs.
+- No GIF files; use CSS/SVG motion instead.
+
+## Tone
+- Write for students: concrete verbs, low jargon, no marketing fluff.
+---

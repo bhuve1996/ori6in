@@ -1,0 +1,19 @@
+{
+  "name": "ori6in",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "docker:api": "docker build -f apps/api/Dockerfile -t ori6in-api .",
+    "docker:web": "docker build -f apps/web/Dockerfile -t ori6in-web --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 --build-arg NEXT_PUBLIC_API_URL=http://localhost:3001/api .",
+    "docker:up": "docker compose -f docker-compose.app.yml up --build"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  }
+}

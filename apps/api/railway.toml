@@ -1,0 +1,22 @@
+# Railway service: API
+# In Railway UI: Root Directory = monorepo root (leave blank / ".")
+# Dockerfile path is set below.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/api/Dockerfile"
+watchPatterns = [
+  "apps/api/**",
+  "packages/config/**",
+  "packages/db/**",
+  "packages/shared/**",
+  "package.json",
+  "pnpm-lock.yaml",
+]
+
+[deploy]
+startCommand = "node dist/main.js"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5

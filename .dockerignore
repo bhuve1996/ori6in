@@ -1,0 +1,28 @@
+# Git / IDE
+.git
+.gitignore
+.cursor
+**/.DS_Store
+
+# Dependencies & build outputs (rebuilt in image)
+**/node_modules
+**/.next
+**/dist
+**/.turbo
+**/coverage
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Docs / misc not needed in images
+docs
+**/*.md
+!README.md
+apps/web/brand-source
+agent-transcripts
+
+# Local compose data
+**/postgres_data
+**/mongo_data

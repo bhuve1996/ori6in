@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256" fill="none" role="img" aria-labelledby="ori6in-dark-title ori6in-dark-desc">
+  <title id="ori6in-dark-title">ORI6IN</title>
+  <desc id="ori6in-dark-desc">Everything starts here.</desc>
+  <!-- Dark-surface wordmark: cream letters, gold 6 -->
+  <g text-anchor="middle" font-family="Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif">
+    <text x="320" y="118" font-size="100" font-weight="400" letter-spacing="0.04em" fill="#f7f3ec">
+      ORI<tspan fill="#c2a772" font-style="italic" dx="-0.02em">6</tspan>IN
+    </text>
+    <text
+      x="320"
+      y="178"
+      font-size="28"
+      font-style="italic"
+      letter-spacing="0.01em"
+      fill="#f7f3ec"
+      opacity="0.9"
+    >Everything starts here.</text>
+  </g>
+</svg>
