@@ -32,6 +32,7 @@ import type {
   MentorAssignment,
   MentorRepository,
   MentorReview,
+  MentorSession,
   MentorSessionNote,
 } from '../ports/mentor.repository.js';
 import type {
@@ -243,7 +244,11 @@ async function migrate(pool: pg.Pool) {
       title TEXT NOT NULL,
       grade TEXT NOT NULL,
       feedback TEXT NOT NULL,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      status TEXT NOT NULL DEFAULT 'published',
+      template_key TEXT,
+      document_keys JSONB NOT NULL DEFAULT '[]',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
     CREATE TABLE IF NOT EXISTS mentor_session_notes (
       id UUID PRIMARY KEY,
@@ -252,6 +257,23 @@ async function migrate(pool: pg.Pool) {
       note TEXT NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+    CREATE TABLE IF NOT EXISTS mentor_sessions (
+      id UUID PRIMARY KEY,
+      mentor_id TEXT NOT NULL,
+      student_id TEXT NOT NULL,
+      program_id TEXT,
+      topic TEXT NOT NULL,
+      starts_at TIMESTAMPTZ NOT NULL,
+      ends_at TIMESTAMPTZ NOT NULL,
+      status TEXT NOT NULL,
+      meeting_url TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS mentor_sessions_mentor_idx
+      ON mentor_sessions (mentor_id);
+    CREATE INDEX IF NOT EXISTS mentor_sessions_student_idx
+      ON mentor_sessions (student_id);
     CREATE TABLE IF NOT EXISTS student_profiles (
       user_id TEXT PRIMARY KEY,
       headline TEXT NOT NULL DEFAULT '',
@@ -270,6 +292,22 @@ async function migrate(pool: pg.Pool) {
       ADD COLUMN IF NOT EXISTS parent_decided_at TIMESTAMPTZ;
     ALTER TABLE internship_applications
       ADD COLUMN IF NOT EXISTS parent_note TEXT;
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS mentor_completion_decision TEXT NOT NULL DEFAULT 'pending';
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS mentor_completion_note TEXT;
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS mentor_completion_doc_keys JSONB NOT NULL DEFAULT '[]';
+    ALTER TABLE internship_applications
+      ADD COLUMN IF NOT EXISTS mentor_completed_at TIMESTAMPTZ;
+    ALTER TABLE mentor_reviews
+      ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'published';
+    ALTER TABLE mentor_reviews
+      ADD COLUMN IF NOT EXISTS template_key TEXT;
+    ALTER TABLE mentor_reviews
+      ADD COLUMN IF NOT EXISTS document_keys JSONB NOT NULL DEFAULT '[]';
+    ALTER TABLE mentor_reviews
+      ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
     ALTER TABLE orders ADD COLUMN IF NOT EXISTS paid_by_user_id TEXT;
     CREATE TABLE IF NOT EXISTS parent_student_links (
       id UUID PRIMARY KEY,
@@ -344,7 +382,11 @@ function mapMentorReview(row: Record<string, unknown>): MentorReview {
     title: String(row.title),
     grade: String(row.grade),
     feedback: String(row.feedback),
+    status: (row.status as MentorReview['status']) ?? 'published',
+    templateKey: (row.template_key as string | null) ?? null,
+    documentKeys: (row.document_keys as string[]) ?? [],
     createdAt: new Date(row.created_at as string),
+    updatedAt: new Date((row.updated_at as string) ?? (row.created_at as string)),
   };
 }
 
@@ -355,6 +397,22 @@ function mapMentorNote(row: Record<string, unknown>): MentorSessionNote {
     studentId: String(row.student_id),
     note: String(row.note),
     createdAt: new Date(row.created_at as string),
+  };
+}
+
+function mapMentorSession(row: Record<string, unknown>): MentorSession {
+  return {
+    id: String(row.id),
+    mentorId: String(row.mentor_id),
+    studentId: String(row.student_id),
+    programId: (row.program_id as string | null) ?? null,
+    topic: String(row.topic),
+    startsAt: new Date(row.starts_at as string),
+    endsAt: new Date(row.ends_at as string),
+    status: row.status as MentorSession['status'],
+    meetingUrl: (row.meeting_url as string | null) ?? null,
+    createdAt: new Date(row.created_at as string),
+    updatedAt: new Date(row.updated_at as string),
   };
 }
 
@@ -394,6 +452,14 @@ function mapApplication(row: Record<string, unknown>): InternshipApplication {
       ? new Date(row.parent_decided_at as string)
       : null,
     parentNote: (row.parent_note as string | null) ?? null,
+    mentorCompletionDecision:
+      (row.mentor_completion_decision as InternshipApplication['mentorCompletionDecision']) ??
+      'pending',
+    mentorCompletionNote: (row.mentor_completion_note as string | null) ?? null,
+    mentorCompletionDocKeys: (row.mentor_completion_doc_keys as string[]) ?? [],
+    mentorCompletedAt: row.mentor_completed_at
+      ? new Date(row.mentor_completed_at as string)
+      : null,
     createdAt: new Date(row.created_at as string),
     updatedAt: new Date(row.updated_at as string),
   };
@@ -1271,8 +1337,11 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       const r = await pool.query(
         `INSERT INTO internship_applications
           (id, user_id, internship_id, notes, document_keys, status, timeline,
-           parent_decision, parent_decided_at, parent_note)
-         VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7::jsonb,$8,$9,$10) RETURNING *`,
+           parent_decision, parent_decided_at, parent_note,
+           mentor_completion_decision, mentor_completion_note,
+           mentor_completion_doc_keys, mentor_completed_at)
+         VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7::jsonb,$8,$9,$10,$11,$12,$13::jsonb,$14)
+         RETURNING *`,
         [
           id,
           input.userId,
@@ -1284,6 +1353,10 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           input.parentDecision ?? 'pending',
           input.parentDecidedAt ?? null,
           input.parentNote ?? null,
+          input.mentorCompletionDecision ?? 'pending',
+          input.mentorCompletionNote ?? null,
+          JSON.stringify(input.mentorCompletionDocKeys ?? []),
+          input.mentorCompletedAt ?? null,
         ],
       );
       return mapApplication(r.rows[0]);
@@ -1341,6 +1414,26 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
          SET parent_decision = $2, parent_decided_at = NOW(), parent_note = $3, updated_at = NOW()
          WHERE id = $1 RETURNING *`,
         [id, decision, note ?? null],
+      );
+      return r.rows[0] ? mapApplication(r.rows[0]) : null;
+    },
+    async updateMentorCompletion(id, decision, note, documentKeys) {
+      const existing = await internships.findApplicationById(id);
+      if (!existing) return null;
+      const r = await pool.query(
+        `UPDATE internship_applications
+         SET mentor_completion_decision = $2,
+             mentor_completion_note = $3,
+             mentor_completion_doc_keys = $4::jsonb,
+             mentor_completed_at = NOW(),
+             updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [
+          id,
+          decision,
+          note ?? null,
+          JSON.stringify(documentKeys ?? existing.mentorCompletionDocKeys),
+        ],
       );
       return r.rows[0] ? mapApplication(r.rows[0]) : null;
     },
@@ -1498,8 +1591,9 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
       const id = randomUUID();
       const r = await pool.query(
         `INSERT INTO mentor_reviews
-          (id, mentor_id, student_id, program_id, title, grade, feedback)
-         VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+          (id, mentor_id, student_id, program_id, title, grade, feedback,
+           status, template_key, document_keys)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb) RETURNING *`,
         [
           id,
           input.mentorId,
@@ -1508,9 +1602,37 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
           input.title,
           input.grade,
           input.feedback,
+          input.status ?? 'published',
+          input.templateKey ?? null,
+          JSON.stringify(input.documentKeys ?? []),
         ],
       );
       return mapMentorReview(r.rows[0]);
+    },
+    async updateReview(id, patch) {
+      const existing = await mentors.findReviewById(id);
+      if (!existing) return null;
+      const next = { ...existing, ...patch, updatedAt: new Date() };
+      const r = await pool.query(
+        `UPDATE mentor_reviews SET
+           title = $2, grade = $3, feedback = $4, status = $5,
+           template_key = $6, document_keys = $7::jsonb, updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [
+          id,
+          next.title,
+          next.grade,
+          next.feedback,
+          next.status,
+          next.templateKey,
+          JSON.stringify(next.documentKeys),
+        ],
+      );
+      return r.rows[0] ? mapMentorReview(r.rows[0]) : null;
+    },
+    async findReviewById(id) {
+      const r = await pool.query('SELECT * FROM mentor_reviews WHERE id = $1', [id]);
+      return r.rows[0] ? mapMentorReview(r.rows[0]) : null;
     },
     async listReviewsByMentor(mentorId) {
       const r = await pool.query(
@@ -1543,6 +1665,65 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
         [mentorId],
       );
       return r.rows.map(mapMentorNote);
+    },
+    async createSession(input) {
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO mentor_sessions
+          (id, mentor_id, student_id, program_id, topic, starts_at, ends_at, status, meeting_url)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+        [
+          id,
+          input.mentorId,
+          input.studentId,
+          input.programId,
+          input.topic,
+          input.startsAt,
+          input.endsAt,
+          input.status,
+          input.meetingUrl,
+        ],
+      );
+      return mapMentorSession(r.rows[0]);
+    },
+    async findSessionById(id) {
+      const r = await pool.query('SELECT * FROM mentor_sessions WHERE id = $1', [id]);
+      return r.rows[0] ? mapMentorSession(r.rows[0]) : null;
+    },
+    async listSessionsByMentor(mentorId) {
+      const r = await pool.query(
+        `SELECT * FROM mentor_sessions WHERE mentor_id = $1 ORDER BY starts_at ASC`,
+        [mentorId],
+      );
+      return r.rows.map(mapMentorSession);
+    },
+    async listSessionsByStudent(studentId) {
+      const r = await pool.query(
+        `SELECT * FROM mentor_sessions WHERE student_id = $1 ORDER BY starts_at ASC`,
+        [studentId],
+      );
+      return r.rows.map(mapMentorSession);
+    },
+    async updateSession(id, patch) {
+      const existing = await mentors.findSessionById(id);
+      if (!existing) return null;
+      const next = { ...existing, ...patch, updatedAt: new Date() };
+      const r = await pool.query(
+        `UPDATE mentor_sessions SET
+           topic = $2, starts_at = $3, ends_at = $4, status = $5,
+           meeting_url = $6, program_id = $7, updated_at = NOW()
+         WHERE id = $1 RETURNING *`,
+        [
+          id,
+          next.topic,
+          next.startsAt,
+          next.endsAt,
+          next.status,
+          next.meetingUrl,
+          next.programId,
+        ],
+      );
+      return r.rows[0] ? mapMentorSession(r.rows[0]) : null;
     },
   };
 

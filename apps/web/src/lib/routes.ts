@@ -101,7 +101,9 @@ export function portalNavLinks(role: string): NavLink[] {
     return [
       { href: '/mentor', label: 'Hub' },
       { href: '/mentor/students', label: 'Students' },
+      { href: '/mentor/sessions', label: 'Sessions' },
       { href: '/mentor/reviews', label: 'Reviews' },
+      { href: '/mentor/approvals', label: 'Approvals' },
       { href: '/mentors', label: 'Directory' },
       { href: '/programs', label: 'Programs' },
       { href: '/', label: 'Home' },

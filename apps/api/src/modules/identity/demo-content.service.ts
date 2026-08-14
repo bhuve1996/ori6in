@@ -55,6 +55,7 @@ export class DemoContentService implements OnModuleInit {
     await this.seedInternships();
     await this.seedMentorsDirectory();
     await this.seedMentorAssignment();
+    await this.seedMentorSessions();
     await this.seedDemoStudentProfile();
     await this.seedDemoParentAlerts();
     await this.seedParentLinkingAndMessages();
@@ -145,24 +146,38 @@ export class DemoContentService implements OnModuleInit {
       }
     }
 
-    // Seed one demo application so company applicants pipeline is non-empty
+    // Seed one demo application so company applicants + mentor completion queues are non-empty
     if (student) {
       const role = await this.repos.internships.findBySlug('frontend-intern');
       if (role) {
-        const existingApp = await this.repos.internships.findApplication(student.id, role.id);
+        let existingApp = await this.repos.internships.findApplication(student.id, role.id);
         if (!existingApp) {
-          await this.repos.internships.createApplication({
+          existingApp = await this.repos.internships.createApplication({
             userId: student.id,
             internshipId: role.id,
             notes: 'Demo application for company pipeline walkthrough.',
             documentKeys: [],
-            status: 'applied',
-            timeline: [{ at: new Date(), status: 'applied', note: 'Applied via demo seed' }],
-            parentDecision: 'pending',
-            parentDecidedAt: null,
-            parentNote: null,
+            status: 'offered',
+            timeline: [
+              { at: new Date(), status: 'applied', note: 'Applied via demo seed' },
+              { at: new Date(), status: 'offered', note: 'Offer extended for mentor completion demo' },
+            ],
+            parentDecision: 'approved',
+            parentDecidedAt: new Date(),
+            parentNote: 'Parent approved for demo',
+            mentorCompletionDecision: 'pending',
+            mentorCompletionNote: null,
+            mentorCompletionDocKeys: [],
+            mentorCompletedAt: null,
           });
           this.log.log('Seeded demo internship application');
+        } else if (existingApp.status === 'applied') {
+          await this.repos.internships.updateApplicationStatus(
+            existingApp.id,
+            'offered',
+            'Offer extended for mentor completion demo',
+          );
+          this.log.log('Updated demo internship application to offered');
         }
       }
     }
@@ -226,6 +241,33 @@ export class DemoContentService implements OnModuleInit {
       status: 'active',
     });
     this.log.log('Seeded mentor assignment (primary mentor ↔ student / career-launchpad)');
+  }
+
+  private async seedMentorSessions() {
+    const primary = DEMO_MENTORS.find((m) => m.primaryLogin) ?? DEMO_MENTORS[0];
+    const mentor = await this.repos.users.findByEmail(
+      demoMentorEmail(primary.emailLocalPart),
+    );
+    const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
+    const program = await this.repos.programs.findBySlug('career-launchpad');
+    if (!mentor || !student) return;
+
+    const existing = await this.repos.mentors.listSessionsByMentor(mentor.id);
+    if (existing.length > 0) return;
+
+    const startsAt = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+    startsAt.setMinutes(0, 0, 0);
+    await this.repos.mentors.createSession({
+      mentorId: mentor.id,
+      studentId: student.id,
+      programId: program?.id ?? null,
+      topic: 'Career Launchpad weekly check-in',
+      startsAt,
+      endsAt: new Date(startsAt.getTime() + 45 * 60 * 1000),
+      status: 'scheduled',
+      meetingUrl: null,
+    });
+    this.log.log('Seeded demo mentor session');
   }
 
   private async seedDemoStudentProfile() {

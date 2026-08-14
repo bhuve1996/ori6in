@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -43,8 +44,50 @@ export class MentorsController {
     return this.mentors.createReview(req.user.sub, body);
   }
 
+  @Patch('reviews/:id')
+  updateReview(
+    @Req() req: { user: AuthUser },
+    @Param('id') id: string,
+    @Body() body: unknown,
+  ) {
+    return this.mentors.updateReview(req.user.sub, id, body);
+  }
+
   @Post('reviews/session-notes')
   sessionNote(@Req() req: { user: AuthUser }, @Body() body: unknown) {
     return this.mentors.createSessionNote(req.user.sub, body);
+  }
+
+  @Get('sessions')
+  sessions(@Req() req: { user: AuthUser }) {
+    return this.mentors.listSessions(req.user.sub);
+  }
+
+  @Post('sessions')
+  bookSession(@Req() req: { user: AuthUser }, @Body() body: unknown) {
+    return this.mentors.bookSession(req.user.sub, body);
+  }
+
+  @Patch('sessions/:id')
+  updateSession(
+    @Req() req: { user: AuthUser },
+    @Param('id') id: string,
+    @Body() body: unknown,
+  ) {
+    return this.mentors.updateSession(req.user.sub, id, body);
+  }
+
+  @Get('approvals')
+  approvals(@Req() req: { user: AuthUser }) {
+    return this.mentors.listApprovals(req.user.sub);
+  }
+
+  @Post('approvals/:id/decide')
+  decideApproval(
+    @Req() req: { user: AuthUser },
+    @Param('id') id: string,
+    @Body() body: unknown,
+  ) {
+    return this.mentors.decideCompletion(req.user.sub, id, body);
   }
 }

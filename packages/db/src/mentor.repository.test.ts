@@ -43,7 +43,52 @@ describe('MentorRepository (memory adapter)', () => {
       title: 'Week 1',
       grade: 'A',
       feedback: 'Great start',
+      status: 'published',
+      templateKey: null,
+      documentKeys: [],
     });
     assert.equal(review.grade, 'A');
+    assert.equal(review.status, 'published');
+    assert.ok(review.updatedAt);
+
+    const draft = await repos.mentors.createReview({
+      mentorId: mentor.id,
+      studentId: student.id,
+      programId: program.id,
+      title: 'Week 2 draft',
+      grade: 'B',
+      feedback: 'WIP',
+      status: 'draft',
+      templateKey: 'weekly',
+      documentKeys: ['key-1'],
+    });
+    const updated = await repos.mentors.updateReview(draft.id, {
+      feedback: 'Updated',
+      status: 'published',
+    });
+    assert.equal(updated?.feedback, 'Updated');
+    assert.equal(updated?.status, 'published');
+    assert.equal((await repos.mentors.findReviewById(draft.id))?.title, 'Week 2 draft');
+
+    const startsAt = new Date('2026-08-20T10:00:00.000Z');
+    const endsAt = new Date('2026-08-20T11:00:00.000Z');
+    const session = await repos.mentors.createSession({
+      mentorId: mentor.id,
+      studentId: student.id,
+      programId: program.id,
+      topic: 'Kickoff',
+      startsAt,
+      endsAt,
+      status: 'scheduled',
+      meetingUrl: 'https://meet.example/kickoff',
+    });
+    assert.equal(session.topic, 'Kickoff');
+    const byMentor = await repos.mentors.listSessionsByMentor(mentor.id);
+    assert.equal(byMentor.length, 1);
+    const byStudent = await repos.mentors.listSessionsByStudent(student.id);
+    assert.equal(byStudent.length, 1);
+    const cancelled = await repos.mentors.updateSession(session.id, { status: 'cancelled' });
+    assert.equal(cancelled?.status, 'cancelled');
+    assert.equal((await repos.mentors.findSessionById(session.id))?.status, 'cancelled');
   });
 });

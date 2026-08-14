@@ -1,143 +1,221 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { apiFetch, clearSession, getToken } from '../../../../lib/auth';
-import { useToast } from '../../../../components/Toast';
+import { FormEvent, useEffect, useState } from 'react';
+import { apiFetch } from '../../../../lib/auth';
+import { useApiResource } from '../../../../hooks/useApiResource';
+import { PortalShell } from '../../../../components/portal/PortalShell';
+import { BANNERS } from '../../../../lib/media';
 
+type Template = { key: string; label: string };
 type Review = {
   id: string;
   title: string;
   grade: string;
   feedback: string;
   studentName: string;
+  status: string;
+  templateKey: string | null;
 };
-
-type StudentRow = {
-  studentId: string;
-  fullName: string;
-};
+type Student = { studentId: string; fullName: string };
 
 export default function MentorReviewsPage() {
-  const router = useRouter();
-  const toast = useToast();
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [students, setStudents] = useState<StudentRow[]>([]);
+  const { data, loading, error, reload } = useApiResource<{
+    items: Review[];
+    templates: Template[];
+  }>('/mentor/reviews', { errorMessage: 'Failed to load reviews' });
+  const { data: studentsData } = useApiResource<Student[]>('/mentor/students', { silent: true });
+  const students = Array.isArray(studentsData) ? studentsData : [];
+  const reviews = data?.items ?? [];
+  const templates = data?.templates ?? [];
+
   const [form, setForm] = useState({
     studentId: '',
     title: '',
     grade: 'Good',
     feedback: '',
+    status: 'published' as 'draft' | 'published',
+    templateKey: '',
   });
-  const [error, setError] = useState('');
-
-  async function load() {
-    const reviewsRes = await apiFetch<Review[]>('/mentor/reviews');
-    const studentsRes = await apiFetch<StudentRow[]>('/mentor/students');
-    if (reviewsRes.status === 401 || reviewsRes.status === 403) {
-      clearSession();
-      router.replace('/login');
-      return;
-    }
-    if (!reviewsRes.ok) {
-      setError('Failed to load reviews');
-      return;
-    }
-    setReviews(Array.isArray(reviewsRes.data) ? reviewsRes.data : []);
-    if (studentsRes.ok && Array.isArray(studentsRes.data)) {
-      setStudents(studentsRes.data);
-      if (!form.studentId && studentsRes.data[0]) {
-        setForm((f) => ({ ...f, studentId: studentsRes.data[0].studentId }));
-      }
-    }
-  }
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!getToken()) {
-      router.replace('/login');
-      return;
+    if (!form.studentId && students[0]) {
+      setForm((f) => ({ ...f, studentId: students[0].studentId }));
     }
-    void load();
-  }, [router]);
+  }, [students, form.studentId]);
 
-  async function submit(e: React.FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
-    setError('');
-    const { ok, data } = await apiFetch<{ message?: unknown }>('/mentor/reviews', {
+    setBusy(true);
+    setNotice(null);
+    const { ok } = await apiFetch('/mentor/reviews', {
       method: 'POST',
-      body: JSON.stringify(form),
+      body: JSON.stringify({
+        studentId: form.studentId,
+        title: form.title,
+        grade: form.grade,
+        feedback: form.feedback,
+        status: form.status,
+        templateKey: form.templateKey || undefined,
+      }),
     });
+    setBusy(false);
     if (!ok) {
-      const msg = JSON.stringify((data as { message?: unknown }).message ?? data);
-      setError(msg);
-      toast.error('Could not save review');
+      setNotice('Could not save review');
       return;
     }
-    toast.success('Review saved');
+    setNotice(form.status === 'draft' ? 'Draft saved' : 'Review published');
     setForm((f) => ({ ...f, title: '', feedback: '' }));
-    await load();
+    reload();
+  }
+
+  async function publish(id: string) {
+    setBusy(true);
+    const { ok } = await apiFetch(`/mentor/reviews/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'published' }),
+    });
+    setBusy(false);
+    if (!ok) {
+      setNotice('Publish failed');
+      return;
+    }
+    setNotice('Review published');
+    reload();
   }
 
   return (
-    <main id="main-content" className="page">
-      <a className="back-link" href="/mentor">
-        ← Mentor
-      </a>
-      <h1>Reviews & notes</h1>
-      {error && <p className="text-error">{error}</p>}
+    <PortalShell
+      banner={{
+        image: BANNERS.mentorPortal,
+        title: 'Reviews',
+        lead: 'Use templates, save drafts, and publish feedback for assigned students.',
+      }}
+      back={{ href: '/mentor', label: 'Mentor' }}
+      loading={loading}
+      error={error}
+    >
+      {notice ? <p className="notice">{notice}</p> : null}
 
       <section className="section-block">
         <h2>Write a review</h2>
-        <form onSubmit={submit} className="form-grid wide">
-          <select
-            value={form.studentId}
-            onChange={(e) => setForm({ ...form, studentId: e.target.value })}
-            required
-          >
-            <option value="">Select student</option>
-            {students.map((s) => (
-              <option key={s.studentId} value={s.studentId}>
-                {s.fullName}
-              </option>
-            ))}
-          </select>
-          <input
-            placeholder="Title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            required
-          />
-          <input
-            placeholder="Grade"
-            value={form.grade}
-            onChange={(e) => setForm({ ...form, grade: e.target.value })}
-            required
-          />
-          <textarea
-            placeholder="Feedback"
-            value={form.feedback}
-            onChange={(e) => setForm({ ...form, feedback: e.target.value })}
-            required
-            rows={4}
-          />
-          <button className="btn accent" type="submit">
-            Submit review
+        <form className="stack-form" onSubmit={submit}>
+          <label>
+            Student
+            <select
+              value={form.studentId}
+              onChange={(e) => setForm({ ...form, studentId: e.target.value })}
+              required
+            >
+              {students.map((s) => (
+                <option key={s.studentId} value={s.studentId}>
+                  {s.fullName}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Template
+            <select
+              value={form.templateKey}
+              onChange={(e) => {
+                const key = e.target.value;
+                const label = templates.find((t) => t.key === key)?.label;
+                setForm({
+                  ...form,
+                  templateKey: key,
+                  title: label && !form.title ? label : form.title,
+                });
+              }}
+            >
+              <option value="">Custom</option>
+              {templates.map((t) => (
+                <option key={t.key} value={t.key}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Title
+            <input
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+              required
+            />
+          </label>
+          <label>
+            Grade
+            <input
+              value={form.grade}
+              onChange={(e) => setForm({ ...form, grade: e.target.value })}
+              required
+            />
+          </label>
+          <label>
+            Feedback
+            <textarea
+              value={form.feedback}
+              onChange={(e) => setForm({ ...form, feedback: e.target.value })}
+              required
+              rows={4}
+            />
+          </label>
+          <label>
+            Status
+            <select
+              value={form.status}
+              onChange={(e) =>
+                setForm({ ...form, status: e.target.value as 'draft' | 'published' })
+              }
+            >
+              <option value="published">Publish now</option>
+              <option value="draft">Save as draft</option>
+            </select>
+          </label>
+          <button className="btn accent" type="submit" disabled={busy || !form.studentId}>
+            {busy ? 'Saving…' : 'Save review'}
           </button>
         </form>
       </section>
 
       <section className="section-block">
         <h2>Past reviews</h2>
-        <ul className="plain-list">
-          {reviews.map((r) => (
-            <li key={r.id}>
-              <strong>{r.title}</strong> — {r.studentName} — {r.grade}
-              <br />
-              {r.feedback}
-            </li>
-          ))}
-        </ul>
+        {reviews.length === 0 ? (
+          <p className="meta">No reviews yet.</p>
+        ) : (
+          <ul className="card-list">
+            {reviews.map((r) => (
+              <li key={r.id}>
+                <article>
+                  <h3 style={{ marginTop: 0 }}>
+                    {r.title}{' '}
+                    <span className="meta">
+                      · {r.status}
+                      {r.templateKey ? ` · ${r.templateKey}` : ''}
+                    </span>
+                  </h3>
+                  <p className="meta">
+                    {r.studentName} · {r.grade}
+                  </p>
+                  <p>{r.feedback}</p>
+                  {r.status === 'draft' ? (
+                    <button
+                      type="button"
+                      className="btn accent"
+                      disabled={busy}
+                      onClick={() => void publish(r.id)}
+                    >
+                      Publish
+                    </button>
+                  ) : null}
+                </article>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
-    </main>
+    </PortalShell>
   );
 }

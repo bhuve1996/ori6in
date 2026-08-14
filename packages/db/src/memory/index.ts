@@ -30,6 +30,7 @@ import type {
   MentorAssignment,
   MentorRepository,
   MentorReview,
+  MentorSession,
   MentorSessionNote,
 } from '../ports/mentor.repository.js';
 import type {
@@ -66,6 +67,7 @@ export function createMemoryRepositories(): Repositories {
   const mentorAssignments = new Map<string, MentorAssignment>();
   const mentorReviews = new Map<string, MentorReview>();
   const mentorNotes = new Map<string, MentorSessionNote>();
+  const mentorSessions = new Map<string, MentorSession>();
 
   const userRepo: UserRepository = {
     async findById(id) {
@@ -495,12 +497,17 @@ export function createMemoryRepositories(): Repositories {
         parentDecision: input.parentDecision ?? 'pending',
         parentDecidedAt: input.parentDecidedAt ?? null,
         parentNote: input.parentNote ?? null,
+        mentorCompletionDecision: input.mentorCompletionDecision ?? 'pending',
+        mentorCompletionNote: input.mentorCompletionNote ?? null,
+        mentorCompletionDocKeys: input.mentorCompletionDocKeys ?? [],
+        mentorCompletedAt: input.mentorCompletedAt ?? null,
         createdAt: t,
         updatedAt: t,
       };
       internshipApps.set(row.id, row);
       return row;
-    },    async findApplication(userId, internshipId) {
+    },
+    async findApplication(userId, internshipId) {
       return (
         [...internshipApps.values()].find(
           (a) => a.userId === userId && a.internshipId === internshipId,
@@ -542,6 +549,21 @@ export function createMemoryRepositories(): Repositories {
         parentDecision: decision,
         parentDecidedAt: t,
         parentNote: note ?? null,
+        updatedAt: t,
+      };
+      internshipApps.set(id, row);
+      return row;
+    },
+    async updateMentorCompletion(id, decision, note, documentKeys) {
+      const existing = internshipApps.get(id);
+      if (!existing) return null;
+      const t = now();
+      const row: InternshipApplication = {
+        ...existing,
+        mentorCompletionDecision: decision,
+        mentorCompletionNote: note ?? null,
+        mentorCompletionDocKeys: documentKeys ?? existing.mentorCompletionDocKeys,
+        mentorCompletedAt: t,
         updatedAt: t,
       };
       internshipApps.set(id, row);
@@ -662,9 +684,28 @@ export function createMemoryRepositories(): Repositories {
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     },
     async createReview(input) {
-      const row: MentorReview = { id: randomUUID(), ...input, createdAt: now() };
+      const t = now();
+      const row: MentorReview = {
+        id: randomUUID(),
+        ...input,
+        status: input.status ?? 'published',
+        templateKey: input.templateKey ?? null,
+        documentKeys: input.documentKeys ?? [],
+        createdAt: t,
+        updatedAt: t,
+      };
       mentorReviews.set(row.id, row);
       return row;
+    },
+    async updateReview(id, patch) {
+      const existing = mentorReviews.get(id);
+      if (!existing) return null;
+      const row: MentorReview = { ...existing, ...patch, updatedAt: now() };
+      mentorReviews.set(id, row);
+      return row;
+    },
+    async findReviewById(id) {
+      return mentorReviews.get(id) ?? null;
     },
     async listReviewsByMentor(mentorId) {
       return [...mentorReviews.values()]
@@ -687,6 +728,37 @@ export function createMemoryRepositories(): Repositories {
             n.mentorId === mentorId && (!studentId || n.studentId === studentId),
         )
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    },
+    async createSession(input) {
+      const t = now();
+      const row: MentorSession = {
+        id: randomUUID(),
+        ...input,
+        createdAt: t,
+        updatedAt: t,
+      };
+      mentorSessions.set(row.id, row);
+      return row;
+    },
+    async findSessionById(id) {
+      return mentorSessions.get(id) ?? null;
+    },
+    async listSessionsByMentor(mentorId) {
+      return [...mentorSessions.values()]
+        .filter((s) => s.mentorId === mentorId)
+        .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
+    },
+    async listSessionsByStudent(studentId) {
+      return [...mentorSessions.values()]
+        .filter((s) => s.studentId === studentId)
+        .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
+    },
+    async updateSession(id, patch) {
+      const existing = mentorSessions.get(id);
+      if (!existing) return null;
+      const row: MentorSession = { ...existing, ...patch, updatedAt: now() };
+      mentorSessions.set(id, row);
+      return row;
     },
   };
 

@@ -68,7 +68,10 @@ export type {
   MentorAssignment,
   MentorReview,
   MentorSessionNote,
+  MentorSession,
   MentorAssignmentStatus,
+  MentorReviewStatus,
+  MentorSessionStatus,
 } from './mentor.repository.js';
 export type {
   ProfileRepository,
@@ -85,4 +88,7 @@ export type {
   ParentMessage,
   MessageParticipantRole,
 } from './parent.repository.js';
-export type { ParentApplicationDecision } from './internship.repository.js';
+export type {
+  ParentApplicationDecision,
+  MentorCompletionDecision,
+} from './internship.repository.js';

@@ -48,6 +48,10 @@ export class InternshipsService {
       parentDecision: 'pending',
       parentDecidedAt: null,
       parentNote: null,
+      mentorCompletionDecision: 'pending',
+      mentorCompletionNote: null,
+      mentorCompletionDocKeys: [],
+      mentorCompletedAt: null,
     });
 
     await this.repos.notifications.create({

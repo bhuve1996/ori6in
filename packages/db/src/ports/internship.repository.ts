@@ -16,6 +16,8 @@ export type InternshipPaymentStatus = 'unpaid' | 'paid' | 'waived';
 
 export type ParentApplicationDecision = 'pending' | 'approved' | 'rejected';
 
+export type MentorCompletionDecision = 'pending' | 'approved' | 'rejected';
+
 export interface Internship {
   id: string;
   slug: string;
@@ -51,6 +53,10 @@ export interface InternshipApplication {
   parentDecision: ParentApplicationDecision;
   parentDecidedAt: Date | null;
   parentNote: string | null;
+  mentorCompletionDecision: MentorCompletionDecision;
+  mentorCompletionNote: string | null;
+  mentorCompletionDocKeys: string[];
+  mentorCompletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -87,5 +93,11 @@ export interface InternshipRepository {
     id: string,
     decision: Exclude<ParentApplicationDecision, 'pending'>,
     note?: string,
+  ): Promise<InternshipApplication | null>;
+  updateMentorCompletion(
+    id: string,
+    decision: Exclude<MentorCompletionDecision, 'pending'>,
+    note?: string,
+    documentKeys?: string[],
   ): Promise<InternshipApplication | null>;
 }

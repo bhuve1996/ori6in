@@ -7,17 +7,25 @@ import { PersonHeader } from '../../../components/portal/PersonHeader';
 import { PortalNavGrid } from '../../../components/portal/PortalNavGrid';
 import { PortalShell } from '../../../components/portal/PortalShell';
 import { SignOutButton } from '../../../components/portal/SignOutButton';
+import { StatGrid } from '../../../components/portal/StatGrid';
 import { BANNERS } from '../../../lib/media';
 
 type Dashboard = {
   assignedStudents: number;
+  pendingApprovals: number;
   students: Array<{
     studentId: string;
     fullName: string;
     programTitle: string;
     progress: { percent: number };
   }>;
-  recentReviews: Array<{ title: string; grade: string }>;
+  upcomingMeetings: Array<{
+    id: string;
+    topic: string;
+    startsAt: string;
+    status: string;
+  }>;
+  recentReviews: Array<{ title: string; grade: string; status?: string }>;
 };
 
 export default function MentorPortalPage() {
@@ -31,7 +39,7 @@ export default function MentorPortalPage() {
       banner={{
         image: BANNERS.mentorPortal,
         title: 'Mentor Portal',
-        lead: 'Guide assigned students with reviews, notes, and progress checks.',
+        lead: 'Sessions, reviews, and internship completion sign-off for your students.',
       }}
       loading={loading}
       error={error}
@@ -42,12 +50,42 @@ export default function MentorPortalPage() {
         </p>
       </PersonHeader>
 
+      {dash ? (
+        <StatGrid
+          items={[
+            { value: dash.assignedStudents, label: 'Students' },
+            { value: dash.upcomingMeetings.length, label: 'Upcoming sessions' },
+            { value: dash.pendingApprovals, label: 'Completion approvals' },
+            { value: dash.recentReviews.length, label: 'Recent reviews' },
+          ]}
+        />
+      ) : null}
+
       <PortalNavGrid
         links={[
           { href: '/mentor/students', label: 'Students' },
-          { href: '/mentor/reviews', label: 'Reviews & notes' },
+          { href: '/mentor/sessions', label: 'Sessions' },
+          { href: '/mentor/reviews', label: 'Reviews' },
+          { href: '/mentor/approvals', label: 'Approvals' },
         ]}
       />
+
+      {dash && dash.upcomingMeetings.length > 0 ? (
+        <section className="section-block">
+          <h2>Upcoming sessions</h2>
+          <ul className="plain-list">
+            {dash.upcomingMeetings.map((m) => (
+              <li key={m.id}>
+                <strong>{m.topic}</strong> ·{' '}
+                {new Date(m.startsAt).toLocaleString(undefined, {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                })}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {dash && dash.students.length > 0 && (
         <section className="section-block">

@@ -50,7 +50,7 @@ See [roadmap.md](./roadmap.md) — Phase 2 product depth.
 ### Phase 2 progress
 - [x] Company — role CRUD, applicant pipeline statuses, sandbox pay-to-post, admin approval queue  
 - [x] Parent — linking (invite/accept), messaging, sandbox payment & internship approvals  
-- [ ] Mentor — booking/calendar, richer reviews  
+- [x] Mentor — session booking, review drafts/templates, internship completion approvals  
 - [ ] Internships UX polish across roles  
 
 ### Deferred on purpose

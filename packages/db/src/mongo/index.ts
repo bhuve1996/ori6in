@@ -32,6 +32,7 @@ import type {
   MentorAssignment,
   MentorRepository,
   MentorReview,
+  MentorSession,
   MentorSessionNote,
 } from '../ports/mentor.repository.js';
 import type {
@@ -68,6 +69,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   const mentorAssignmentsCol = db.collection<MentorAssignment>('mentor_assignments');
   const mentorReviewsCol = db.collection<MentorReview>('mentor_reviews');
   const mentorNotesCol = db.collection<MentorSessionNote>('mentor_session_notes');
+  const mentorSessionsCol = db.collection<MentorSession>('mentor_sessions');
   const parentLinksCol = db.collection<ParentStudentLink>('parent_student_links');
   const parentThreadsCol = db.collection<ParentMessageThread>('parent_message_threads');
   const parentMessagesCol = db.collection<ParentMessage>('parent_messages');
@@ -85,6 +87,8 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   await internshipsCol.createIndex({ slug: 1 }, { unique: true });
   await internshipAppsCol.createIndex({ userId: 1, internshipId: 1 }, { unique: true });
   await mentorAssignmentsCol.createIndex({ mentorId: 1, studentId: 1 });
+  await mentorSessionsCol.createIndex({ mentorId: 1, startsAt: 1 });
+  await mentorSessionsCol.createIndex({ studentId: 1, startsAt: 1 });
   await profilesCol.createIndex({ userId: 1 }, { unique: true });
   await parentLinksCol.createIndex({ parentUserId: 1, createdAt: -1 });
   await parentLinksCol.createIndex({ studentUserId: 1, createdAt: -1 });
@@ -498,6 +502,10 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
         parentDecision: input.parentDecision ?? 'pending',
         parentDecidedAt: input.parentDecidedAt ?? null,
         parentNote: input.parentNote ?? null,
+        mentorCompletionDecision: input.mentorCompletionDecision ?? 'pending',
+        mentorCompletionNote: input.mentorCompletionNote ?? null,
+        mentorCompletionDocKeys: input.mentorCompletionDocKeys ?? [],
+        mentorCompletedAt: input.mentorCompletedAt ?? null,
         createdAt: t,
         updatedAt: t,
       };
@@ -538,6 +546,21 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
         parentDecision: decision,
         parentDecidedAt: t,
         parentNote: note ?? null,
+        updatedAt: t,
+      };
+      await internshipAppsCol.replaceOne({ id }, row);
+      return row;
+    },
+    async updateMentorCompletion(id, decision, note, documentKeys) {
+      const existing = await internshipAppsCol.findOne({ id });
+      if (!existing) return null;
+      const t = new Date();
+      const row: InternshipApplication = {
+        ...existing,
+        mentorCompletionDecision: decision,
+        mentorCompletionNote: note ?? null,
+        mentorCompletionDocKeys: documentKeys ?? existing.mentorCompletionDocKeys,
+        mentorCompletedAt: t,
         updatedAt: t,
       };
       await internshipAppsCol.replaceOne({ id }, row);
@@ -659,13 +682,28 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
         .toArray();
     },
     async createReview(input) {
+      const t = new Date();
       const row: MentorReview = {
         id: randomUUID(),
         ...input,
-        createdAt: new Date(),
+        status: input.status ?? 'published',
+        templateKey: input.templateKey ?? null,
+        documentKeys: input.documentKeys ?? [],
+        createdAt: t,
+        updatedAt: t,
       };
       await mentorReviewsCol.insertOne(row);
       return row;
+    },
+    async updateReview(id, patch) {
+      const existing = await mentorReviewsCol.findOne({ id });
+      if (!existing) return null;
+      const row: MentorReview = { ...existing, ...patch, updatedAt: new Date() };
+      await mentorReviewsCol.replaceOne({ id }, row);
+      return row;
+    },
+    async findReviewById(id) {
+      return (await mentorReviewsCol.findOne({ id })) ?? null;
     },
     async listReviewsByMentor(mentorId) {
       return mentorReviewsCol.find({ mentorId }).sort({ createdAt: -1 }).toArray();
@@ -683,6 +721,33 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
       const filter: { mentorId: string; studentId?: string } = { mentorId };
       if (studentId) filter.studentId = studentId;
       return mentorNotesCol.find(filter).sort({ createdAt: -1 }).toArray();
+    },
+    async createSession(input) {
+      const t = new Date();
+      const row: MentorSession = {
+        id: randomUUID(),
+        ...input,
+        createdAt: t,
+        updatedAt: t,
+      };
+      await mentorSessionsCol.insertOne(row);
+      return row;
+    },
+    async findSessionById(id) {
+      return (await mentorSessionsCol.findOne({ id })) ?? null;
+    },
+    async listSessionsByMentor(mentorId) {
+      return mentorSessionsCol.find({ mentorId }).sort({ startsAt: 1 }).toArray();
+    },
+    async listSessionsByStudent(studentId) {
+      return mentorSessionsCol.find({ studentId }).sort({ startsAt: 1 }).toArray();
+    },
+    async updateSession(id, patch) {
+      const existing = await mentorSessionsCol.findOne({ id });
+      if (!existing) return null;
+      const row: MentorSession = { ...existing, ...patch, updatedAt: new Date() };
+      await mentorSessionsCol.replaceOne({ id }, row);
+      return row;
     },
   };
 

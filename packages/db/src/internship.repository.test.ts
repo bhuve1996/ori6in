@@ -42,8 +42,13 @@ describe('InternshipRepository (memory adapter)', () => {
       parentDecision: 'pending',
       parentDecidedAt: null,
       parentNote: null,
+      mentorCompletionDecision: 'pending',
+      mentorCompletionNote: null,
+      mentorCompletionDocKeys: [],
+      mentorCompletedAt: null,
     });
     assert.equal(app.parentDecision, 'pending');
+    assert.equal(app.mentorCompletionDecision, 'pending');
     const updated = await repos.internships.updateApplicationStatus(
       app.id,
       'under_review',
@@ -60,5 +65,16 @@ describe('InternshipRepository (memory adapter)', () => {
     assert.equal(decided?.parentDecision, 'approved');
     assert.equal(decided?.parentNote, 'Looks good');
     assert.ok(decided?.parentDecidedAt);
+
+    const completed = await repos.internships.updateMentorCompletion(
+      app.id,
+      'approved',
+      'Internship complete',
+      ['doc-1'],
+    );
+    assert.equal(completed?.mentorCompletionDecision, 'approved');
+    assert.equal(completed?.mentorCompletionNote, 'Internship complete');
+    assert.deepEqual(completed?.mentorCompletionDocKeys, ['doc-1']);
+    assert.ok(completed?.mentorCompletedAt);
   });
 });

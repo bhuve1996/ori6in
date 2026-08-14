@@ -44,14 +44,15 @@ const ROLES: RoleBlock[] = [
     headline: 'Guide learners with reviews that keep them shipping.',
     canDo: [
       'Open a mentor hub with assigned students',
-      'Review student work and leave notes / grades',
+      'Book and manage mentoring sessions',
+      'Write reviews with templates, drafts, and publish',
+      'Approve internship completion for offered roles',
       'Appear in the public mentors directory',
-      'Help students move from coursework toward internship readiness',
     ],
     phase2: [
-      'Session booking and calendar workflows',
-      'Deeper review queues and templates',
-      'Internship completion approvals with supporting docs',
+      'Student-side session request / reschedule calendar',
+      'Richer rubrics and file attachments on reviews',
+      'Video meeting links integrated with live providers',
     ],
     cta: { href: '/mentors', label: 'Meet mentors' },
   },
@@ -123,9 +124,9 @@ export default function RolesPage() {
       />
       <main id="main-content" className="page page-after-banner page--wide">
         <p className="roles-intro">
-          Phase 1 shipped the public site plus core student, mentor, and admin portals. We are building{' '}
-          <strong>Phase 2</strong> next — deeper parent and company workflows, mentor booking, and
-          internship ops. AI extras and production hardening come later.
+          Phase 1 shipped the public site plus core student, mentor, and admin portals. Phase 2 company,
+          parent, and mentor depth is in place — next is internship UX polish across roles. AI extras and
+          production hardening come later.
         </p>
 
         <nav className="roles-jump" aria-label="Jump to role">
