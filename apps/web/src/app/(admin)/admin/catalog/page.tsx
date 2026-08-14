@@ -80,7 +80,7 @@ export default function AdminCatalogPage() {
         ← Admin
       </a>
       <h1>Catalog</h1>
-      <p className="page-lead">Phase 1: ORI6IN own programs only (including drafts).</p>
+      <p className="page-lead">ORI6IN own programs (including drafts) for catalog management.</p>
       {error && <p className="text-error">{error}</p>}
       {message && <p className="text-success">{message}</p>}
 

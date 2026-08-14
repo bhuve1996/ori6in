@@ -35,8 +35,11 @@ export default async function ProgramsPage() {
                   </div>
                   <div className="mkt-program-card__body">
                     <h2>{p.title}</h2>
-                    <p>{p.summary}</p>
-                    <p className="price-tag">{formatPrice(p.priceCents, p.currency)}</p>
+                    <p className="tile-sub">{p.summary}</p>
+                    <div className="mkt-program-card__foot">
+                      <span className="price-tag">{formatPrice(p.priceCents, p.currency)}</span>
+                      <span className="tile-cta">View program</span>
+                    </div>
                   </div>
                 </a>
               </li>

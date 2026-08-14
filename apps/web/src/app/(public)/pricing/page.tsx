@@ -16,6 +16,9 @@ export const metadata = pageMeta({
 export default async function PricingPage() {
   const page = await publicFetch<CmsPage>('/cms/pages/pricing');
   const programs = (await publicFetch<Program[]>('/programs')) ?? [];
+  const apiBody = page?.body ?? '';
+  const body =
+    apiBody.length > 120 && !/Phase 1/i.test(apiBody) ? apiBody : PRICING_FALLBACK.body;
 
   return (
     <>
@@ -27,7 +30,7 @@ export default async function PricingPage() {
       />
       <main id="main-content" className="page page-after-banner page--wide">
         <div className="prose" style={{ marginBottom: '1.5rem' }}>
-          {page?.body ?? PRICING_FALLBACK.body}
+          {body}
         </div>
         {programs.length === 0 ? (
           <p className="meta">No published programs yet.</p>
@@ -41,7 +44,11 @@ export default async function PricingPage() {
                   </div>
                   <div className="mkt-program-card__body">
                     <h2>{p.title}</h2>
-                    <p className="price-tag">{formatPrice(p.priceCents, p.currency)}</p>
+                    <p className="tile-sub">{p.summary}</p>
+                    <div className="mkt-program-card__foot">
+                      <span className="price-tag">{formatPrice(p.priceCents, p.currency)}</span>
+                      <span className="tile-cta">View program</span>
+                    </div>
                   </div>
                 </a>
               </li>

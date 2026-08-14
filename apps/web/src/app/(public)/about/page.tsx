@@ -1,5 +1,6 @@
 import { DEMO_PAGES } from '@ori6in/shared';
 import { publicFetch, type CmsPage } from '../../../lib/api';
+import { FlowConnector } from '../../../components/FlowConnector';
 import { PageBanner } from '../../../components/PageBanner';
 import { BANNERS, HOME } from '../../../lib/media';
 import { pageMeta } from '../../../lib/seo';
@@ -15,6 +16,9 @@ export const metadata = pageMeta({
 
 export default async function AboutPage() {
   const page = await publicFetch<CmsPage>('/cms/pages/about');
+  const apiBody = page?.body ?? '';
+  const body =
+    apiBody.length > 220 && !/Phase 1/i.test(apiBody) ? apiBody : ABOUT_FALLBACK.body;
 
   return (
     <>
@@ -34,20 +38,12 @@ export default async function AboutPage() {
             />
           </div>
           <div className="mkt-about__copy">
-            <div className="prose">{page?.body ?? ABOUT_FALLBACK.body}</div>
+            <div className="prose">{body}</div>
             <div className="mkt-flow-mini" aria-label="How ORI6IN works">
               <span className="mkt-flow-mini__node">Student</span>
-              <span className="mkt-flow-mini__dots" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </span>
+              <FlowConnector />
               <span className="mkt-flow-mini__node">Mentor</span>
-              <span className="mkt-flow-mini__dots" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </span>
+              <FlowConnector />
               <span className="mkt-flow-mini__node">Internship</span>
             </div>
             <div className="cta-row">

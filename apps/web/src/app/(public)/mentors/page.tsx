@@ -41,12 +41,17 @@ export default async function MentorsPage() {
                 <a className="mkt-mentor-card" href={`/mentors/${m.id}`}>
                   <Avatar name={m.fullName} seed={m.fullName} kind="mentor" size="lg" />
                   <h2>{m.fullName}</h2>
-                  <p className="meta">{m.title}</p>
-                  {m.location ? <p className="meta">{m.location}</p> : null}
+                  <p className="mkt-mentor-card__role">{m.title}</p>
+                  {m.location ? <p className="mkt-mentor-card__loc">{m.location}</p> : null}
                   {m.skills.length > 0 ? (
-                    <p className="meta">{m.skills.slice(0, 3).join(' · ')}</p>
+                    <ul className="mkt-mentor-card__skills">
+                      {m.skills.slice(0, 3).map((skill) => (
+                        <li key={skill}>{skill}</li>
+                      ))}
+                    </ul>
                   ) : null}
                   {m.bio ? <p className="mkt-mentor-card__bio">{m.bio}</p> : null}
+                  <span className="tile-cta mkt-mentor-card__cta">View profile</span>
                 </a>
               </li>
             ))}

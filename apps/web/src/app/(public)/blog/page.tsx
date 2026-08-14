@@ -35,9 +35,11 @@ export default async function BlogPage() {
                     style={{ objectPosition: `${20 + ((i * 17) % 60)}% center` }}
                   />
                 </div>
-                <div>
+                <div className="mkt-blog-card__body">
+                  <p className="tile-meta">Article</p>
                   <h2>{post.title}</h2>
-                  <p>{post.excerpt}</p>
+                  <p className="tile-sub">{post.excerpt}</p>
+                  <span className="tile-cta">Read more</span>
                 </div>
               </a>
             ))}

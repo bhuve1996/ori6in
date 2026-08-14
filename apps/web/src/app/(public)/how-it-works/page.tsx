@@ -1,4 +1,5 @@
 import { PageBanner } from '../../../components/PageBanner';
+import { FlowConnector } from '../../../components/FlowConnector';
 import { BANNERS, HOME } from '../../../lib/media';
 import { pageMeta } from '../../../lib/seo';
 
@@ -41,24 +42,16 @@ export default function HowItWorksPage() {
       <main id="main-content" className="page page-after-banner page--wide">
         <div className="mkt-flow-mini" aria-label="ORI6IN flow">
           <span className="mkt-flow-mini__node">Student</span>
-          <span className="mkt-flow-mini__dots" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </span>
+          <FlowConnector />
           <span className="mkt-flow-mini__node">Mentor</span>
-          <span className="mkt-flow-mini__dots" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </span>
+          <FlowConnector />
           <span className="mkt-flow-mini__node">Internship</span>
         </div>
 
         <ol className="mkt-program-grid" style={{ listStyle: 'none', padding: 0 }}>
           {STEPS.map((step, i) => (
             <li key={step.role}>
-              <figure className="mkt-program-card" style={{ margin: 0 }}>
+              <figure className="mkt-program-card">
                 <div className="mkt-program-card__media">
                   <img
                     src={step.image}
@@ -67,11 +60,11 @@ export default function HowItWorksPage() {
                   />
                 </div>
                 <div className="mkt-program-card__body">
-                  <p className="meta" style={{ margin: '0 0 0.35rem', letterSpacing: '0.08em' }}>
-                    0{i + 1} · {step.role.toUpperCase()}
+                  <p className="tile-meta">
+                    0{i + 1} · {step.role}
                   </p>
                   <h2>{step.title}</h2>
-                  <p>{step.caption}</p>
+                  <p className="tile-sub">{step.caption}</p>
                 </div>
               </figure>
             </li>

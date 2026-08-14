@@ -50,8 +50,11 @@ export function HomePrograms({ programs, sectionRef }: Props) {
                 </div>
                 <div className="home-program-card__body">
                   <h3>{p.title}</h3>
-                  <p>{p.summary}</p>
-                  <span className="price">{formatPrice(p.priceCents, p.currency)}</span>
+                  <p className="tile-sub">{p.summary}</p>
+                  <div className="home-program-card__foot">
+                    <span className="price">{formatPrice(p.priceCents, p.currency)}</span>
+                    <span className="tile-cta">View</span>
+                  </div>
                 </div>
               </a>
             ))}

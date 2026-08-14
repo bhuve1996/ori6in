@@ -134,7 +134,7 @@ function CheckoutInner() {
         ← Programs
       </a>
       <h1>Checkout</h1>
-      <p className="page-lead">Direct purchase — Phase 1 ORI6IN programs only.</p>
+      <p className="page-lead">Direct purchase for ORI6IN programs (sandbox checkout in demo).</p>
       {error && <p className="text-error">{error}</p>}
       {status && <p className="meta">{status}</p>}
       {!program ? (

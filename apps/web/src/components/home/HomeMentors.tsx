@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { Avatar } from '../Avatar';
+import { FlowConnector } from '../FlowConnector';
 
 export type HomeMentor = {
   id: string;
@@ -43,12 +44,7 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
             <span>You</span>
           </div>
 
-          <div className="home-mentor-strip__dots" aria-hidden="true">
-            <span className="home-flow__dot" />
-            <span className="home-flow__dot" />
-            <span className="home-flow__dot" />
-            <span className="home-flow__dot home-flow__dot--pulse" />
-          </div>
+          <FlowConnector tone="dark" className="home-mentor-strip__connector" />
 
           {faces.length === 0 ? (
             <p className="home-empty">Mentors will appear here soon.</p>

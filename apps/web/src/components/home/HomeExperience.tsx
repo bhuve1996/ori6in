@@ -117,22 +117,6 @@ export function HomeExperience({ programs, mentors }: Props) {
       <HomeInternships sectionRef={setSectionRef('internships')} />
       <HomeOutcomes sectionRef={setSectionRef('outcomes')} />
       <HomeClosing sectionRef={setSectionRef('closing')} />
-
-      <footer className="home-footer">
-        <img src="/brand/owl.png" alt="" className="home-footer__owl" width={56} height={56} />
-        <p>© {new Date().getFullYear()} ORI6IN · Everything starts here.</p>
-        <nav className="home-footer__nav" aria-label="Footer">
-          <a href="/programs">Programs</a>
-          <a href="/mentors">Mentors</a>
-          <a href="/how-it-works">How it works</a>
-          <a href="/roles">What you can do</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/blog">Blog</a>
-          <a href="/about">About</a>
-          <a href="/login">Login</a>
-          <a href="/register">Register</a>
-        </nav>
-      </footer>
     </main>
   );
 }

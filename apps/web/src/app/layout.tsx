@@ -84,15 +84,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>
+    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
         <AppProviders>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <div className="site-shell">
+            <SiteHeader />
+            <div className="site-shell__content">{children}</div>
+            <SiteFooter />
+          </div>
         </AppProviders>
       </body>
     </html>

@@ -1,16 +1,29 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { getToken } from '../lib/auth';
 import { BRAND } from '../lib/media';
 import { MARKETING_LINKS } from '../lib/routes';
 
-/** Shared footer for non-home routes — matches header marketing links. */
+/** Shared site footer — always at the end of the page shell. */
 export function SiteFooter() {
   const pathname = usePathname();
-  if (pathname === '/') return null;
+  const [signedIn, setSignedIn] = useState(false);
 
-  // Portal areas keep a light footer; full marketing links still available
-  const hideAuthCtas =
+  useEffect(() => {
+    const sync = () => setSignedIn(Boolean(getToken()));
+    sync();
+    window.addEventListener('ori6in-auth', sync);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.removeEventListener('ori6in-auth', sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, [pathname]);
+
+  const year = new Date().getFullYear();
+  const isAuthPage =
     pathname.startsWith('/login') ||
     pathname.startsWith('/register') ||
     pathname.startsWith('/demo-login');
@@ -18,26 +31,31 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <a href="/" className="site-footer__brand" aria-label="ORI6IN home">
-          <img src={BRAND.owl} alt="" width={44} height={44} className="site-footer__owl" />
-          <span>
-            ORI<span className="brand__six">6</span>IN
-            <small>{BRAND.tagline}</small>
-          </span>
-        </a>
+        <div className="site-footer__brand-block">
+          <img src={BRAND.owl} alt="" width={40} height={40} className="site-footer__owl" />
+          <div>
+            <p className="site-footer__name">
+              ORI<span className="brand__six">6</span>IN
+            </p>
+            <p className="site-footer__copy">
+              © {year} · {BRAND.tagline}
+            </p>
+          </div>
+        </div>
+
         <nav className="site-footer__nav" aria-label="Footer">
           {MARKETING_LINKS.map((link) => (
             <a key={link.href} href={link.href}>
               {link.label}
             </a>
           ))}
-          {!hideAuthCtas ? (
+          {isAuthPage ? (
+            <a href="/demo-login">Demo</a>
+          ) : signedIn ? null : (
             <>
               <a href="/login">Login</a>
               <a href="/register">Register</a>
             </>
-          ) : (
-            <a href="/demo-login">Demo</a>
           )}
         </nav>
       </div>

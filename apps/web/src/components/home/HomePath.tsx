@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { FlowConnector } from '../FlowConnector';
 import { HOME } from '../../lib/media';
 
 type Props = {
@@ -61,10 +62,7 @@ export function HomePath({ sectionRef }: Props) {
             >
               {i > 0 && (
                 <div className="home-path-rail__bridge" aria-hidden="true">
-                  <span className="home-flow__dot" />
-                  <span className="home-flow__dot" />
-                  <span className="home-flow__dot" />
-                  <span className="home-flow__dot home-flow__dot--pulse" />
+                  <FlowConnector />
                 </div>
               )}
               <figure className="home-path-panel">

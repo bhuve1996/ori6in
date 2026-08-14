@@ -1,4 +1,5 @@
 import { BRAND } from '../lib/media';
+import { FlowConnector } from '../components/FlowConnector';
 
 export default function NotFound() {
   return (
@@ -16,17 +17,9 @@ export default function NotFound() {
 
         <div className="not-found__flow" aria-hidden="true">
           <span>Home</span>
-          <span className="not-found__dots">
-            <i />
-            <i />
-            <i />
-          </span>
+          <FlowConnector tone="dark" />
           <span>Programs</span>
-          <span className="not-found__dots">
-            <i />
-            <i />
-            <i />
-          </span>
+          <FlowConnector tone="dark" />
           <span>Mentors</span>
         </div>
 
@@ -36,6 +29,9 @@ export default function NotFound() {
           </a>
           <a className="btn secondary" href="/programs">
             Browse programs
+          </a>
+          <a className="btn secondary" href="/mentors">
+            Meet mentors
           </a>
           <a className="btn secondary" href="/login">
             Log in
