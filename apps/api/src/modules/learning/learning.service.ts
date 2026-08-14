@@ -6,10 +6,14 @@ import {
 } from '@nestjs/common';
 import type { Repositories } from '@ori6in/db';
 import { REPOSITORIES } from '../../common/database.service';
+import { CertificatesService } from '../certificates/certificates.service';
 
 @Injectable()
 export class LearningService {
-  constructor(@Inject(REPOSITORIES) private readonly repos: Repositories) {}
+  constructor(
+    @Inject(REPOSITORIES) private readonly repos: Repositories,
+    @Inject(CertificatesService) private readonly certificates: CertificatesService,
+  ) {}
 
   private async paidProgramIds(userId: string) {
     const orders = await this.repos.orders.listByUser(userId);
@@ -130,7 +134,7 @@ export class LearningService {
   async markComplete(userId: string, lessonId: string) {
     const lesson = await this.repos.learning.findLessonById(lessonId);
     if (!lesson || !lesson.published) throw new NotFoundException('Lesson not found');
-    await this.assertCourseAccess(userId, lesson.courseId);
+    const course = await this.assertCourseAccess(userId, lesson.courseId);
     const progress = await this.repos.learning.markLessonComplete(userId, lesson.id);
     await this.repos.audit.append({
       actorId: userId,
@@ -139,10 +143,14 @@ export class LearningService {
       resourceId: lesson.id,
       metadata: { courseId: lesson.courseId },
     });
+
+    const certificate = await this.certificates.issueIfEligible(userId, course.programId);
+
     return {
       lessonId: lesson.id,
       completed: true,
       completedAt: progress.completedAt,
+      certificateId: certificate?.id ?? null,
     };
   }
 }

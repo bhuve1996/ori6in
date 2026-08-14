@@ -32,6 +32,13 @@ export class InternshipsController {
     return this.internships.myApplications(req.user.sub);
   }
 
+  @Post('applications/:id/withdraw')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Student)
+  withdraw(@Req() req: { user: AuthUser }, @Param('id') id: string) {
+    return this.internships.withdraw(req.user.sub, id);
+  }
+
   @Get(':id')
   detail(@Param('id') id: string) {
     return this.internships.detail(id);

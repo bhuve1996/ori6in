@@ -51,7 +51,15 @@ See [roadmap.md](./roadmap.md) — Phase 2 product depth.
 - [x] Company — role CRUD, applicant pipeline statuses, sandbox pay-to-post, admin approval queue  
 - [x] Parent — linking (invite/accept), messaging, sandbox payment & internship approvals  
 - [x] Mentor — session booking, review drafts/templates, internship completion approvals  
-- [ ] Internships UX polish across roles  
+- [x] Internships UX polish — student status board, company notes/labels, admin pending count  
+- [x] Certificates — sandbox program-completion certificates + public verify  
+
+### Still later (platform extras remainder)
+- [ ] Community / forums  
+- [ ] Referrals / gamification  
+- [ ] Live video meeting providers  
+- [ ] Deeper analytics dashboards  
+- [ ] Distinct super-admin console  
 
 ### Deferred on purpose
 - [ ] AI depth (memory/RAG, career coach, resume, roadmap) — skipped for now  

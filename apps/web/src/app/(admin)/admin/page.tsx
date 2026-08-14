@@ -21,6 +21,7 @@ type Dashboard = {
     cmsPages: number;
     blogPosts: number;
     internships: number;
+    pendingInternshipApprovals?: number;
   };
   revenue: { amountCents: number; currency: string };
   recentPaidOrders: Array<{
@@ -69,9 +70,17 @@ export default function AdminPortalPage() {
             ]}
           />
           <p className="meta">
-            CMS: {s.cmsPages} pages, {s.blogPosts} posts · Internships: {s.internships} · Companies:{' '}
-            {s.companies}
+            CMS: {s.cmsPages} pages, {s.blogPosts} posts · Internships live: {s.internships} ·
+            Pending role approvals: {s.pendingInternshipApprovals ?? 0} · Companies: {s.companies}
           </p>
+          {(s.pendingInternshipApprovals ?? 0) > 0 ? (
+            <p className="notice">
+              <a href="/admin/approvals">
+                Review {s.pendingInternshipApprovals} company posting
+                {s.pendingInternshipApprovals === 1 ? '' : 's'}
+              </a>
+            </p>
+          ) : null}
           {dash.recentPaidOrders.length > 0 && (
             <>
               <h3>Recent paid orders</h3>
@@ -93,6 +102,7 @@ export default function AdminPortalPage() {
           { href: '/admin/catalog', label: 'Catalog' },
           { href: '/admin/cms', label: 'CMS' },
           { href: '/admin/approvals', label: 'Internship approvals' },
+          { href: '/admin/certificates', label: 'Certificates' },
         ]}
       />
 

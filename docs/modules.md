@@ -15,7 +15,9 @@
 - Company ops: role CRUD, applicant pipeline, interviews, paid posting + admin approval  
 - Parent ops: ✅ linking (invite/accept), messaging, sandbox payments, internship approvals
 - Mentor ops: ✅ session booking, review drafts/templates, internship completion approvals
-- Internships: student ↔ company ↔ admin status UX polish (next)
+- Internships: ✅ cross-role status UX (student timeline + decisions, company notes, admin queue)
+- Certificates: ✅ sandbox issue on program completion + student/admin/public verify
+- Remaining extras: community, referrals, live video providers, deeper analytics, distinct super-admin
 - Mentor ops: session booking, richer reviews, internship completion approvals  
 - Internship approval workflows end-to-end  
 - Later in Phase 2+: community, referrals/gamification, certificates, video meetings, analytics, super-admin  

@@ -92,6 +92,7 @@ export default function StudentPortalPage() {
             label: `Notifications${unread > 0 ? ` (${unread})` : ''}`,
           },
           { href: '/student/internships', label: 'Internships' },
+          { href: '/student/certificates', label: 'Certificates' },
           { href: '/student/parent-links', label: 'Parent links' },
           { href: '/student/ai', label: 'AI Chat' },
         ]}

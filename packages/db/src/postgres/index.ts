@@ -48,6 +48,10 @@ import type {
   ParentRepository,
   ParentStudentLink,
 } from '../ports/parent.repository.js';
+import type {
+  Certificate,
+  CertificateRepository,
+} from '../ports/certificate.repository.js';
 
 const { Pool } = pg;
 
@@ -343,6 +347,20 @@ async function migrate(pool: pg.Pool) {
     );
     CREATE INDEX IF NOT EXISTS parent_messages_thread_idx
       ON parent_messages (thread_id);
+    CREATE TABLE IF NOT EXISTS certificates (
+      id UUID PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      program_id TEXT NOT NULL,
+      code TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      recipient_name TEXT NOT NULL,
+      program_title TEXT NOT NULL,
+      issued_at TIMESTAMPTZ NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS certificates_user_idx ON certificates (user_id);
+    CREATE INDEX IF NOT EXISTS certificates_user_program_idx
+      ON certificates (user_id, program_id);
   `);
 }
 
@@ -566,6 +584,20 @@ function mapPayment(row: Record<string, unknown>): Payment {
     status: row.status as Payment['status'],
     createdAt: new Date(row.created_at as string),
     updatedAt: new Date(row.updated_at as string),
+  };
+}
+
+function mapCertificate(row: Record<string, unknown>): Certificate {
+  return {
+    id: String(row.id),
+    userId: String(row.user_id),
+    programId: String(row.program_id),
+    code: String(row.code),
+    title: String(row.title),
+    recipientName: String(row.recipient_name),
+    programTitle: String(row.program_title),
+    issuedAt: new Date(row.issued_at as string),
+    createdAt: new Date(row.created_at as string),
   };
 }
 
@@ -1727,6 +1759,57 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     },
   };
 
+  const certificates: CertificateRepository = {
+    async create(input) {
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO certificates
+          (id, user_id, program_id, code, title, recipient_name, program_title, issued_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
+        [
+          id,
+          input.userId,
+          input.programId,
+          input.code,
+          input.title,
+          input.recipientName,
+          input.programTitle,
+          input.issuedAt,
+        ],
+      );
+      return mapCertificate(r.rows[0]);
+    },
+    async findById(id) {
+      const r = await pool.query('SELECT * FROM certificates WHERE id = $1', [id]);
+      return r.rows[0] ? mapCertificate(r.rows[0]) : null;
+    },
+    async findByCode(code) {
+      const r = await pool.query('SELECT * FROM certificates WHERE code = $1', [code]);
+      return r.rows[0] ? mapCertificate(r.rows[0]) : null;
+    },
+    async findByUserProgram(userId, programId) {
+      const r = await pool.query(
+        `SELECT * FROM certificates WHERE user_id = $1 AND program_id = $2 LIMIT 1`,
+        [userId, programId],
+      );
+      return r.rows[0] ? mapCertificate(r.rows[0]) : null;
+    },
+    async listByUser(userId) {
+      const r = await pool.query(
+        `SELECT * FROM certificates WHERE user_id = $1 ORDER BY issued_at DESC`,
+        [userId],
+      );
+      return r.rows.map(mapCertificate);
+    },
+    async listAll(limit = 50) {
+      const r = await pool.query(
+        `SELECT * FROM certificates ORDER BY issued_at DESC LIMIT $1`,
+        [limit],
+      );
+      return r.rows.map(mapCertificate);
+    },
+  };
+
   return {
     users,
     authTokens,
@@ -1741,6 +1824,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     mentors,
     profiles,
     parent,
+    certificates,
     async disconnect() {
       await pool.end();
     },

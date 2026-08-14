@@ -9,8 +9,8 @@ Month 1 MVP (public site + core student / mentor / admin) is treated as the base
 1. **Company** — ✅ role CRUD, applicant pipeline, sandbox pay-to-post + admin approval (interviews list from pipeline)  
 2. **Parent** — ✅ student linking (invite/accept), 2-way messaging, sandbox payments & internship approvals  
 3. **Mentor** — ✅ session booking, review drafts/templates, internship completion approvals  
-4. **Internships** — fuller student ↔ company ↔ admin status UX polish  
-5. **Platform extras (after the above)** — community, referrals/gamification, certificates, video meetings, analytics, super-admin
+4. **Internships** — ✅ student status board (timeline + parent/mentor decisions), company labels/notes, admin pending queue polish  
+5. **Platform extras** — ✅ sandbox program certificates (issue / student view / admin list / public verify); mentor meeting links on sessions · remaining: community, referrals/gamification, live video providers, deeper analytics, distinct super-admin
 
 Public explainer page: `/roles` (“What you can do”).
 

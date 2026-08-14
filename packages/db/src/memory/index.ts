@@ -43,6 +43,10 @@ import type {
   ParentRepository,
   ParentStudentLink,
 } from '../ports/parent.repository.js';
+import type {
+  Certificate,
+  CertificateRepository,
+} from '../ports/certificate.repository.js';
 
 function now() {
   return new Date();
@@ -68,6 +72,7 @@ export function createMemoryRepositories(): Repositories {
   const mentorReviews = new Map<string, MentorReview>();
   const mentorNotes = new Map<string, MentorSessionNote>();
   const mentorSessions = new Map<string, MentorSession>();
+  const certificates = new Map<string, Certificate>();
 
   const userRepo: UserRepository = {
     async findById(id) {
@@ -651,6 +656,41 @@ export function createMemoryRepositories(): Repositories {
     },
   };
 
+  const certificateRepo: CertificateRepository = {
+    async create(input) {
+      const row: Certificate = {
+        id: randomUUID(),
+        ...input,
+        createdAt: now(),
+      };
+      certificates.set(row.id, row);
+      return row;
+    },
+    async findById(id) {
+      return certificates.get(id) ?? null;
+    },
+    async findByCode(code) {
+      return [...certificates.values()].find((c) => c.code === code) ?? null;
+    },
+    async findByUserProgram(userId, programId) {
+      return (
+        [...certificates.values()].find(
+          (c) => c.userId === userId && c.programId === programId,
+        ) ?? null
+      );
+    },
+    async listByUser(userId) {
+      return [...certificates.values()]
+        .filter((c) => c.userId === userId)
+        .sort((a, b) => b.issuedAt.getTime() - a.issuedAt.getTime());
+    },
+    async listAll(limit = 50) {
+      return [...certificates.values()]
+        .sort((a, b) => b.issuedAt.getTime() - a.issuedAt.getTime())
+        .slice(0, limit);
+    },
+  };
+
   const mentorRepo: MentorRepository = {
     async createAssignment(input) {
       const t = now();
@@ -776,6 +816,7 @@ export function createMemoryRepositories(): Repositories {
     mentors: mentorRepo,
     profiles: profileRepo,
     parent: parentRepo,
+    certificates: certificateRepo,
     async disconnect() {},
   };
 }

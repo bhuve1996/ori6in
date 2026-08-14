@@ -273,6 +273,8 @@ export class CompanyPortalService {
           applicantEmail: student?.email ?? '',
           status: app.status,
           notes: app.notes,
+          parentDecision: app.parentDecision,
+          mentorCompletionDecision: app.mentorCompletionDecision,
           timeline: app.timeline,
           createdAt: app.createdAt,
           updatedAt: app.updatedAt,

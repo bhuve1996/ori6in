@@ -44,6 +44,7 @@ export default function MentorSessionsPage() {
   const [studentId, setStudentId] = useState('');
   const [topic, setTopic] = useState('Weekly mentoring');
   const [startsAt, setStartsAt] = useState(defaultStart);
+  const [meetingUrl, setMeetingUrl] = useState('');
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -59,6 +60,7 @@ export default function MentorSessionsPage() {
         topic,
         startsAt: start.toISOString(),
         endsAt: new Date(start.getTime() + 45 * 60 * 1000).toISOString(),
+        meetingUrl: meetingUrl.trim() || undefined,
       }),
     });
     setBusy(false);
@@ -67,6 +69,7 @@ export default function MentorSessionsPage() {
       return;
     }
     setNotice('Session booked');
+    setMeetingUrl('');
     reload();
   }
 
@@ -127,6 +130,15 @@ export default function MentorSessionsPage() {
               required
             />
           </label>
+          <label>
+            Meeting link (optional)
+            <input
+              type="url"
+              value={meetingUrl}
+              onChange={(e) => setMeetingUrl(e.target.value)}
+              placeholder="https://meet.example/…"
+            />
+          </label>
           <button className="btn accent" type="submit" disabled={busy || students.length === 0}>
             {busy ? 'Saving…' : 'Book session'}
           </button>
@@ -150,6 +162,13 @@ export default function MentorSessionsPage() {
                       timeStyle: 'short',
                     })}
                   </p>
+                  {s.meetingUrl ? (
+                    <p>
+                      <a href={s.meetingUrl} target="_blank" rel="noreferrer">
+                        Join meeting
+                      </a>
+                    </p>
+                  ) : null}
                   {s.status === 'scheduled' ? (
                     <div className="cta-row">
                       <button

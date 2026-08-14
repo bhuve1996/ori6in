@@ -24,20 +24,27 @@ export default function AdminApprovalsPage() {
   const items = data?.items ?? [];
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [rejectNotes, setRejectNotes] = useState<Record<string, string>>({});
 
   async function review(id: string, decision: 'approved' | 'rejected') {
     setBusy(id);
     setNotice(null);
+    const note =
+      decision === 'rejected' ? rejectNotes[id]?.trim() || undefined : undefined;
     const { ok } = await apiFetch(`/admin/approvals/internships/${id}/review`, {
       method: 'POST',
-      body: JSON.stringify({ decision }),
+      body: JSON.stringify({ decision, note }),
     });
     setBusy(null);
     if (!ok) {
       setNotice('Review failed');
       return;
     }
-    setNotice(decision === 'approved' ? 'Role approved and published' : 'Role rejected');
+    setNotice(
+      decision === 'approved'
+        ? 'Role approved and published'
+        : 'Role rejected' + (note ? ` — ${note}` : ''),
+    );
     reload();
   }
 
@@ -46,7 +53,10 @@ export default function AdminApprovalsPage() {
       banner={{
         image: BANNERS.admin,
         title: 'Internship approvals',
-        lead: 'Review company postings before they go live for students.',
+        lead:
+          items.length > 0
+            ? `${items.length} company posting${items.length === 1 ? '' : 's'} waiting for review.`
+            : 'Review company postings before they go live for students.',
       }}
       back={{ href: '/admin', label: 'Admin' }}
       loading={loading}
@@ -65,6 +75,17 @@ export default function AdminApprovalsPage() {
                   {item.company} · {item.location} · payment: {item.paymentStatus}
                 </p>
                 <p>{item.description}</p>
+                <label className="meta" style={{ display: 'block', marginBottom: '0.75rem' }}>
+                  Rejection note (optional)
+                  <input
+                    value={rejectNotes[item.id] ?? ''}
+                    onChange={(e) =>
+                      setRejectNotes((prev) => ({ ...prev, [item.id]: e.target.value }))
+                    }
+                    placeholder="Shown to the company when rejecting"
+                    style={{ display: 'block', width: '100%', maxWidth: '32rem', marginTop: '0.25rem' }}
+                  />
+                </label>
                 <div className="cta-row">
                   <button
                     type="button"

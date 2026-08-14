@@ -29,12 +29,14 @@ const ROLES: RoleBlock[] = [
       'Build a career profile and portfolio-style projects',
       'Get mentor reviews and feedback on your work',
       'Browse internships after login and apply',
+      'Track application status with company, parent, and mentor decisions',
+      'Earn a completion certificate when all program lessons are done',
       'Track orders, notifications, and progress in your hub',
     ],
     phase2: [
-      'Richer internship application status with company feedback',
-      'Certificates and stronger progress storytelling',
       'Community / referrals (later platform work)',
+      'Richer document uploads on applications',
+      'Stronger progress storytelling beyond certificates',
     ],
     cta: { href: '/register', label: 'Start as a student' },
   },
@@ -125,8 +127,8 @@ export default function RolesPage() {
       <main id="main-content" className="page page-after-banner page--wide">
         <p className="roles-intro">
           Phase 1 shipped the public site plus core student, mentor, and admin portals. Phase 2 company,
-          parent, and mentor depth is in place — next is internship UX polish across roles. AI extras and
-          production hardening come later.
+          parent, mentor, and internship status depth is in place. Platform extras (community, certificates)
+          and production hardening come later.
         </p>
 
         <nav className="roles-jump" aria-label="Jump to role">

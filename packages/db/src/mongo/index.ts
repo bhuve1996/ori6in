@@ -45,6 +45,10 @@ import type {
   ParentRepository,
   ParentStudentLink,
 } from '../ports/parent.repository.js';
+import type {
+  Certificate,
+  CertificateRepository,
+} from '../ports/certificate.repository.js';
 
 export async function createMongoRepositories(config: AppConfig): Promise<Repositories> {
   const client = new MongoClient(config.MONGO_URL);
@@ -73,6 +77,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   const parentLinksCol = db.collection<ParentStudentLink>('parent_student_links');
   const parentThreadsCol = db.collection<ParentMessageThread>('parent_message_threads');
   const parentMessagesCol = db.collection<ParentMessage>('parent_messages');
+  const certificatesCol = db.collection<Certificate>('certificates');
 
   await usersCol.createIndex({ email: 1 }, { unique: true });
   await authTokensCol.createIndex({ tokenHash: 1, purpose: 1 });
@@ -95,6 +100,8 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   await parentLinksCol.createIndex({ parentUserId: 1, studentUserId: 1, status: 1 });
   await parentThreadsCol.createIndex({ parentUserId: 1, updatedAt: -1 });
   await parentMessagesCol.createIndex({ threadId: 1, createdAt: 1 });
+  await certificatesCol.createIndex({ code: 1 }, { unique: true });
+  await certificatesCol.createIndex({ userId: 1, programId: 1 }, { unique: true });
 
   const users: UserRepository = {
     async findById(id) {
@@ -751,6 +758,33 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     },
   };
 
+  const certificates: CertificateRepository = {
+    async create(input) {
+      const row: Certificate = {
+        id: randomUUID(),
+        ...input,
+        createdAt: new Date(),
+      };
+      await certificatesCol.insertOne(row);
+      return row;
+    },
+    async findById(id) {
+      return (await certificatesCol.findOne({ id })) ?? null;
+    },
+    async findByCode(code) {
+      return (await certificatesCol.findOne({ code })) ?? null;
+    },
+    async findByUserProgram(userId, programId) {
+      return (await certificatesCol.findOne({ userId, programId })) ?? null;
+    },
+    async listByUser(userId) {
+      return certificatesCol.find({ userId }).sort({ issuedAt: -1 }).toArray();
+    },
+    async listAll(limit = 50) {
+      return certificatesCol.find({}).sort({ issuedAt: -1 }).limit(limit).toArray();
+    },
+  };
+
   return {
     users,
     authTokens,
@@ -765,6 +799,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     mentors,
     profiles,
     parent,
+    certificates,
     async disconnect() {
       await client.close();
     },

@@ -47,6 +47,7 @@ export class AdminService {
       pages,
       posts,
       internships,
+      pendingInternshipApprovals,
     ] = await Promise.all([
       this.repos.users.count(),
       this.repos.users.list({ role: Role.Student, pageSize: 1 }),
@@ -58,6 +59,7 @@ export class AdminService {
       this.repos.cms.listPages(false),
       this.repos.cms.listBlogPosts(false),
       this.repos.internships.listPublished(),
+      this.repos.internships.listPendingApproval(),
     ]);
 
     const recentPaid = await this.repos.orders.listPaid(5);
@@ -74,6 +76,7 @@ export class AdminService {
         cmsPages: pages.length,
         blogPosts: posts.length,
         internships: internships.length,
+        pendingInternshipApprovals: pendingInternshipApprovals.length,
       },
       revenue: {
         amountCents: revenueCents,

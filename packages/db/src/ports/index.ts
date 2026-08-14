@@ -11,6 +11,7 @@ import type { InternshipRepository } from './internship.repository.js';
 import type { MentorRepository } from './mentor.repository.js';
 import type { ProfileRepository } from './profile.repository.js';
 import type { ParentRepository } from './parent.repository.js';
+import type { CertificateRepository } from './certificate.repository.js';
 
 export interface Repositories {
   users: UserRepository;
@@ -26,6 +27,7 @@ export interface Repositories {
   mentors: MentorRepository;
   profiles: ProfileRepository;
   parent: ParentRepository;
+  certificates: CertificateRepository;
   disconnect(): Promise<void>;
 }
 
@@ -92,3 +94,4 @@ export type {
   ParentApplicationDecision,
   MentorCompletionDecision,
 } from './internship.repository.js';
+export type { CertificateRepository, Certificate } from './certificate.repository.js';

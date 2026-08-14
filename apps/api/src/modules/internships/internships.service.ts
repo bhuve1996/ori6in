@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
@@ -77,6 +78,33 @@ export class InternshipsService {
         company: internship.company,
       },
     };
+  }
+
+  async withdraw(userId: string, applicationId: string) {
+    const app = await this.repos.internships.findApplicationById(applicationId);
+    if (!app) throw new NotFoundException('Application not found');
+    if (app.userId !== userId) throw new ForbiddenException();
+    if (app.status === 'withdrawn') return app;
+    if (app.status === 'offered' || app.status === 'rejected') {
+      throw new BadRequestException('Cannot withdraw after a final decision');
+    }
+
+    const updated = await this.repos.internships.updateApplicationStatus(
+      applicationId,
+      'withdrawn',
+      'Withdrawn by student',
+    );
+    if (!updated) throw new NotFoundException('Application not found');
+
+    await this.repos.audit.append({
+      actorId: userId,
+      action: 'internships.withdraw',
+      resourceType: 'internship_application',
+      resourceId: applicationId,
+      metadata: {},
+    });
+
+    return updated;
   }
 
   async myApplications(userId: string) {

@@ -59,6 +59,7 @@ export class DemoContentService implements OnModuleInit {
     await this.seedDemoStudentProfile();
     await this.seedDemoParentAlerts();
     await this.seedParentLinkingAndMessages();
+    await this.seedDemoCertificate();
 
     this.log.log('Demo catalog synced from @ori6in/shared demo-content');
   }
@@ -368,5 +369,34 @@ export class DemoContentService implements OnModuleInit {
       });
       this.log.log('Seeded demo parent messaging thread');
     }
+  }
+
+  private async seedDemoCertificate() {
+    const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
+    const program = await this.repos.programs.findBySlug('career-launchpad');
+    if (!student || !program) return;
+
+    const existing = await this.repos.certificates.findByUserProgram(student.id, program.id);
+    if (existing) return;
+
+    // Mark all published lessons complete so eligibility matches a finished program
+    const courses = await this.repos.learning.listCoursesByProgramIds([program.id]);
+    for (const course of courses.filter((c) => c.published)) {
+      const lessons = await this.repos.learning.listLessonsByCourse(course.id);
+      for (const lesson of lessons.filter((l) => l.published)) {
+        await this.repos.learning.markLessonComplete(student.id, lesson.id);
+      }
+    }
+
+    await this.repos.certificates.create({
+      userId: student.id,
+      programId: program.id,
+      code: 'ORI6IN-DEMO01',
+      title: `Certificate of Completion — ${program.title}`,
+      recipientName: student.fullName,
+      programTitle: program.title,
+      issuedAt: new Date(),
+    });
+    this.log.log('Seeded demo certificate for Career Launchpad');
   }
 }

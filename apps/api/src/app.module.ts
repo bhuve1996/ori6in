@@ -21,6 +21,7 @@ import { StudentProfileModule } from './modules/student-profile/student-profile.
 import { InternshipsModule } from './modules/internships/internships.module';
 import { InternshipsBrowseModule } from './modules/internships-browse/internships-browse.module';
 import { InternshipsApplyModule } from './modules/internships-apply/internships-apply.module';
+import { CertificatesModule } from './modules/certificates/certificates.module';
 import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { MentorsModule } from './modules/mentors/mentors.module';
 import { MentorDashboardModule } from './modules/mentor-dashboard/mentor-dashboard.module';
@@ -59,6 +60,7 @@ import { AiRoadmapModule } from './modules/ai-roadmap/ai-roadmap.module';
     InternshipsModule,
     InternshipsBrowseModule,
     InternshipsApplyModule,
+    CertificatesModule,
     AiChatModule,
     MentorsModule,
     MentorDashboardModule,
