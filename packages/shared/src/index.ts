@@ -1,5 +1,6 @@
 export * from './kernel.js';
 export * from './auth.js';
+export * from './email.js';
 export * from './demo-accounts.js';
 export * from './demo-content.js';
 export * from './catalog.js';

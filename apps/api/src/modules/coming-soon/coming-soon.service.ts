@@ -5,13 +5,12 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import type { ComingSoonSignup, Repositories } from '@ori6in/db';
+import { parseEmail } from '@ori6in/shared';
 import { REPOSITORIES } from '../../common/database.service';
 import {
   isOutboundMailConfigured,
   sendComingSoonLiveEmail,
 } from '../../common/mailer';
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function serialize(row: ComingSoonSignup) {
   return {
@@ -29,17 +28,16 @@ export class ComingSoonService {
   constructor(@Inject(REPOSITORIES) private readonly repos: Repositories) {}
 
   async signup(input: { email?: string; name?: string }) {
-    const email =
-      typeof input.email === 'string' ? input.email.trim().toLowerCase() : '';
+    const parsed = parseEmail(input.email);
+    if (!parsed.ok) {
+      throw new BadRequestException(parsed.message);
+    }
+
     const name =
       typeof input.name === 'string' ? input.name.trim().slice(0, 80) : '';
 
-    if (!EMAIL_RE.test(email)) {
-      throw new BadRequestException('Enter a valid email');
-    }
-
     const { signup, created } = await this.repos.comingSoonSignups.upsert({
-      email,
+      email: parsed.email,
       name: name || null,
     });
 

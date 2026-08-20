@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { parseEmail } from '@ori6in/shared';
 import { BRAND } from '../lib/media';
 import { SITE_NAME } from '../lib/site';
 
@@ -14,13 +15,21 @@ export function ComingSoonView() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    setStatus('loading');
     setMessage('');
+
+    const parsed = parseEmail(email);
+    if (!parsed.ok) {
+      setStatus('error');
+      setMessage(parsed.message);
+      return;
+    }
+
+    setStatus('loading');
     try {
       const res = await fetch('/api/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email: parsed.email, name }),
       });
       const data = (await res.json().catch(() => ({}))) as { message?: string };
       if (!res.ok) {
@@ -75,6 +84,7 @@ export function ComingSoonView() {
         <motion.form
           className="coming-soon__form"
           onSubmit={onSubmit}
+          noValidate
           initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
@@ -85,6 +95,7 @@ export function ComingSoonView() {
               name="name"
               placeholder="Your name"
               autoComplete="name"
+              maxLength={80}
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={status === 'loading' || status === 'done'}
@@ -95,11 +106,22 @@ export function ComingSoonView() {
             <input
               name="email"
               type="email"
+              inputMode="email"
               placeholder="Email address"
               autoComplete="email"
               required
+              maxLength={254}
+              spellCheck={false}
+              aria-invalid={status === 'error' ? true : undefined}
+              aria-describedby={message ? 'coming-soon-msg' : undefined}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (status === 'error') {
+                  setStatus('idle');
+                  setMessage('');
+                }
+              }}
               disabled={status === 'loading' || status === 'done'}
             />
           </label>
@@ -112,6 +134,7 @@ export function ComingSoonView() {
           </button>
           {message ? (
             <p
+              id="coming-soon-msg"
               className={status === 'error' ? 'coming-soon__msg is-error' : 'coming-soon__msg'}
               role="status"
             >

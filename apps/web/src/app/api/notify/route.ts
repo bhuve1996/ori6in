@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
+import { parseEmail } from '@ori6in/shared';
 import {
   isNotifyMailConfigured,
   sendComingSoonNotify,
 } from '../../../lib/notify-mail';
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Body = {
   email?: string;
@@ -44,12 +43,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Invalid JSON' }, { status: 400 });
   }
 
-  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-  const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : '';
-
-  if (!EMAIL_RE.test(email)) {
-    return NextResponse.json({ message: 'Enter a valid email' }, { status: 400 });
+  const parsed = parseEmail(body.email);
+  if (!parsed.ok) {
+    return NextResponse.json({ message: parsed.message }, { status: 400 });
   }
+
+  const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : '';
+  const email = parsed.email;
 
   let created = true;
   try {
