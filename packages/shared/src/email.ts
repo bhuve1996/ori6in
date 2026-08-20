@@ -72,6 +72,10 @@ export function parseEmail(raw: unknown): EmailParseResult {
     return { ok: false, message: 'Enter a valid email address' };
   }
 
+  if (local.length < 2) {
+    return { ok: false, message: 'Enter a complete email address' };
+  }
+
   if (local.length > 64) {
     return { ok: false, message: 'Email address is too long' };
   }
@@ -100,6 +104,12 @@ export function parseEmail(raw: unknown): EmailParseResult {
       ok: false,
       message: 'Email domain looks incomplete (check .com / .in etc.)',
     };
+  }
+
+  // Reject junk like a@g.com — name + domain labels (before TLD) need real length.
+  const nameLabels = labels.slice(0, -1);
+  if (nameLabels.some((label) => label.length < 2)) {
+    return { ok: false, message: 'Enter a complete email address' };
   }
 
   if (BLOCKED_DOMAINS.has(domain) || BLOCKED_DOMAINS.has(labels.slice(-2).join('.'))) {
