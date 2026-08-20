@@ -35,7 +35,13 @@ export function SiteFooter() {
           <img src={BRAND.owl} alt="" width={40} height={40} className="site-footer__owl" />
           <div>
             <p className="site-footer__name">
-              ORI<span className="brand__six">6</span>IN
+              <img
+                className="site-footer__logo"
+                src={BRAND.logoDark}
+                alt="ORI6IN"
+                width={140}
+                height={56}
+              />
             </p>
             <p className="site-footer__copy">
               © {year} · {BRAND.tagline}

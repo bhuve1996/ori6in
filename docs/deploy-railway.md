@@ -94,22 +94,17 @@ Override with query param (sets a cookie):
 
 Turn soft launch off for everyone by setting `NEXT_PUBLIC_COMING_SOON=false` and redeploying web.
 
-Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `rishi@ori6ineducation.com`). Configure **one** of:
+Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `rishi@ori6ineducation.com`). Configure **Zoho Mail SMTP** (shared on Railway):
 
 ```bash
-# Resend
-RESEND_API_KEY=re_...
-NOTIFY_FROM_EMAIL=ORI6IN <noreply@your-domain.com>
-
-# or SMTP (e.g. Google Workspace)
-SMTP_HOST=smtp.gmail.com
+SMTP_HOST=smtp.zoho.in
 SMTP_PORT=587
 SMTP_USER=rishi@ori6ineducation.com
-SMTP_PASS=your-app-password
+SMTP_PASS=<zoho-app-password>
 NOTIFY_FROM_EMAIL=ORI6IN <rishi@ori6ineducation.com>
 ```
 
-These are **runtime** vars on the web service (not build args).
+(Use `smtp.zoho.com` if the mailbox is on Zoho’s `.com` data center.) Optional alternative: `RESEND_API_KEY`.
 
 4. Runtime env (optional):
 

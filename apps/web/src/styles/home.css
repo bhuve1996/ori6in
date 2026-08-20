@@ -355,16 +355,17 @@ body[data-home-theme='closing'] .home-blob--a {
 }
 
 .home-hero__brand {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(3rem, 9vw, 5.5rem);
-  letter-spacing: 0.08em;
-  line-height: 0.95;
   margin: 0 0 1rem;
-  font-weight: 700;
+  line-height: 0;
 }
 
-.home-hero__word {
-  display: inline-block;
+.home-hero__logo {
+  display: block;
+  width: min(100%, 22rem);
+  aspect-ratio: 640 / 155;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
 }
 
 .home-hero.is-ready .home-hero__brand {

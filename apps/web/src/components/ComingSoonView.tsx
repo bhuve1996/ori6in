@@ -2,13 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { SITE_NAME, SITE_TAGLINE } from '../lib/site';
-import { ComingSoonToggle } from './ComingSoonToggle';
+import { BRAND } from '../lib/media';
+import { SITE_NAME } from '../lib/site';
 
-/**
- * Soft-launch page intentionally does not load logo / owl assets.
- * Veiled CSS shapes only — nothing to unblur or download in DevTools.
- */
 export function ComingSoonView() {
   const reduceMotion = useReducedMotion();
   const [email, setEmail] = useState('');
@@ -47,8 +43,6 @@ export function ComingSoonView() {
       <div className="coming-soon__glow" aria-hidden />
       <div className="coming-soon__grain" aria-hidden />
 
-      <ComingSoonToggle />
-
       <div className="coming-soon__stage">
         <motion.div
           className="coming-soon__brand"
@@ -56,10 +50,13 @@ export function ComingSoonView() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="coming-soon__mark" aria-label={SITE_NAME}>
-            <span className="coming-soon__mark-veil" aria-hidden />
-          </div>
-          <p className="coming-soon__tagline type-kicker">{SITE_TAGLINE}</p>
+          <img
+            className="coming-soon__logo"
+            src={BRAND.logoDark}
+            alt={SITE_NAME}
+            width={280}
+            height={112}
+          />
         </motion.div>
 
         <motion.div
@@ -124,15 +121,20 @@ export function ComingSoonView() {
         </motion.form>
       </div>
 
-      <motion.div
-        className="coming-soon__mascot"
+      <motion.aside
+        className="coming-soon__reveal"
         aria-hidden
-        initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+        initial={reduceMotion ? false : { opacity: 0, x: 28 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="coming-soon__mascot-veil" />
-      </motion.div>
+        <div className="coming-soon__reveal-curtain" />
+        <p className="coming-soon__reveal-text">
+          <span>Revealing</span>
+          <span>soon</span>
+        </p>
+        <span className="coming-soon__reveal-shimmer" />
+      </motion.aside>
     </main>
   );
 }

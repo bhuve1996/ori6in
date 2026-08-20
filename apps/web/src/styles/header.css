@@ -61,8 +61,11 @@
 }
 
 .brand__six {
+  /* Match logo wordmark (Didot / Bodoni / Playfair) — gold italic 6 */
+  font-family: Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif;
   color: var(--gold);
   font-style: italic;
+  font-weight: 400;
 }
 
 .site-header nav {

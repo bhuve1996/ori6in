@@ -2,7 +2,6 @@ import { NextResponse, type NextRequest } from 'next/server';
 import {
   COMING_SOON_COOKIE,
   COMING_SOON_PARAM,
-  isComingSoonRevealPath,
   resolveComingSoon,
 } from './lib/coming-soon';
 
@@ -48,10 +47,6 @@ export function middleware(request: NextRequest) {
   }
 
   const active = resolveComingSoon(request.cookies.get(COMING_SOON_COOKIE)?.value);
-
-  if (active && isComingSoonRevealPath(pathname)) {
-    return new NextResponse(null, { status: 404 });
-  }
 
   if (isPassthrough(pathname)) {
     return nextWithSoftLaunch(request, active);

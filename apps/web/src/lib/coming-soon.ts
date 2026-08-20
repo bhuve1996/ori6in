@@ -21,13 +21,3 @@ export function comingSoonToggleVisible() {
   if (flag === 'false') return false;
   return process.env.NODE_ENV !== 'production';
 }
-
-/** Paths that would reveal brand / mascot while soft-launch is on. */
-export function isComingSoonRevealPath(pathname: string) {
-  return (
-    pathname.startsWith('/brand/') ||
-    pathname === '/apple-icon' ||
-    pathname === '/favicon.ico' ||
-    pathname === '/favicon.svg'
-  );
-}

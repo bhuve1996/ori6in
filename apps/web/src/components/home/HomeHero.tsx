@@ -53,9 +53,13 @@ export function HomeHero({ ready, sectionRef }: Props) {
             animate={ready ? 'show' : 'hidden'}
             transition={{ delay: 0.12, duration: 0.5, ease: easeOut }}
           >
-            <span className="home-hero__word">
-              ORI<span className="brand__six">6</span>IN
-            </span>
+            <img
+              className="home-hero__logo"
+              src={BRAND.logoDark}
+              alt="ORI6IN"
+              width={420}
+              height={168}
+            />
           </motion.h1>
           <motion.p
             className="home-hero__headline"

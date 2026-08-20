@@ -31,7 +31,7 @@ export default function OpenGraphImage() {
             letterSpacing: '0.08em',
           }}
         >
-          ORI<span style={{ color: '#c2a772', fontStyle: 'italic' }}>6</span>IN
+          ORI<span style={{ color: '#c2a772', fontStyle: 'italic', fontFamily: "Didot, 'Bodoni MT', Georgia, serif", fontWeight: 400 }}>6</span>IN
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
           <div style={{ fontSize: 52, fontWeight: 650, lineHeight: 1.15 }}>

@@ -179,15 +179,17 @@ body:has(.home) .site-footer {
 
 .site-footer__name {
   margin: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  font-size: 0.95rem;
-  color: #f7f3ec;
+  line-height: 0;
 }
 
-.site-footer__name .brand__six {
-  color: var(--gold-bright);
+.site-footer__logo {
+  display: block;
+  height: 1.75rem;
+  width: auto;
+  max-width: 9.5rem;
+  aspect-ratio: 640 / 155;
+  object-fit: cover;
+  object-position: top left;
 }
 
 .site-footer__copy {
