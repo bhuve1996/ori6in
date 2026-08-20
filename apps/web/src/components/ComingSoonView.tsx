@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { parseEmail } from '@ori6in/shared';
 import { BRAND } from '../lib/media';
@@ -10,11 +10,22 @@ export function ComingSoonView() {
   const reduceMotion = useReducedMotion();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
+  const emailCheck = useMemo(() => parseEmail(email), [email]);
+  const emailOk = emailCheck.ok;
+  const emailHint =
+    emailTouched && email.trim() && !emailOk
+      ? emailCheck.message
+      : null;
+  const canSubmit =
+    emailOk && status !== 'loading' && status !== 'done';
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    setEmailTouched(true);
     setMessage('');
 
     const parsed = parseEmail(email);
@@ -41,6 +52,7 @@ export function ComingSoonView() {
       setMessage("You're on the list. We'll email you when we open.");
       setEmail('');
       setName('');
+      setEmailTouched(false);
     } catch {
       setStatus('error');
       setMessage('Network error. Try again in a moment.');
@@ -112,33 +124,51 @@ export function ComingSoonView() {
               required
               maxLength={254}
               spellCheck={false}
-              aria-invalid={status === 'error' ? true : undefined}
-              aria-describedby={message ? 'coming-soon-msg' : undefined}
+              aria-invalid={emailTouched && !emailOk ? true : undefined}
+              aria-describedby={
+                emailHint || message ? 'coming-soon-msg' : undefined
+              }
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
+                if (!emailTouched && e.target.value.trim()) {
+                  setEmailTouched(true);
+                }
                 if (status === 'error') {
                   setStatus('idle');
                   setMessage('');
                 }
               }}
+              onBlur={() => setEmailTouched(true)}
               disabled={status === 'loading' || status === 'done'}
             />
           </label>
           <button
             className="btn btn-accent"
             type="submit"
-            disabled={status === 'loading' || status === 'done'}
+            disabled={!canSubmit}
+            aria-disabled={!canSubmit}
+            title={
+              !email.trim()
+                ? 'Enter your email address'
+                : !emailOk
+                  ? emailCheck.message
+                  : undefined
+            }
           >
             {status === 'loading' ? 'Saving…' : status === 'done' ? 'Registered' : 'Notify me'}
           </button>
-          {message ? (
+          {emailHint || message ? (
             <p
               id="coming-soon-msg"
-              className={status === 'error' ? 'coming-soon__msg is-error' : 'coming-soon__msg'}
+              className={
+                emailHint || status === 'error'
+                  ? 'coming-soon__msg is-error'
+                  : 'coming-soon__msg'
+              }
               role="status"
             >
-              {message}
+              {emailHint || message}
             </p>
           ) : null}
         </motion.form>
