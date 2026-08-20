@@ -12,18 +12,13 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#0c0c0c',
     icons: [
       {
-        src: '/favicon.ico',
+        src: '/favicon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+      },
+      {
+        src: '/favicon-32.png',
         sizes: '32x32',
-        type: 'image/png',
-      },
-      {
-        src: '/favicon-48.png',
-        sizes: '48x48',
-        type: 'image/png',
-      },
-      {
-        src: '/brand/owl-icon.png',
-        sizes: '256x256',
         type: 'image/png',
       },
       {
@@ -34,6 +29,11 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         src: '/icon',
         sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        src: '/apple-icon',
+        sizes: '180x180',
         type: 'image/png',
       },
     ],
