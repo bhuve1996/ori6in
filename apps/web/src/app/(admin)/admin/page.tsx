@@ -103,6 +103,7 @@ export default function AdminPortalPage() {
           { href: '/admin/cms', label: 'CMS' },
           { href: '/admin/approvals', label: 'Internship approvals' },
           { href: '/admin/certificates', label: 'Certificates' },
+          { href: '/admin/coming-soon', label: 'Coming soon waitlist' },
         ]}
       />
 

@@ -49,6 +49,10 @@ import type {
   Certificate,
   CertificateRepository,
 } from '../ports/certificate.repository.js';
+import type {
+  ComingSoonSignup,
+  ComingSoonSignupRepository,
+} from '../ports/coming-soon-signup.repository.js';
 
 export async function createMongoRepositories(config: AppConfig): Promise<Repositories> {
   const client = new MongoClient(config.MONGO_URL);
@@ -78,6 +82,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   const parentThreadsCol = db.collection<ParentMessageThread>('parent_message_threads');
   const parentMessagesCol = db.collection<ParentMessage>('parent_messages');
   const certificatesCol = db.collection<Certificate>('certificates');
+  const comingSoonSignupsCol = db.collection<ComingSoonSignup>('coming_soon_signups');
 
   await usersCol.createIndex({ email: 1 }, { unique: true });
   await authTokensCol.createIndex({ tokenHash: 1, purpose: 1 });
@@ -102,6 +107,9 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
   await parentMessagesCol.createIndex({ threadId: 1, createdAt: 1 });
   await certificatesCol.createIndex({ code: 1 }, { unique: true });
   await certificatesCol.createIndex({ userId: 1, programId: 1 }, { unique: true });
+  await comingSoonSignupsCol.createIndex({ email: 1 }, { unique: true });
+  await comingSoonSignupsCol.createIndex({ createdAt: -1 });
+  await comingSoonSignupsCol.createIndex({ announcedAt: 1 });
 
   const users: UserRepository = {
     async findById(id) {
@@ -785,6 +793,61 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     },
   };
 
+  const comingSoonSignups: ComingSoonSignupRepository = {
+    async upsert(input) {
+      const email = input.email.trim().toLowerCase();
+      const name = input.name?.trim() || null;
+      const existing = await comingSoonSignupsCol.findOne({ email });
+      if (existing) {
+        const updated: ComingSoonSignup = {
+          ...existing,
+          name: name ?? existing.name,
+          updatedAt: new Date(),
+        };
+        await comingSoonSignupsCol.replaceOne({ id: existing.id }, updated);
+        return { signup: updated, created: false };
+      }
+      const signup: ComingSoonSignup = {
+        id: randomUUID(),
+        email,
+        name,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        announcedAt: null,
+      };
+      await comingSoonSignupsCol.insertOne(signup);
+      return { signup, created: true };
+    },
+    async findByEmail(email) {
+      return (
+        (await comingSoonSignupsCol.findOne({
+          email: email.trim().toLowerCase(),
+        })) ?? null
+      );
+    },
+    async listAll(limit = 500) {
+      return comingSoonSignupsCol.find({}).sort({ createdAt: -1 }).limit(limit).toArray();
+    },
+    async listPendingAnnounce(limit = 500) {
+      return comingSoonSignupsCol
+        .find({ announcedAt: null })
+        .sort({ createdAt: 1 })
+        .limit(limit)
+        .toArray();
+    },
+    async markAnnounced(ids, at) {
+      if (ids.length === 0) return 0;
+      const result = await comingSoonSignupsCol.updateMany(
+        { id: { $in: ids }, announcedAt: null },
+        { $set: { announcedAt: at, updatedAt: new Date() } },
+      );
+      return result.modifiedCount;
+    },
+    async count() {
+      return comingSoonSignupsCol.countDocuments();
+    },
+  };
+
   return {
     users,
     authTokens,
@@ -800,6 +863,7 @@ export async function createMongoRepositories(config: AppConfig): Promise<Reposi
     profiles,
     parent,
     certificates,
+    comingSoonSignups,
     async disconnect() {
       await client.close();
     },

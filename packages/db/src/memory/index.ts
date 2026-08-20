@@ -47,6 +47,10 @@ import type {
   Certificate,
   CertificateRepository,
 } from '../ports/certificate.repository.js';
+import type {
+  ComingSoonSignup,
+  ComingSoonSignupRepository,
+} from '../ports/coming-soon-signup.repository.js';
 
 function now() {
   return new Date();
@@ -73,6 +77,7 @@ export function createMemoryRepositories(): Repositories {
   const mentorNotes = new Map<string, MentorSessionNote>();
   const mentorSessions = new Map<string, MentorSession>();
   const certificates = new Map<string, Certificate>();
+  const comingSoonSignups = new Map<string, ComingSoonSignup>();
 
   const userRepo: UserRepository = {
     async findById(id) {
@@ -691,6 +696,61 @@ export function createMemoryRepositories(): Repositories {
     },
   };
 
+  const comingSoonSignupRepo: ComingSoonSignupRepository = {
+    async upsert(input) {
+      const email = input.email.trim().toLowerCase();
+      const name = input.name?.trim() || null;
+      const existing = [...comingSoonSignups.values()].find((s) => s.email === email);
+      if (existing) {
+        const updated: ComingSoonSignup = {
+          ...existing,
+          name: name ?? existing.name,
+          updatedAt: now(),
+        };
+        comingSoonSignups.set(updated.id, updated);
+        return { signup: updated, created: false };
+      }
+      const signup: ComingSoonSignup = {
+        id: randomUUID(),
+        email,
+        name,
+        createdAt: now(),
+        updatedAt: now(),
+        announcedAt: null,
+      };
+      comingSoonSignups.set(signup.id, signup);
+      return { signup, created: true };
+    },
+    async findByEmail(email) {
+      const normalized = email.trim().toLowerCase();
+      return [...comingSoonSignups.values()].find((s) => s.email === normalized) ?? null;
+    },
+    async listAll(limit = 500) {
+      return [...comingSoonSignups.values()]
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+        .slice(0, limit);
+    },
+    async listPendingAnnounce(limit = 500) {
+      return [...comingSoonSignups.values()]
+        .filter((s) => s.announcedAt == null)
+        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+        .slice(0, limit);
+    },
+    async markAnnounced(ids, at) {
+      let n = 0;
+      for (const id of ids) {
+        const row = comingSoonSignups.get(id);
+        if (!row || row.announcedAt) continue;
+        comingSoonSignups.set(id, { ...row, announcedAt: at, updatedAt: now() });
+        n += 1;
+      }
+      return n;
+    },
+    async count() {
+      return comingSoonSignups.size;
+    },
+  };
+
   const mentorRepo: MentorRepository = {
     async createAssignment(input) {
       const t = now();
@@ -817,6 +877,7 @@ export function createMemoryRepositories(): Repositories {
     profiles: profileRepo,
     parent: parentRepo,
     certificates: certificateRepo,
+    comingSoonSignups: comingSoonSignupRepo,
     async disconnect() {},
   };
 }

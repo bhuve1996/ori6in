@@ -11,6 +11,31 @@ type Body = {
   name?: string;
 };
 
+function apiBase() {
+  const raw =
+    process.env.API_URL?.trim() ||
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, '') ||
+    'http://localhost:3001';
+  return raw.replace(/\/$/, '');
+}
+
+async function persistSignup(email: string, name?: string) {
+  const res = await fetch(`${apiBase()}/api/coming-soon/signups`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, name }),
+  });
+  const data = (await res.json().catch(() => ({}))) as {
+    ok?: boolean;
+    created?: boolean;
+    message?: string;
+  };
+  if (!res.ok) {
+    throw new Error(data.message || `Could not save signup (${res.status})`);
+  }
+  return data;
+}
+
 export async function POST(request: Request) {
   let body: Body;
   try {
@@ -26,12 +51,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Enter a valid email' }, { status: 400 });
   }
 
-  if (!isNotifyMailConfigured()) {
-    console.error('[notify] mail not configured');
+  let created = true;
+  try {
+    const saved = await persistSignup(email, name || undefined);
+    created = saved.created !== false;
+  } catch (err) {
+    console.error('[notify] persist failed', err);
     return NextResponse.json(
-      { message: 'Notify signup is temporarily unavailable. Try again later.' },
-      { status: 503 },
+      { message: 'Could not save your signup. Please try again.' },
+      { status: 502 },
     );
+  }
+
+  if (!isNotifyMailConfigured()) {
+    console.warn('[notify] mail not configured; signup saved without ops email');
+    return NextResponse.json({ ok: true, created });
   }
 
   const signup = {
@@ -41,14 +75,15 @@ export async function POST(request: Request) {
   };
 
   try {
-    const result = await sendComingSoonNotify(signup);
-    console.info('[notify] sent', { email: signup.email, provider: result.provider });
-    return NextResponse.json({ ok: true });
+    if (created) {
+      const result = await sendComingSoonNotify(signup);
+      console.info('[notify] sent', { email: signup.email, provider: result.provider });
+    } else {
+      console.info('[notify] duplicate signup skipped ops email', { email });
+    }
+    return NextResponse.json({ ok: true, created });
   } catch (err) {
-    console.error('[notify] send failed', err);
-    return NextResponse.json(
-      { message: 'Could not send your signup. Please try again.' },
-      { status: 502 },
-    );
+    console.error('[notify] send failed (signup already saved)', err);
+    return NextResponse.json({ ok: true, created, mailWarning: true });
   }
 }

@@ -52,6 +52,10 @@ import type {
   Certificate,
   CertificateRepository,
 } from '../ports/certificate.repository.js';
+import type {
+  ComingSoonSignup,
+  ComingSoonSignupRepository,
+} from '../ports/coming-soon-signup.repository.js';
 
 const { Pool } = pg;
 
@@ -361,7 +365,32 @@ async function migrate(pool: pg.Pool) {
     CREATE INDEX IF NOT EXISTS certificates_user_idx ON certificates (user_id);
     CREATE INDEX IF NOT EXISTS certificates_user_program_idx
       ON certificates (user_id, program_id);
+
+    CREATE TABLE IF NOT EXISTS coming_soon_signups (
+      id UUID PRIMARY KEY,
+      email TEXT UNIQUE NOT NULL,
+      name TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      announced_at TIMESTAMPTZ
+    );
+    CREATE INDEX IF NOT EXISTS coming_soon_signups_created_idx
+      ON coming_soon_signups (created_at DESC);
+    CREATE INDEX IF NOT EXISTS coming_soon_signups_pending_idx
+      ON coming_soon_signups (announced_at)
+      WHERE announced_at IS NULL;
   `);
+}
+
+function mapComingSoonSignup(row: Record<string, unknown>): ComingSoonSignup {
+  return {
+    id: String(row.id),
+    email: String(row.email),
+    name: row.name == null ? null : String(row.name),
+    createdAt: new Date(row.created_at as string),
+    updatedAt: new Date(row.updated_at as string),
+    announcedAt: row.announced_at ? new Date(row.announced_at as string) : null,
+  };
 }
 
 function mapStudentProfile(row: Record<string, unknown>): StudentProfile {
@@ -1810,6 +1839,72 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     },
   };
 
+  const comingSoonSignups: ComingSoonSignupRepository = {
+    async upsert(input) {
+      const email = input.email.trim().toLowerCase();
+      const name = input.name?.trim() || null;
+      const existing = await pool.query(
+        'SELECT * FROM coming_soon_signups WHERE email = $1',
+        [email],
+      );
+      if (existing.rows[0]) {
+        const r = await pool.query(
+          `UPDATE coming_soon_signups
+           SET name = COALESCE($2, name), updated_at = NOW()
+           WHERE email = $1
+           RETURNING *`,
+          [email, name],
+        );
+        return { signup: mapComingSoonSignup(r.rows[0]), created: false };
+      }
+      const id = randomUUID();
+      const r = await pool.query(
+        `INSERT INTO coming_soon_signups (id, email, name)
+         VALUES ($1, $2, $3) RETURNING *`,
+        [id, email, name],
+      );
+      return { signup: mapComingSoonSignup(r.rows[0]), created: true };
+    },
+    async findByEmail(email) {
+      const r = await pool.query(
+        'SELECT * FROM coming_soon_signups WHERE email = $1',
+        [email.trim().toLowerCase()],
+      );
+      return r.rows[0] ? mapComingSoonSignup(r.rows[0]) : null;
+    },
+    async listAll(limit = 500) {
+      const r = await pool.query(
+        `SELECT * FROM coming_soon_signups ORDER BY created_at DESC LIMIT $1`,
+        [limit],
+      );
+      return r.rows.map(mapComingSoonSignup);
+    },
+    async listPendingAnnounce(limit = 500) {
+      const r = await pool.query(
+        `SELECT * FROM coming_soon_signups
+         WHERE announced_at IS NULL
+         ORDER BY created_at ASC
+         LIMIT $1`,
+        [limit],
+      );
+      return r.rows.map(mapComingSoonSignup);
+    },
+    async markAnnounced(ids, at) {
+      if (ids.length === 0) return 0;
+      const r = await pool.query(
+        `UPDATE coming_soon_signups
+         SET announced_at = $2, updated_at = NOW()
+         WHERE id = ANY($1::uuid[]) AND announced_at IS NULL`,
+        [ids, at],
+      );
+      return r.rowCount ?? 0;
+    },
+    async count() {
+      const r = await pool.query('SELECT COUNT(*)::int AS c FROM coming_soon_signups');
+      return Number(r.rows[0]?.c ?? 0);
+    },
+  };
+
   return {
     users,
     authTokens,
@@ -1825,6 +1920,7 @@ export async function createPostgresRepositories(config: AppConfig): Promise<Rep
     profiles,
     parent,
     certificates,
+    comingSoonSignups,
     async disconnect() {
       await pool.end();
     },

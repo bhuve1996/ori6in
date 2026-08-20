@@ -119,6 +119,7 @@ export function portalNavLinks(role: string): NavLink[] {
       { href: '/admin/cms', label: 'CMS' },
       { href: '/admin/approvals', label: 'Approvals' },
       { href: '/admin/certificates', label: 'Certificates' },
+      { href: '/admin/coming-soon', label: 'Waitlist' },
       { href: '/programs', label: 'Programs' },
       { href: '/', label: 'Home' },
       { href: '#logout', label: 'Log out' },

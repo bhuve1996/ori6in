@@ -12,6 +12,7 @@ import type { MentorRepository } from './mentor.repository.js';
 import type { ProfileRepository } from './profile.repository.js';
 import type { ParentRepository } from './parent.repository.js';
 import type { CertificateRepository } from './certificate.repository.js';
+import type { ComingSoonSignupRepository } from './coming-soon-signup.repository.js';
 
 export interface Repositories {
   users: UserRepository;
@@ -28,6 +29,7 @@ export interface Repositories {
   profiles: ProfileRepository;
   parent: ParentRepository;
   certificates: CertificateRepository;
+  comingSoonSignups: ComingSoonSignupRepository;
   disconnect(): Promise<void>;
 }
 
@@ -95,3 +97,7 @@ export type {
   MentorCompletionDecision,
 } from './internship.repository.js';
 export type { CertificateRepository, Certificate } from './certificate.repository.js';
+export type {
+  ComingSoonSignupRepository,
+  ComingSoonSignup,
+} from './coming-soon-signup.repository.js';
