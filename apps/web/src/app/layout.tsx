@@ -77,16 +77,15 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
+    // Prefer the gold “6” SVG; PNGs as fallback (cache-busted for local/prod).
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.svg?v=gold6', type: 'image/svg+xml' },
+      { url: '/favicon-32.png?v=gold6', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico?v=gold6', sizes: '48x48' },
     ],
-    shortcut: ['/favicon.ico'],
+    shortcut: [{ url: '/favicon-32.png?v=gold6', type: 'image/png' }],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-touch-icon.png?v=gold6', sizes: '180x180', type: 'image/png' },
     ],
   },
   category: 'education',
