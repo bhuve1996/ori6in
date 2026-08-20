@@ -28,6 +28,13 @@ export function ComingSoonView() {
     setEmailTouched(true);
     setMessage('');
 
+    if (!canSubmit) {
+      const parsed = parseEmail(email);
+      setStatus('error');
+      setMessage(parsed.ok ? 'Enter a valid email address' : parsed.message);
+      return;
+    }
+
     const parsed = parseEmail(email);
     if (!parsed.ok) {
       setStatus('error');
@@ -117,8 +124,10 @@ export function ComingSoonView() {
             <span className="sr-only">Email</span>
             <input
               name="email"
-              type="email"
+              type="text"
               inputMode="email"
+              autoCapitalize="none"
+              autoCorrect="off"
               placeholder="Email address"
               autoComplete="email"
               required
@@ -131,9 +140,7 @@ export function ComingSoonView() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (!emailTouched && e.target.value.trim()) {
-                  setEmailTouched(true);
-                }
+                setEmailTouched(true);
                 if (status === 'error') {
                   setStatus('idle');
                   setMessage('');

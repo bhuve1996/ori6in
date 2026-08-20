@@ -1,7 +1,8 @@
 /** Practical email checks for signup / notify forms (not full RFC 5322). */
 
-const EMAIL_RE =
-  /^(?=.{3,254}$)[a-z0-9](?:[a-z0-9._+-]*[a-z0-9])?@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i;
+const LOCAL_RE = /^[a-z0-9](?:[a-z0-9._+-]*[a-z0-9])?$/i;
+const DOMAIN_LABEL_RE = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+const TLD_RE = /^[a-z]{2,24}$/i;
 
 /** Domains that are not usable inboxes for waitlist signup. */
 const BLOCKED_DOMAINS = new Set([
@@ -45,11 +46,20 @@ export function parseEmail(raw: unknown): EmailParseResult {
     return { ok: false, message: 'Email address is too long' };
   }
 
-  if (/\s/.test(raw.trim())) {
+  // Any whitespace (including in the middle) is invalid.
+  if (/\s/.test(raw) || /\s/.test(email)) {
     return { ok: false, message: 'Email cannot contain spaces' };
   }
 
-  if (email.includes('..')) {
+  // Reject symbols that show up in typos / junk input ($, <, >, etc.).
+  if (/[^a-z0-9.@_+-]/i.test(email)) {
+    return {
+      ok: false,
+      message: 'Email can only use letters, numbers, and . _ + -',
+    };
+  }
+
+  if (email.includes('..') || email.includes('@@')) {
     return { ok: false, message: 'Enter a valid email address' };
   }
 
@@ -66,14 +76,30 @@ export function parseEmail(raw: unknown): EmailParseResult {
     return { ok: false, message: 'Email address is too long' };
   }
 
-  if (!EMAIL_RE.test(email)) {
+  if (!LOCAL_RE.test(local)) {
     return { ok: false, message: 'Enter a valid email address' };
   }
 
   const labels = domain.split('.');
+  if (labels.length < 2) {
+    return {
+      ok: false,
+      message: 'Email domain looks incomplete (check .com / .in etc.)',
+    };
+  }
+
+  for (const label of labels) {
+    if (!label || !DOMAIN_LABEL_RE.test(label)) {
+      return { ok: false, message: 'Enter a valid email address' };
+    }
+  }
+
   const tld = labels[labels.length - 1] ?? '';
-  if (tld.length < 2 || !/^[a-z]{2,}$/i.test(tld)) {
-    return { ok: false, message: 'Email domain looks incomplete (check .com / .in etc.)' };
+  if (!TLD_RE.test(tld)) {
+    return {
+      ok: false,
+      message: 'Email domain looks incomplete (check .com / .in etc.)',
+    };
   }
 
   if (BLOCKED_DOMAINS.has(domain) || BLOCKED_DOMAINS.has(labels.slice(-2).join('.'))) {
