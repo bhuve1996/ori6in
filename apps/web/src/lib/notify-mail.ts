@@ -146,7 +146,7 @@ function escapeHtml(value: string) {
 }
 
 async function sendViaResend(signup: ComingSoonSignup) {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) return false;
 
   const from =
@@ -183,7 +183,7 @@ function smtpTargets(host: string) {
     process.env.SMTP_SECURE === '1' ||
     preferredPort === 465;
   const primary = { host, port: preferredPort, secure: preferredSecure };
-  // Railway often times out on Zoho STARTTLS :587; fall back to SMTPS :465.
+  // Prefer SMTPS :465; fall back to STARTTLS :587 for local / Pro networks.
   const fallback =
     preferredPort === 465
       ? { host, port: 587, secure: false }
@@ -191,7 +191,18 @@ function smtpTargets(host: string) {
   return [primary, fallback];
 }
 
+function smtpLikelyBlocked() {
+  // Railway Hobby/Trial block outbound SMTP; skip slow timeouts unless forced.
+  if (process.env.ALLOW_SMTP === 'true') return false;
+  return Boolean(process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_ENVIRONMENT_NAME);
+}
+
 async function sendViaSmtp(signup: ComingSoonSignup) {
+  if (smtpLikelyBlocked()) {
+    console.warn('[notify] skipping SMTP (Railway blocks outbound SMTP on Hobby)');
+    return false;
+  }
+
   const host = process.env.SMTP_HOST?.trim();
   const user = process.env.SMTP_USER?.trim();
   const pass = process.env.SMTP_PASS?.trim();
@@ -202,7 +213,6 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
     `ORI6IN <${user}>`;
   const { subject, text, html } = mailBody(signup);
 
-  let lastError: unknown;
   for (const target of smtpTargets(host)) {
     try {
       const transporter = nodemailer.createTransport({
@@ -210,9 +220,9 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
         port: target.port,
         secure: target.secure,
         auth: { user, pass },
-        connectionTimeout: 20_000,
-        greetingTimeout: 20_000,
-        socketTimeout: 30_000,
+        connectionTimeout: 12_000,
+        greetingTimeout: 12_000,
+        socketTimeout: 20_000,
         requireTLS: !target.secure,
         tls: { minVersion: 'TLSv1.2' },
       });
@@ -226,34 +236,58 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
       });
       return true;
     } catch (err) {
-      lastError = err;
       console.warn(
         `[notify] SMTP failed ${target.host}:${target.port}`,
         err instanceof Error ? err.message : err,
       );
     }
   }
+  return false;
+}
 
-  throw lastError instanceof Error
-    ? lastError
-    : new Error('SMTP send failed on all configured ports');
+/**
+ * HTTPS fallback for hosts that block SMTP (e.g. Railway Hobby).
+ * First delivery may require clicking FormSubmit's confirmation link in enquiry@.
+ */
+async function sendViaHttpsRelay(signup: ComingSoonSignup) {
+  const { subject, text } = mailBody(signup);
+  const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(COMING_SOON_NOTIFY_TO)}`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      _subject: subject,
+      name: signup.name?.trim() || 'Someone',
+      email: signup.email,
+      _replyto: signup.email,
+      message: text,
+      signed_up_at: signup.at,
+      _template: 'table',
+    }),
+  });
+
+  const body = await res.text().catch(() => '');
+  if (!res.ok) {
+    throw new Error(`HTTPS relay failed (${res.status}): ${body.slice(0, 200)}`);
+  }
+  return true;
 }
 
 /** Sends signup details to COMING_SOON_NOTIFY_TO. */
 export async function sendComingSoonNotify(signup: ComingSoonSignup) {
   if (await sendViaResend(signup)) return { provider: 'resend' as const };
   if (await sendViaSmtp(signup)) return { provider: 'smtp' as const };
+  if (await sendViaHttpsRelay(signup)) return { provider: 'https' as const };
 
   throw new Error(
-    'Email is not configured. Set RESEND_API_KEY or SMTP_HOST/SMTP_USER/SMTP_PASS.',
+    'Email is not configured. Set RESEND_API_KEY (recommended on Railway) or SMTP_HOST/SMTP_USER/SMTP_PASS.',
   );
 }
 
 export function isNotifyMailConfigured() {
-  return Boolean(
-    process.env.RESEND_API_KEY?.trim() ||
-      (process.env.SMTP_HOST?.trim() &&
-        process.env.SMTP_USER?.trim() &&
-        process.env.SMTP_PASS?.trim()),
-  );
+  // Resend / SMTP for local+Pro, or HTTPS FormSubmit relay on Railway Hobby.
+  return true;
 }
