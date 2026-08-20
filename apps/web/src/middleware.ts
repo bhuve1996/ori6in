@@ -13,6 +13,18 @@ function isPassthrough(pathname: string) {
     pathname.startsWith('/api') ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
+    pathname === '/manifest.webmanifest' ||
+    pathname === '/favicon.ico' ||
+    pathname === '/favicon.svg' ||
+    // Next.js metadata routes (no file extension — must not hit coming-soon redirect)
+    pathname === '/icon' ||
+    pathname.startsWith('/icon/') ||
+    pathname === '/apple-icon' ||
+    pathname.startsWith('/apple-icon/') ||
+    pathname === '/opengraph-image' ||
+    pathname.startsWith('/opengraph-image/') ||
+    pathname === '/twitter-image' ||
+    pathname.startsWith('/twitter-image/') ||
     /\.(?:png|jpe?g|gif|svg|webp|ico|mp4|webm|woff2?|ttf|txt|xml)$/i.test(pathname)
   );
 }

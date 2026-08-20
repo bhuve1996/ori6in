@@ -78,10 +78,17 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/png' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-48.png', sizes: '48x48', type: 'image/png' },
       { url: '/brand/owl-icon.png', sizes: '256x256', type: 'image/png' },
+      { url: '/icon', type: 'image/png', sizes: '32x32' },
     ],
-    apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
+    shortcut: ['/favicon.ico'],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
+    ],
   },
   category: 'education',
 };
