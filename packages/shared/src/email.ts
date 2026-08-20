@@ -116,26 +116,94 @@ export function parseEmail(raw: unknown): EmailParseResult {
     return { ok: false, message: 'Use your real email address' };
   }
 
-  // Common typo domains
-  const typoHints: Record<string, string> = {
-    'gmial.com': 'gmail.com',
-    'gmal.com': 'gmail.com',
-    'gamil.com': 'gmail.com',
-    'gnail.com': 'gmail.com',
-    'gmail.co': 'gmail.com',
-    'hotmal.com': 'hotmail.com',
-    'hotnail.com': 'hotmail.com',
-    'outlok.com': 'outlook.com',
-    'outllok.com': 'outlook.com',
-    'yaho.com': 'yahoo.com',
-    'yahooo.com': 'yahoo.com',
-  };
-  if (typoHints[domain]) {
+  const providerHint = suggestMajorProvider(domain);
+  if (providerHint) {
     return {
       ok: false,
-      message: `Did you mean ${local}@${typoHints[domain]}?`,
+      message: `Did you mean ${local}@${providerHint}?`,
     };
   }
 
   return { ok: true, email };
+}
+
+/** Well-known inbox providers — incomplete / typo domains should not pass. */
+const MAJOR_PROVIDERS: Array<{ domain: string; stems: string[] }> = [
+  { domain: 'gmail.com', stems: ['gmail'] },
+  { domain: 'googlemail.com', stems: ['googlemail'] },
+  { domain: 'yahoo.com', stems: ['yahoo'] },
+  { domain: 'outlook.com', stems: ['outlook'] },
+  { domain: 'hotmail.com', stems: ['hotmail'] },
+  { domain: 'live.com', stems: ['live'] },
+  { domain: 'icloud.com', stems: ['icloud'] },
+  { domain: 'me.com', stems: ['me'] },
+  { domain: 'proton.me', stems: ['proton'] },
+  { domain: 'protonmail.com', stems: ['protonmail'] },
+  { domain: 'aol.com', stems: ['aol'] },
+  { domain: 'zoho.com', stems: ['zoho'] },
+  { domain: 'rediffmail.com', stems: ['rediffmail'] },
+];
+
+const PROVIDER_TYPOS: Record<string, string> = {
+  'gmial.com': 'gmail.com',
+  'gmal.com': 'gmail.com',
+  'gamil.com': 'gmail.com',
+  'gnail.com': 'gmail.com',
+  'gmaill.com': 'gmail.com',
+  'gmail.co': 'gmail.com',
+  'gmail.cm': 'gmail.com',
+  'gmail.con': 'gmail.com',
+  'gmail.comm': 'gmail.com',
+  'googlemail.co': 'googlemail.com',
+  'hotmal.com': 'hotmail.com',
+  'hotnail.com': 'hotmail.com',
+  'hotmial.com': 'hotmail.com',
+  'hotmail.co': 'hotmail.com',
+  'outlok.com': 'outlook.com',
+  'outllok.com': 'outlook.com',
+  'outlokk.com': 'outlook.com',
+  'outlook.co': 'outlook.com',
+  'yaho.com': 'yahoo.com',
+  'yahooo.com': 'yahoo.com',
+  'yahoo.co': 'yahoo.com',
+  'icloud.co': 'icloud.com',
+  'protonmail.co': 'protonmail.com',
+};
+
+function suggestMajorProvider(domain: string): string | null {
+  if (PROVIDER_TYPOS[domain]) return PROVIDER_TYPOS[domain];
+
+  // Exact known provider (and common Yahoo regional) is fine.
+  if (
+    MAJOR_PROVIDERS.some((p) => p.domain === domain) ||
+    domain === 'yahoo.co.in' ||
+    domain === 'yahoo.co.uk'
+  ) {
+    return null;
+  }
+
+  const labels = domain.split('.');
+  const tld = labels[labels.length - 1] ?? '';
+  const sld = labels.length >= 2 ? labels[labels.length - 2] : '';
+
+  for (const provider of MAJOR_PROVIDERS) {
+    const providerHost = provider.domain;
+    const providerLabels = provider.domain.split('.');
+    const providerSld = providerLabels[0] ?? '';
+    const providerTld = providerLabels.slice(1).join('.');
+
+    // Incomplete stem: gm / gma / gmai / yaho / outloo …
+    for (const stem of provider.stems) {
+      if (sld.length >= 2 && sld.length < stem.length && stem.startsWith(sld)) {
+        return providerHost;
+      }
+    }
+
+    // Full provider name with wrong TLD: gmail.co, outlook.org, …
+    if (labels.length === 2 && sld === providerSld && tld !== providerTld) {
+      return providerHost;
+    }
+  }
+
+  return null;
 }
