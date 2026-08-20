@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Source_Sans_3 } from 'next/font/google';
 import { AppProviders } from '../components/AppProviders';
+import { ComingSoonToggle } from '../components/ComingSoonToggle';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
+import { comingSoonEnvEnabled, comingSoonToggleVisible } from '../lib/coming-soon';
+import { isComingSoonActive } from '../lib/coming-soon-server';
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -82,7 +85,11 @@ export const metadata: Metadata = {
   category: 'education',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const comingSoon = await isComingSoonActive();
+  const showPreviewToggle =
+    !comingSoon && comingSoonEnvEnabled() && comingSoonToggleVisible();
+
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
@@ -90,11 +97,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <AppProviders>
-          <div className="site-shell">
-            <SiteHeader />
-            <div className="site-shell__content">{children}</div>
-            <SiteFooter />
-          </div>
+          {comingSoon ? (
+            children
+          ) : (
+            <div className="site-shell">
+              <SiteHeader />
+              <div className="site-shell__content">{children}</div>
+              <SiteFooter />
+              {showPreviewToggle ? <ComingSoonToggle floating /> : null}
+            </div>
+          )}
         </AppProviders>
       </body>
     </html>

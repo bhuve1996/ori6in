@@ -79,9 +79,29 @@ Use Railway’s variable references for DB/Redis if the UI offers them (names ma
 ```bash
 NEXT_PUBLIC_SITE_URL=https://YOUR-WEB-DOMAIN
 NEXT_PUBLIC_API_URL=https://YOUR-API-DOMAIN/api
+NEXT_PUBLIC_COMING_SOON=true
 ```
 
 These are baked in at **build** time — set them before the first successful web build.
+
+Coming soon mode: with `NEXT_PUBLIC_COMING_SOON=true`, the public site shows only the notify page. Bypass with `?comingSoon=0` (sets a cookie); force it on with `?comingSoon=1`.
+
+Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `rishi@ori6ineducation.com`). Configure **one** of:
+
+```bash
+# Resend
+RESEND_API_KEY=re_...
+NOTIFY_FROM_EMAIL=ORI6IN <noreply@your-domain.com>
+
+# or SMTP (e.g. Google Workspace)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=rishi@ori6ineducation.com
+SMTP_PASS=your-app-password
+NOTIFY_FROM_EMAIL=ORI6IN <rishi@ori6ineducation.com>
+```
+
+These are **runtime** vars on the web service (not build args).
 
 4. Runtime env (optional):
 
