@@ -21,6 +21,9 @@ FROM deps AS build
 ARG NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ARG NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ARG NEXT_PUBLIC_COMING_SOON=false
+# Bumped every deploy so browsers clear soft-launch cookies / client storage.
+ARG NEXT_PUBLIC_DEPLOY_ID=
+ARG RAILWAY_GIT_COMMIT_SHA=
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_COMING_SOON=$NEXT_PUBLIC_COMING_SOON
@@ -28,7 +31,11 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY apps/web ./apps/web
 COPY packages/shared ./packages/shared
 COPY packages/ui ./packages/ui
-RUN pnpm --filter @ori6in/shared build \
+RUN DEPLOY_ID="${NEXT_PUBLIC_DEPLOY_ID:-${RAILWAY_GIT_COMMIT_SHA:-}}" \
+  && if [ -z "$DEPLOY_ID" ]; then DEPLOY_ID="b$(date -u +%Y%m%d%H%M%S)"; fi \
+  && export NEXT_PUBLIC_DEPLOY_ID="$DEPLOY_ID" \
+  && echo "NEXT_PUBLIC_DEPLOY_ID=$NEXT_PUBLIC_DEPLOY_ID" \
+  && pnpm --filter @ori6in/shared build \
   && pnpm --filter @ori6in/web build
 
 FROM node:20-bookworm-slim AS runner

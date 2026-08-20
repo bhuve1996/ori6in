@@ -4,6 +4,7 @@ import { MotionConfig } from 'motion/react';
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import { useMounted } from '../hooks/useMounted';
+import { ClientDeployReset } from './ClientDeployReset';
 import { ToastProvider } from './Toast';
 
 const OwlAssistant = dynamic(() =>
@@ -25,6 +26,7 @@ export function AppProviders({
 }) {
   return (
     <MotionConfig reducedMotion="user">
+      <ClientDeployReset />
       <ToastProvider>
         {children}
         <OwlAssistantGate softLaunch={softLaunch} />
