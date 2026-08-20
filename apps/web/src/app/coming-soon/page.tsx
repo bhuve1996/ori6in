@@ -4,8 +4,11 @@ import { SITE_NAME } from '../../lib/site';
 
 export const metadata: Metadata = {
   title: `Coming soon · ${SITE_NAME}`,
-  description: 'ORI6IN is launching soon. Register to get notified when we open.',
-  robots: { index: false, follow: false },
+  description: 'Launching soon. Register to get notified when we open.',
+  robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"/%3E' }],
+  },
 };
 
 export default function ComingSoonPage() {

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Source_Sans_3 } from 'next/font/google';
+import { headers } from 'next/headers';
 import { AppProviders } from '../components/AppProviders';
 import { ComingSoonToggle } from '../components/ComingSoonToggle';
 import { SiteFooter } from '../components/SiteFooter';
@@ -86,17 +87,21 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const comingSoon = await isComingSoonActive();
+  const headerStore = await headers();
+  const softLaunchHeader = headerStore.get('x-ori6in-soft-launch') === '1';
+  const comingSoon = softLaunchHeader || (await isComingSoonActive());
   const showPreviewToggle =
     !comingSoon && comingSoonEnvEnabled() && comingSoonToggleVisible();
 
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <a className="skip-link" href="#main-content">
-          Skip to content
-        </a>
-        <AppProviders>
+      <body className={comingSoon ? 'is-coming-soon' : undefined} suppressHydrationWarning>
+        {!comingSoon ? (
+          <a className="skip-link" href="#main-content">
+            Skip to content
+          </a>
+        ) : null}
+        <AppProviders softLaunch={comingSoon}>
           {comingSoon ? (
             children
           ) : (

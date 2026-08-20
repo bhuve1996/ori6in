@@ -64,12 +64,25 @@ body {
   }
 }
 
-body:not(:has(.home)) {
+body:not(:has(.home)):not(.is-coming-soon):not(:has(.coming-soon)) {
   background:
     radial-gradient(ellipse 55% 40% at 92% -5%, color-mix(in srgb, var(--theme-a) 85%, transparent) 0%, transparent 55%),
     radial-gradient(ellipse 45% 35% at -5% 95%, color-mix(in srgb, var(--theme-b) 75%, transparent) 0%, transparent 50%),
     radial-gradient(ellipse 30% 25% at 70% 80%, color-mix(in srgb, var(--theme-d) 45%, transparent) 0%, transparent 60%),
     var(--paper);
+}
+
+body.is-coming-soon,
+body:has(.coming-soon) {
+  background: #0c0c0c;
+  color: #f7f3ec;
+}
+
+body.is-coming-soon .site-header,
+body.is-coming-soon .site-footer,
+body:has(.coming-soon) .site-header,
+body:has(.coming-soon) .site-footer {
+  display: none !important;
 }
 
 a {

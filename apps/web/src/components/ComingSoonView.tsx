@@ -2,10 +2,13 @@
 
 import { FormEvent, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { BRAND } from '../lib/media';
 import { SITE_NAME, SITE_TAGLINE } from '../lib/site';
 import { ComingSoonToggle } from './ComingSoonToggle';
 
+/**
+ * Soft-launch page intentionally does not load logo / owl assets.
+ * Veiled CSS shapes only — nothing to unblur or download in DevTools.
+ */
 export function ComingSoonView() {
   const reduceMotion = useReducedMotion();
   const [email, setEmail] = useState('');
@@ -30,7 +33,7 @@ export function ComingSoonView() {
         return;
       }
       setStatus('done');
-      setMessage("You're on the list. We'll email you when ORI6IN opens.");
+      setMessage("You're on the list. We'll email you when we open.");
       setEmail('');
       setName('');
     } catch {
@@ -53,13 +56,9 @@ export function ComingSoonView() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <img
-            className="coming-soon__logo"
-            src={BRAND.logo}
-            alt={SITE_NAME}
-            width={220}
-            height={64}
-          />
+          <div className="coming-soon__mark" aria-label={SITE_NAME}>
+            <span className="coming-soon__mark-veil" aria-hidden />
+          </div>
           <p className="coming-soon__tagline type-kicker">{SITE_TAGLINE}</p>
         </motion.div>
 
@@ -115,24 +114,25 @@ export function ComingSoonView() {
             {status === 'loading' ? 'Saving…' : status === 'done' ? 'Registered' : 'Notify me'}
           </button>
           {message ? (
-            <p className={status === 'error' ? 'coming-soon__msg is-error' : 'coming-soon__msg'} role="status">
+            <p
+              className={status === 'error' ? 'coming-soon__msg is-error' : 'coming-soon__msg'}
+              role="status"
+            >
               {message}
             </p>
           ) : null}
         </motion.form>
       </div>
 
-      <motion.img
-        className="coming-soon__owl"
-        src={BRAND.owlFull}
-        alt=""
-        width={420}
-        height={420}
+      <motion.div
+        className="coming-soon__mascot"
         aria-hidden
-        initial={reduceMotion ? false : { opacity: 0, x: 40 }}
+        initial={reduceMotion ? false : { opacity: 0, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      />
+      >
+        <span className="coming-soon__mascot-veil" />
+      </motion.div>
     </main>
   );
 }

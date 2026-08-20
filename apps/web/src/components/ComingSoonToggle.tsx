@@ -3,14 +3,10 @@
 import { comingSoonEnvEnabled, comingSoonToggleVisible } from '../lib/coming-soon';
 
 type Props = {
-  /** When true, render as a floating control on the full site */
   floating?: boolean;
 };
 
-/**
- * Flip between coming-soon and full site via the `comingSoon` query param
- * (middleware sets a cookie). Env default: NEXT_PUBLIC_COMING_SOON.
- */
+/** Flip via ?comingSoon=1|0 (cookie). Default from NEXT_PUBLIC_COMING_SOON. */
 export function ComingSoonToggle({ floating = false }: Props) {
   if (!comingSoonToggleVisible()) return null;
 
@@ -34,7 +30,7 @@ export function ComingSoonToggle({ floating = false }: Props) {
         Preview full site
       </a>
       {envOn ? (
-        <span className="coming-soon-toggle__hint">Env on · use ?comingSoon=0 to bypass</span>
+        <span className="coming-soon-toggle__hint">Env on · ?comingSoon=0 to bypass</span>
       ) : (
         <span className="coming-soon-toggle__hint">Preview · ?comingSoon=1 enables this</span>
       )}

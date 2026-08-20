@@ -84,7 +84,15 @@ NEXT_PUBLIC_COMING_SOON=true
 
 These are baked in at **build** time — set them before the first successful web build.
 
-Coming soon mode: with `NEXT_PUBLIC_COMING_SOON=true`, the public site shows only the notify page. Bypass with `?comingSoon=0` (sets a cookie); force it on with `?comingSoon=1`.
+Coming soon mode: with `NEXT_PUBLIC_COMING_SOON=true`, **every** public route redirects to `/coming-soon`. Brand assets under `/brand/` return 404 while locked.
+
+Override with query param (sets a cookie):
+
+- `?comingSoon=0` — show full site  
+- `?comingSoon=1` — force coming soon  
+- `?comingSoon=clear` — clear cookie, use env again  
+
+Turn soft launch off for everyone by setting `NEXT_PUBLIC_COMING_SOON=false` and redeploying web.
 
 Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `rishi@ori6ineducation.com`). Configure **one** of:
 

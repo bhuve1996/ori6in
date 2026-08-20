@@ -1,4 +1,4 @@
-/** Soft-launch gate: env default + cookie override via ?comingSoon= */
+/** Soft-launch gate: NEXT_PUBLIC_COMING_SOON + optional ?comingSoon= cookie override */
 
 export const COMING_SOON_COOKIE = 'ori6in_coming_soon';
 export const COMING_SOON_PARAM = 'comingSoon';
@@ -14,10 +14,20 @@ export function resolveComingSoon(cookieValue: string | undefined | null) {
   return comingSoonEnvEnabled();
 }
 
-/** UI toggle (params always work). Default: on in non-production. */
+/** UI toggle. Default: on in non-production. */
 export function comingSoonToggleVisible() {
   const flag = process.env.NEXT_PUBLIC_COMING_SOON_TOGGLE;
   if (flag === 'true') return true;
   if (flag === 'false') return false;
   return process.env.NODE_ENV !== 'production';
+}
+
+/** Paths that would reveal brand / mascot while soft-launch is on. */
+export function isComingSoonRevealPath(pathname: string) {
+  return (
+    pathname.startsWith('/brand/') ||
+    pathname === '/apple-icon' ||
+    pathname === '/favicon.ico' ||
+    pathname === '/favicon.svg'
+  );
 }

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import {
   COMING_SOON_COOKIE,
   COMING_SOON_PARAM,
+  isComingSoonRevealPath,
   resolveComingSoon,
 } from './lib/coming-soon';
 
@@ -11,13 +12,18 @@ function isPassthrough(pathname: string) {
   return (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
-    pathname === '/favicon.svg' ||
-    pathname === '/favicon.ico' ||
-    pathname === '/apple-icon' ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
     /\.(?:png|jpe?g|gif|svg|webp|ico|mp4|webm|woff2?|ttf|txt|xml)$/i.test(pathname)
   );
+}
+
+function nextWithSoftLaunch(request: NextRequest, active: boolean) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-ori6in-soft-launch', active ? '1' : '0');
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
 
 export function middleware(request: NextRequest) {
@@ -41,17 +47,21 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
-  if (isPassthrough(pathname)) {
-    return NextResponse.next();
+  const active = resolveComingSoon(request.cookies.get(COMING_SOON_COOKIE)?.value);
+
+  if (active && isComingSoonRevealPath(pathname)) {
+    return new NextResponse(null, { status: 404 });
   }
 
-  const active = resolveComingSoon(request.cookies.get(COMING_SOON_COOKIE)?.value);
+  if (isPassthrough(pathname)) {
+    return nextWithSoftLaunch(request, active);
+  }
 
   if (active && pathname !== '/coming-soon') {
     const url = request.nextUrl.clone();
     url.pathname = '/coming-soon';
     url.search = '';
-    return NextResponse.rewrite(url);
+    return NextResponse.redirect(url);
   }
 
   if (!active && pathname === '/coming-soon') {
@@ -60,7 +70,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  return nextWithSoftLaunch(request, active);
 }
 
 export const config = {

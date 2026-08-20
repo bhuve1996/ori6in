@@ -10,18 +10,24 @@ const OwlAssistant = dynamic(() =>
   import('./OwlAssistant').then((m) => m.OwlAssistant),
 );
 
-function OwlAssistantGate() {
+function OwlAssistantGate({ softLaunch }: { softLaunch: boolean }) {
   const mounted = useMounted();
-  if (!mounted) return null;
+  if (!mounted || softLaunch) return null;
   return <OwlAssistant />;
 }
 
-export function AppProviders({ children }: { children: ReactNode }) {
+export function AppProviders({
+  children,
+  softLaunch = false,
+}: {
+  children: ReactNode;
+  softLaunch?: boolean;
+}) {
   return (
     <MotionConfig reducedMotion="user">
       <ToastProvider>
         {children}
-        <OwlAssistantGate />
+        <OwlAssistantGate softLaunch={softLaunch} />
       </ToastProvider>
     </MotionConfig>
   );
