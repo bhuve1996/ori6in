@@ -247,16 +247,25 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
 
 /**
  * HTTPS fallback for hosts that block SMTP (e.g. Railway Hobby).
- * First delivery may require clicking FormSubmit's confirmation link in enquiry@.
+ * Uses FormSubmit — enquiry@ must click their one-time “Activate Form” email first.
  */
 async function sendViaHttpsRelay(signup: ComingSoonSignup) {
   const { subject, text } = mailBody(signup);
   const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(COMING_SOON_NOTIFY_TO)}`;
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
+    'https://www.ori6ineducation.com';
+  const siteOrigin = origin.includes('localhost')
+    ? 'https://www.ori6ineducation.com'
+    : origin;
+
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Origin: siteOrigin,
+      Referer: `${siteOrigin}/coming-soon`,
     },
     body: JSON.stringify({
       _subject: subject,
@@ -266,12 +275,26 @@ async function sendViaHttpsRelay(signup: ComingSoonSignup) {
       message: text,
       signed_up_at: signup.at,
       _template: 'table',
+      _captcha: 'false',
     }),
   });
 
   const body = await res.text().catch(() => '');
-  if (!res.ok) {
-    throw new Error(`HTTPS relay failed (${res.status}): ${body.slice(0, 200)}`);
+  let parsed: { success?: string | boolean; message?: string } = {};
+  try {
+    parsed = JSON.parse(body) as typeof parsed;
+  } catch {
+    /* non-JSON */
+  }
+
+  const success =
+    parsed.success === true ||
+    parsed.success === 'true' ||
+    (res.ok && !('success' in parsed));
+
+  if (!res.ok || !success) {
+    const detail = parsed.message || body.slice(0, 240) || `HTTP ${res.status}`;
+    throw new Error(`HTTPS relay failed: ${detail}`);
   }
   return true;
 }
