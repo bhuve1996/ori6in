@@ -75,15 +75,22 @@ export async function POST(request: Request) {
   };
 
   try {
-    if (created) {
-      const result = await sendComingSoonNotify(signup);
-      console.info('[notify] sent', { email: signup.email, provider: result.provider });
-    } else {
-      console.info('[notify] duplicate signup skipped ops email', { email });
-    }
+    const result = await sendComingSoonNotify(signup);
+    console.info('[notify] sent', {
+      email: signup.email,
+      provider: result.provider,
+      created,
+    });
     return NextResponse.json({ ok: true, created });
   } catch (err) {
     console.error('[notify] send failed (signup already saved)', err);
-    return NextResponse.json({ ok: true, created, mailWarning: true });
+    return NextResponse.json(
+      {
+        message: 'Signup saved, but notify email failed. Please try again.',
+        created,
+        mailWarning: true,
+      },
+      { status: 502 },
+    );
   }
 }

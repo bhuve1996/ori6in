@@ -152,30 +152,60 @@ async function sendViaResend(to: string, subject: string, text: string, html: st
   return true;
 }
 
+function smtpTargets(host: string) {
+  const preferredPort = Number(process.env.SMTP_PORT || 465);
+  const preferredSecure =
+    process.env.SMTP_SECURE === 'true' ||
+    process.env.SMTP_SECURE === '1' ||
+    preferredPort === 465;
+  const primary = { host, port: preferredPort, secure: preferredSecure };
+  const fallback =
+    preferredPort === 465
+      ? { host, port: 587, secure: false }
+      : { host, port: 465, secure: true };
+  return [primary, fallback];
+}
+
 async function sendViaSmtp(to: string, subject: string, text: string, html: string) {
   const host = process.env.SMTP_HOST?.trim();
   const user = process.env.SMTP_USER?.trim();
   const pass = process.env.SMTP_PASS?.trim();
   if (!host || !user || !pass) return false;
 
-  const port = Number(process.env.SMTP_PORT || 587);
-  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+  let lastError: unknown;
+  for (const target of smtpTargets(host)) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: target.host,
+        port: target.port,
+        secure: target.secure,
+        auth: { user, pass },
+        connectionTimeout: 20_000,
+        greetingTimeout: 20_000,
+        socketTimeout: 30_000,
+        requireTLS: !target.secure,
+        tls: { minVersion: 'TLSv1.2' },
+      });
+      await transporter.sendMail({
+        from: fromAddress(),
+        to,
+        subject,
+        text,
+        html,
+      });
+      return true;
+    } catch (err) {
+      lastError = err;
+      console.warn(
+        `[mailer] SMTP failed ${target.host}:${target.port}`,
+        err instanceof Error ? err.message : err,
+      );
+    }
+  }
 
-  const transporter = nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    auth: { user, pass },
-  });
-
-  await transporter.sendMail({
-    from: fromAddress(),
-    to,
-    subject,
-    text,
-    html,
-  });
-  return true;
+  throw lastError instanceof Error
+    ? lastError
+    : new Error('SMTP send failed on all configured ports');
 }
 
 /** Sends branded “we're live” email to one waitlist signup. */
