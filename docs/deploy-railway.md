@@ -94,17 +94,21 @@ Override with query param (sets a cookie):
 
 Turn soft launch off for everyone by setting `NEXT_PUBLIC_COMING_SOON=false` and redeploying web.
 
-Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `rishi@ori6ineducation.com`). Configure **Zoho Mail SMTP** (shared on Railway):
+Notify form emails go to `COMING_SOON_NOTIFY_TO` (default `enquiry@ori6ineducation.com`). **Zoho only.**
+
+Railway Hobby blocks outbound SMTP (465/587). For production notify, set **Zoho Mail REST API** on both web and API:
 
 ```bash
-SMTP_HOST=smtp.zoho.in
-SMTP_PORT=587
-SMTP_USER=rishi@ori6ineducation.com
-SMTP_PASS=<zoho-app-password>
-NOTIFY_FROM_EMAIL=ORI6IN <rishi@ori6ineducation.com>
+COMING_SOON_NOTIFY_TO=enquiry@ori6ineducation.com
+NOTIFY_FROM_EMAIL=ORI6IN <enquiry@ori6ineducation.com>
+ZOHO_DC=in
+ZOHO_CLIENT_ID=...
+ZOHO_CLIENT_SECRET=...
+ZOHO_REFRESH_TOKEN=...
+ZOHO_ACCOUNT_ID=...
 ```
 
-(Use `smtp.zoho.com` if the mailbox is on Zoho’s `.com` data center.) Optional alternative: `RESEND_API_KEY`.
+Local / Railway Pro can use Zoho SMTP (`smtp.zoho.in`, port `465`) instead or as fallback.
 
 4. Runtime env (optional):
 

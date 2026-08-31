@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { AdminShell, AdminStatusPill } from '../../../../components/admin/AdminShell';
 import { apiFetch } from '../../../../lib/auth';
 import { useApiResource } from '../../../../hooks/useApiResource';
-import { PortalShell } from '../../../../components/portal/PortalShell';
-import { BANNERS } from '../../../../lib/media';
 
 type Listing = {
   id: string;
@@ -29,8 +28,7 @@ export default function AdminApprovalsPage() {
   async function review(id: string, decision: 'approved' | 'rejected') {
     setBusy(id);
     setNotice(null);
-    const note =
-      decision === 'rejected' ? rejectNotes[id]?.trim() || undefined : undefined;
+    const note = decision === 'rejected' ? rejectNotes[id]?.trim() || undefined : undefined;
     const { ok } = await apiFetch(`/admin/approvals/internships/${id}/review`, {
       method: 'POST',
       body: JSON.stringify({ decision, note }),
@@ -49,43 +47,47 @@ export default function AdminApprovalsPage() {
   }
 
   return (
-    <PortalShell
-      banner={{
-        image: BANNERS.admin,
-        title: 'Internship approvals',
-        lead:
-          items.length > 0
-            ? `${items.length} company posting${items.length === 1 ? '' : 's'} waiting for review.`
-            : 'Review company postings before they go live for students.',
-      }}
-      back={{ href: '/admin', label: 'Admin' }}
+    <AdminShell
+      title="Internship approvals"
+      lead={
+        items.length > 0
+          ? `${items.length} company posting${items.length === 1 ? '' : 's'} waiting for review.`
+          : 'Review company postings before they go live for students.'
+      }
       loading={loading}
       error={error}
+      message={notice ?? undefined}
+      stats={[
+        { value: items.length, label: 'Pending' },
+      ]}
     >
-      {notice ? <p className="notice">{notice}</p> : null}
       {items.length === 0 ? (
-        <p className="meta">No roles waiting for approval.</p>
+        <p className="admin-empty">No roles waiting for approval.</p>
       ) : (
-        <ul className="card-list">
+        <ul className="admin-card-list">
           {items.map((item) => (
             <li key={item.id}>
-              <article>
-                <h2>{item.title}</h2>
-                <p className="meta">
+              <article className="admin-panel" style={{ marginBottom: 0 }}>
+                <div className="admin-panel__head">
+                  <h2>{item.title}</h2>
+                  <AdminStatusPill tone="warn">{item.approvalStatus || 'Pending'}</AdminStatusPill>
+                </div>
+                <p className="admin-table__sub">
                   {item.company} · {item.location} · payment: {item.paymentStatus}
                 </p>
-                <p>{item.description}</p>
-                <label className="meta" style={{ display: 'block', marginBottom: '0.75rem' }}>
-                  Rejection note (optional)
-                  <input
-                    value={rejectNotes[item.id] ?? ''}
-                    onChange={(e) =>
-                      setRejectNotes((prev) => ({ ...prev, [item.id]: e.target.value }))
-                    }
-                    placeholder="Shown to the company when rejecting"
-                    style={{ display: 'block', width: '100%', maxWidth: '32rem', marginTop: '0.25rem' }}
-                  />
-                </label>
+                <p style={{ margin: '0.75rem 0' }}>{item.description}</p>
+                <div className="admin-form" style={{ marginBottom: '0.85rem' }}>
+                  <label>
+                    Rejection note (optional)
+                    <input
+                      value={rejectNotes[item.id] ?? ''}
+                      onChange={(e) =>
+                        setRejectNotes((prev) => ({ ...prev, [item.id]: e.target.value }))
+                      }
+                      placeholder="Shown to the company when rejecting"
+                    />
+                  </label>
+                </div>
                 <div className="cta-row">
                   <button
                     type="button"
@@ -109,6 +111,6 @@ export default function AdminApprovalsPage() {
           ))}
         </ul>
       )}
-    </PortalShell>
+    </AdminShell>
   );
 }

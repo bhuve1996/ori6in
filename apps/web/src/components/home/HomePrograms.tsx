@@ -27,10 +27,10 @@ export function HomePrograms({ programs, sectionRef }: Props) {
           Programs
         </p>
         <h2 className="home-title reveal series" style={series(1)}>
-          Pick a track. Start building.
+          Pick a package. Start your journey.
         </h2>
         <p className="home-lead reveal series" style={series(2)}>
-          ORI6IN own programs — buy directly and begin the same day.
+          ORI6IN Education products — admissions, test prep, and end-to-end support.
         </p>
         {featured.length === 0 ? (
           <p className="home-empty reveal series" style={series(3)}>

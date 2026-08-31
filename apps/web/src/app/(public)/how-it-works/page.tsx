@@ -7,27 +7,28 @@ import { pageMeta } from '../../../lib/seo';
 
 export const metadata = pageMeta({
   title: 'How it works',
-  description: 'Student → mentor → internship: how ORI6IN takes you from learning to opportunity.',
+  description:
+    'Dream → Apply → Fly: how ORI6IN takes you from profile clarity to university admit, visa, and departure.',
   path: '/how-it-works',
 });
 
 const STEPS = [
   {
-    role: 'Student',
-    title: 'Enroll & ship',
-    caption: 'Join a track, complete lessons, and build weekly project milestones.',
+    role: 'Discover',
+    title: 'Profile & path',
+    caption: 'Career counselling, course fit, and country selection with a counsellor.',
     image: HOME.pathPrograms,
   },
   {
-    role: 'Mentor',
-    title: 'Get reviews',
-    caption: 'Mentors leave notes and grades so you know what to improve next.',
+    role: 'Apply',
+    title: 'Shortlist & submit',
+    caption: 'Universities, test prep, SOP/LOR, scholarships, and tracked applications.',
     image: HOME.pathMentors,
   },
   {
-    role: 'Internship',
-    title: 'Apply to roles',
-    caption: 'Use your portfolio to apply to internships and track status after you sign in.',
+    role: 'Fly',
+    title: 'Visa & depart',
+    caption: 'Visa documentation, mocks, and ORI6IN Fly pre-departure support.',
     image: HOME.pathInternships,
   },
 ] as const;
@@ -38,16 +39,16 @@ export default function HowItWorksPage() {
       <PageBanner
         image={BANNERS.howItWorks}
         kicker="How it works"
-        title="Student → mentor → role"
-        lead="One path from learning to opportunity — in three chapters."
+        title="Dream → Apply → Fly"
+        lead="One study-abroad journey — from first counselling call to boarding."
       />
       <main id="main-content" className="page page-after-banner page-wide">
         <div className="mkt-flow-mini" aria-label="ORI6IN flow">
-          <span className="mkt-flow-mini__node">Student</span>
+          <span className="mkt-flow-mini__node">Discover</span>
           <FlowConnector />
-          <span className="mkt-flow-mini__node">Mentor</span>
+          <span className="mkt-flow-mini__node">Apply</span>
           <FlowConnector />
-          <span className="mkt-flow-mini__node">Internship</span>
+          <span className="mkt-flow-mini__node">Fly</span>
         </div>
 
         <ol className="mkt-program-grid" style={{ listStyle: 'none', padding: 0 }}>
@@ -73,7 +74,7 @@ export default function HowItWorksPage() {
             Get started
           </Button>
           <Button href="/mentors" variant="secondary">
-            Meet mentors
+            Meet counsellors
           </Button>
         </div>
       </main>

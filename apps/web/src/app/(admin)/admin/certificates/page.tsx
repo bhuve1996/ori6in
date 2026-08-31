@@ -1,8 +1,7 @@
 'use client';
 
+import { AdminShell } from '../../../../components/admin/AdminShell';
 import { useApiResource } from '../../../../hooks/useApiResource';
-import { PortalShell } from '../../../../components/portal/PortalShell';
-import { BANNERS } from '../../../../lib/media';
 
 type Cert = {
   id: string;
@@ -15,43 +14,63 @@ type Cert = {
 };
 
 export default function AdminCertificatesPage() {
-  const { data, loading, error } = useApiResource<{ items: Cert[] }>(
-    '/admin/certificates',
-    { errorMessage: 'Failed to load certificates' },
-  );
+  const { data, loading, error } = useApiResource<{ items: Cert[] }>('/admin/certificates', {
+    errorMessage: 'Failed to load certificates',
+  });
   const items = data?.items ?? [];
 
   return (
-    <PortalShell
-      banner={{
-        image: BANNERS.admin,
-        title: 'Certificates',
-        lead: 'Issued program-completion certificates across the platform.',
-      }}
-      back={{ href: '/admin', label: 'Admin' }}
+    <AdminShell
+      title="Certificates"
+      lead="Issued program-completion certificates across the platform."
       loading={loading}
       error={error}
+      stats={[{ value: items.length, label: 'Issued' }]}
     >
       {items.length === 0 ? (
-        <p className="meta">No certificates issued yet.</p>
+        <p className="admin-empty">No certificates issued yet.</p>
       ) : (
-        <ul className="card-list">
-          {items.map((c) => (
-            <li key={c.id}>
-              <article>
-                <h2>{c.programTitle}</h2>
-                <p className="meta">
-                  {c.recipientName} · {c.recipientEmail} · {c.code}
-                </p>
-                <p className="meta">
-                  Issued {new Date(c.issuedAt).toLocaleDateString()}
-                </p>
-                <a href={`/certificates/verify/${c.code}`}>Public verify link</a>
-              </article>
-            </li>
-          ))}
-        </ul>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Program</th>
+                <th>Recipient</th>
+                <th>Code</th>
+                <th>Issued</th>
+                <th aria-label="Actions" />
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((c) => (
+                <tr key={c.id}>
+                  <td>
+                    <p className="admin-table__title">{c.programTitle}</p>
+                    {c.title && c.title !== c.programTitle ? (
+                      <p className="admin-table__sub">{c.title}</p>
+                    ) : null}
+                  </td>
+                  <td>
+                    <p className="admin-table__title">{c.recipientName}</p>
+                    <p className="admin-table__sub">{c.recipientEmail}</p>
+                  </td>
+                  <td>
+                    <span className="admin-table__slug">{c.code}</span>
+                  </td>
+                  <td>{new Date(c.issuedAt).toLocaleDateString()}</td>
+                  <td>
+                    <div className="admin-table__actions">
+                      <a className="btn btn-secondary" href={`/certificates/verify/${c.code}`}>
+                        Verify
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
-    </PortalShell>
+    </AdminShell>
   );
 }

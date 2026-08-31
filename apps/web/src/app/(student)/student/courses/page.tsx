@@ -66,9 +66,11 @@ export default function StudentCoursesPage() {
               <a className="media-card__image" href={`/student/courses/${c.id}`}>
                 <img
                   src={
-                    c.programTitle.toLowerCase().includes('ai')
-                      ? '/programs/ai-foundations.jpg'
-                      : '/programs/career-launchpad.jpg'
+                    /ielts|toefl|gre|gmat|sat|german|test/i.test(c.programTitle)
+                      ? '/programs/learning.jpg'
+                      : /visa|fly|scholarship|finance/i.test(c.programTitle)
+                        ? '/programs/finance.jpg'
+                        : '/programs/career-launchpad.jpg'
                   }
                   alt=""
                 />

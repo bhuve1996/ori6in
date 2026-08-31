@@ -11,6 +11,8 @@ export const PUBLIC_PREFIXES = [
   '/how-it-works',
   '/roles',
   '/path',
+  '/tools',
+  '/hub',
   '/internships',
   '/certificates',
   '/login',
@@ -66,10 +68,11 @@ export type NavLink = { href: string; label: string };
 /** Shared marketing links — always visible on public/auth surfaces. */
 export const MARKETING_LINKS: NavLink[] = [
   { href: '/programs', label: 'Programs' },
-  { href: '/mentors', label: 'Mentors' },
+  { href: '/tools', label: 'Tools' },
+  { href: '/hub', label: 'Student Hub' },
+  { href: '/mentors', label: 'Counsellors' },
   { href: '/how-it-works', label: 'How it works' },
-  { href: '/roles', label: 'What you can do' },
-  { href: '/pricing', label: 'Pricing' },
+  { href: '/pricing', label: 'Get a quote' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
 ];
@@ -86,7 +89,16 @@ export function marketingNavLinks(opts: {
   loggedIn: boolean;
   role?: string | null;
 }): NavLink[] {
-  const links = [...MARKETING_LINKS];
+  /** When signed in, keep conversion links + hub; drop secondary pages (still in footer). */
+  const links: NavLink[] = opts.loggedIn
+    ? [
+        { href: '/programs', label: 'Programs' },
+        { href: '/tools', label: 'Tools' },
+        { href: '/mentors', label: 'Counsellors' },
+        { href: '/pricing', label: 'Get a quote' },
+      ]
+    : [...MARKETING_LINKS];
+
   if (opts.loggedIn && opts.role) {
     links.push({ href: portalPathForRole(opts.role), label: dashboardLabel(opts.role) });
     links.push({ href: '#logout', label: 'Log out' });

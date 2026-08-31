@@ -1,15 +1,16 @@
 import nodemailer from 'nodemailer';
+import {
+  isZohoMailApiConfigured,
+  isZohoMailConfigured,
+  isZohoSmtpConfigured,
+  sendViaZohoMailApi,
+} from './zoho-mail';
 
 const SITE_NAME = 'ORI6IN';
-const SITE_TAGLINE = 'Everything starts here.';
+const SITE_TAGLINE = 'Dream. Apply. Fly.';
 
 export function isOutboundMailConfigured() {
-  return Boolean(
-    process.env.RESEND_API_KEY?.trim() ||
-      (process.env.SMTP_HOST?.trim() &&
-        process.env.SMTP_USER?.trim() &&
-        process.env.SMTP_PASS?.trim()),
-  );
+  return isZohoMailConfigured();
 }
 
 function siteBase() {
@@ -126,32 +127,6 @@ function liveMailBody(recipient: LiveMail) {
   return { subject, text, html };
 }
 
-async function sendViaResend(to: string, subject: string, text: string, html: string) {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  if (!apiKey) return false;
-
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: fromAddress() || 'ORI6IN <onboarding@resend.dev>',
-      to: [to],
-      subject,
-      text,
-      html,
-    }),
-  });
-
-  if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw new Error(`Resend failed (${res.status}): ${detail.slice(0, 200)}`);
-  }
-  return true;
-}
-
 function smtpTargets(host: string) {
   const preferredPort = Number(process.env.SMTP_PORT || 465);
   const preferredSecure =
@@ -166,11 +141,12 @@ function smtpTargets(host: string) {
   return [primary, fallback];
 }
 
-async function sendViaSmtp(to: string, subject: string, text: string, html: string) {
-  const host = process.env.SMTP_HOST?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  if (!host || !user || !pass) return false;
+async function sendViaZohoSmtp(to: string, subject: string, text: string, html: string) {
+  if (!isZohoSmtpConfigured()) return false;
+
+  const host = process.env.SMTP_HOST!.trim();
+  const user = process.env.SMTP_USER!.trim();
+  const pass = process.env.SMTP_PASS!.trim();
 
   let lastError: unknown;
   for (const target of smtpTargets(host)) {
@@ -180,9 +156,9 @@ async function sendViaSmtp(to: string, subject: string, text: string, html: stri
         port: target.port,
         secure: target.secure,
         auth: { user, pass },
-        connectionTimeout: 20_000,
-        greetingTimeout: 20_000,
-        socketTimeout: 30_000,
+        connectionTimeout: 12_000,
+        greetingTimeout: 12_000,
+        socketTimeout: 20_000,
         requireTLS: !target.secure,
         tls: { minVersion: 'TLSv1.2' },
       });
@@ -197,27 +173,53 @@ async function sendViaSmtp(to: string, subject: string, text: string, html: stri
     } catch (err) {
       lastError = err;
       console.warn(
-        `[mailer] SMTP failed ${target.host}:${target.port}`,
+        `[mailer] Zoho SMTP failed ${target.host}:${target.port}`,
         err instanceof Error ? err.message : err,
       );
     }
   }
 
+  if (process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_ENVIRONMENT_NAME) {
+    return false;
+  }
   throw lastError instanceof Error
     ? lastError
-    : new Error('SMTP send failed on all configured ports');
+    : new Error('Zoho SMTP send failed');
 }
 
-/** Sends branded “we're live” email to one waitlist signup. */
+/** Sends branded “we're live” email to one waitlist signup via Zoho only. */
 export async function sendComingSoonLiveEmail(recipient: LiveMail) {
   const { subject, text, html } = liveMailBody(recipient);
-  if (await sendViaResend(recipient.email, subject, text, html)) {
-    return { provider: 'resend' as const };
+  const errors: string[] = [];
+
+  if (isZohoMailApiConfigured()) {
+    try {
+      await sendViaZohoMailApi({
+        to: recipient.email,
+        fromEmail: fromAddress(),
+        subject,
+        text,
+        html,
+      });
+      return { provider: 'zoho-api' as const };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errors.push(msg);
+      console.warn('[mailer] Zoho Mail API failed', msg);
+    }
   }
-  if (await sendViaSmtp(recipient.email, subject, text, html)) {
-    return { provider: 'smtp' as const };
+
+  try {
+    if (await sendViaZohoSmtp(recipient.email, subject, text, html)) {
+      return { provider: 'zoho-smtp' as const };
+    }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    errors.push(msg);
   }
+
   throw new Error(
-    'Email is not configured. Set RESEND_API_KEY or SMTP_HOST/SMTP_USER/SMTP_PASS on the API.',
+    errors[0] ||
+      'Zoho mail is not ready. Set ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN, and ZOHO_ACCOUNT_ID (Mail API — required on Railway Hobby), or Zoho SMTP locally / on Railway Pro.',
   );
 }

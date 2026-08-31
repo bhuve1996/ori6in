@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer';
 import { absoluteUrl, getSiteUrl, SITE_NAME, SITE_TAGLINE } from './site';
+import {
+  isZohoMailApiConfigured,
+  isZohoMailConfigured,
+  isZohoSmtpConfigured,
+  sendViaZohoMailApi,
+} from './zoho-mail';
 
 export const COMING_SOON_NOTIFY_TO =
   process.env.COMING_SOON_NOTIFY_TO?.trim() || 'enquiry@ori6ineducation.com';
@@ -11,7 +17,6 @@ export type ComingSoonSignup = {
 };
 
 function publicAsset(path: string) {
-  // Prefer public site URL so images load in inbox clients (not localhost).
   const base =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
     (getSiteUrl().includes('localhost') ? 'https://www.ori6ineducation.com' : getSiteUrl());
@@ -28,6 +33,13 @@ function formatWhen(iso: string) {
   } catch {
     return iso;
   }
+}
+
+function fromAddress() {
+  return (
+    process.env.NOTIFY_FROM_EMAIL?.trim() ||
+    `ORI6IN <${process.env.SMTP_USER?.trim() || 'enquiry@ori6ineducation.com'}>`
+  );
 }
 
 function mailBody(signup: ComingSoonSignup) {
@@ -145,37 +157,6 @@ function escapeHtml(value: string) {
     .replaceAll('"', '&quot;');
 }
 
-async function sendViaResend(signup: ComingSoonSignup) {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  if (!apiKey) return false;
-
-  const from =
-    process.env.NOTIFY_FROM_EMAIL?.trim() || 'ORI6IN <onboarding@resend.dev>';
-  const { subject, text, html } = mailBody(signup);
-
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [COMING_SOON_NOTIFY_TO],
-      reply_to: signup.email,
-      subject,
-      text,
-      html,
-    }),
-  });
-
-  if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw new Error(`Resend failed (${res.status}): ${detail.slice(0, 200)}`);
-  }
-  return true;
-}
-
 function smtpTargets(host: string) {
   const preferredPort = Number(process.env.SMTP_PORT || 465);
   const preferredSecure =
@@ -183,7 +164,6 @@ function smtpTargets(host: string) {
     process.env.SMTP_SECURE === '1' ||
     preferredPort === 465;
   const primary = { host, port: preferredPort, secure: preferredSecure };
-  // Prefer SMTPS :465; fall back to STARTTLS :587 for local / Pro networks.
   const fallback =
     preferredPort === 465
       ? { host, port: 587, secure: false }
@@ -191,28 +171,15 @@ function smtpTargets(host: string) {
   return [primary, fallback];
 }
 
-function smtpLikelyBlocked() {
-  // Railway Hobby/Trial block outbound SMTP; skip slow timeouts unless forced.
-  if (process.env.ALLOW_SMTP === 'true') return false;
-  return Boolean(process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_ENVIRONMENT_NAME);
-}
+async function sendViaZohoSmtp(signup: ComingSoonSignup) {
+  if (!isZohoSmtpConfigured()) return false;
 
-async function sendViaSmtp(signup: ComingSoonSignup) {
-  if (smtpLikelyBlocked()) {
-    console.warn('[notify] skipping SMTP (Railway blocks outbound SMTP on Hobby)');
-    return false;
-  }
-
-  const host = process.env.SMTP_HOST?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  if (!host || !user || !pass) return false;
-
-  const from =
-    process.env.NOTIFY_FROM_EMAIL?.trim() ||
-    `ORI6IN <${user}>`;
+  const host = process.env.SMTP_HOST!.trim();
+  const user = process.env.SMTP_USER!.trim();
+  const pass = process.env.SMTP_PASS!.trim();
   const { subject, text, html } = mailBody(signup);
 
+  let lastError: unknown;
   for (const target of smtpTargets(host)) {
     try {
       const transporter = nodemailer.createTransport({
@@ -227,7 +194,7 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
         tls: { minVersion: 'TLSv1.2' },
       });
       await transporter.sendMail({
-        from,
+        from: fromAddress(),
         to: COMING_SOON_NOTIFY_TO,
         replyTo: signup.email,
         subject,
@@ -236,81 +203,195 @@ async function sendViaSmtp(signup: ComingSoonSignup) {
       });
       return true;
     } catch (err) {
+      lastError = err;
       console.warn(
-        `[notify] SMTP failed ${target.host}:${target.port}`,
+        `[notify] Zoho SMTP failed ${target.host}:${target.port}`,
         err instanceof Error ? err.message : err,
       );
     }
   }
-  return false;
+
+  // On Railway Hobby SMTP is blocked — fall through to Zoho Mail API if configured.
+  if (process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_ENVIRONMENT_NAME) {
+    return false;
+  }
+  throw lastError instanceof Error
+    ? lastError
+    : new Error('Zoho SMTP send failed');
 }
 
-/**
- * HTTPS fallback for hosts that block SMTP (e.g. Railway Hobby).
- * Uses FormSubmit — enquiry@ must click their one-time “Activate Form” email first.
- */
-async function sendViaHttpsRelay(signup: ComingSoonSignup) {
-  const { subject, text } = mailBody(signup);
-  const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(COMING_SOON_NOTIFY_TO)}`;
-  const origin =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-    'https://www.ori6ineducation.com';
-  const siteOrigin = origin.includes('localhost')
-    ? 'https://www.ori6ineducation.com'
-    : origin;
-
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Origin: siteOrigin,
-      Referer: `${siteOrigin}/coming-soon`,
-    },
-    body: JSON.stringify({
-      _subject: subject,
-      name: signup.name?.trim() || 'Someone',
-      email: signup.email,
-      _replyto: signup.email,
-      message: text,
-      signed_up_at: signup.at,
-      _template: 'table',
-      _captcha: 'false',
-    }),
-  });
-
-  const body = await res.text().catch(() => '');
-  let parsed: { success?: string | boolean; message?: string } = {};
-  try {
-    parsed = JSON.parse(body) as typeof parsed;
-  } catch {
-    /* non-JSON */
-  }
-
-  const success =
-    parsed.success === true ||
-    parsed.success === 'true' ||
-    (res.ok && !('success' in parsed));
-
-  if (!res.ok || !success) {
-    const detail = parsed.message || body.slice(0, 240) || `HTTP ${res.status}`;
-    throw new Error(`HTTPS relay failed: ${detail}`);
-  }
-  return true;
-}
-
-/** Sends signup details to COMING_SOON_NOTIFY_TO. */
+/** Sends signup details to COMING_SOON_NOTIFY_TO via Zoho only. */
 export async function sendComingSoonNotify(signup: ComingSoonSignup) {
-  if (await sendViaResend(signup)) return { provider: 'resend' as const };
-  if (await sendViaSmtp(signup)) return { provider: 'smtp' as const };
-  if (await sendViaHttpsRelay(signup)) return { provider: 'https' as const };
+  const { subject, text, html } = mailBody(signup);
+  const errors: string[] = [];
+
+  // Prefer Zoho Mail HTTPS API (Railway Hobby blocks SMTP).
+  if (isZohoMailApiConfigured()) {
+    try {
+      await sendViaZohoMailApi({
+        to: COMING_SOON_NOTIFY_TO,
+        fromEmail: fromAddress(),
+        subject,
+        text,
+        html,
+        replyTo: signup.email,
+      });
+      return { provider: 'zoho-api' as const };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errors.push(msg);
+      console.warn('[notify] Zoho Mail API failed', msg);
+    }
+  }
+
+  try {
+    if (await sendViaZohoSmtp(signup)) {
+      return { provider: 'zoho-smtp' as const };
+    }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    errors.push(msg);
+  }
 
   throw new Error(
-    'Email is not configured. Set RESEND_API_KEY (recommended on Railway) or SMTP_HOST/SMTP_USER/SMTP_PASS.',
+    errors[0] ||
+      'Zoho mail is not ready for this host. Set ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN, and ZOHO_ACCOUNT_ID (Mail API — required on Railway Hobby), or use Zoho SMTP locally / on Railway Pro.',
   );
 }
 
 export function isNotifyMailConfigured() {
-  // Resend / SMTP for local+Pro, or HTTPS FormSubmit relay on Railway Hobby.
-  return true;
+  return isZohoMailConfigured();
+}
+
+export type QuoteRequest = {
+  name: string;
+  email: string;
+  phone?: string;
+  program?: string;
+  message?: string;
+  at: string;
+};
+
+function quoteMailBody(quote: QuoteRequest) {
+  const when = formatWhen(quote.at);
+  const logoUrl = publicAsset('/brand/logo-dark.png');
+  const siteUrl = absoluteUrl('/').includes('localhost')
+    ? 'https://www.ori6ineducation.com'
+    : absoluteUrl('/');
+  const who = `${quote.name} <${quote.email}>`;
+  const subject = `${SITE_NAME} quote request — ${quote.name}`;
+
+  const text = [
+    `New ${SITE_NAME} quote request`,
+    '',
+    `Name: ${quote.name}`,
+    `Email: ${quote.email}`,
+    `Phone: ${quote.phone || '(not provided)'}`,
+    `Program interest: ${quote.program || '(not specified)'}`,
+    `Message: ${quote.message || '(none)'}`,
+    `Time: ${when}`,
+    '',
+    `Reply to ${who} with a personalised quote.`,
+    siteUrl,
+  ].join('\n');
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8" /><title>${escapeHtml(subject)}</title></head>
+<body style="margin:0;padding:0;background:#f3ebe0;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3ebe0;padding:24px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
+        <tr><td style="padding:28px;text-align:center;">
+          <img src="${escapeHtml(logoUrl)}" width="180" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:180px;height:auto;" />
+          <p style="margin:12px 0 0;color:#c2a772;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;">${escapeHtml(SITE_TAGLINE)}</p>
+        </td></tr>
+        <tr><td style="padding:0 28px 8px;">
+          <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;">New quote request</p>
+          <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;">Someone asked for a personalised study-abroad quote.</p>
+        </td></tr>
+        <tr><td style="padding:16px 28px 28px;">
+          <table role="presentation" width="100%" style="background:#1a1510;border-radius:12px;color:#f7f3ec;font-size:14px;">
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Name</strong><br/>${escapeHtml(quote.name)}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Email</strong><br/>${escapeHtml(quote.email)}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Phone</strong><br/>${escapeHtml(quote.phone || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Program</strong><br/>${escapeHtml(quote.program || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;"><strong>Message</strong><br/>${escapeHtml(quote.message || '—')}</td></tr>
+          </table>
+          <p style="margin:16px 0 0;color:#8b6240;font-size:11px;">${escapeHtml(SITE_NAME)} · Quote · ${escapeHtml(when)}</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`.trim();
+
+  return { subject, text, html };
+}
+
+/** Sends a quote enquiry to COMING_SOON_NOTIFY_TO via Zoho. */
+export async function sendQuoteRequest(quote: QuoteRequest) {
+  const { subject, text, html } = quoteMailBody(quote);
+  const errors: string[] = [];
+
+  if (isZohoMailApiConfigured()) {
+    try {
+      await sendViaZohoMailApi({
+        to: COMING_SOON_NOTIFY_TO,
+        fromEmail: fromAddress(),
+        subject,
+        text,
+        html,
+        replyTo: quote.email,
+      });
+      return { provider: 'zoho-api' as const };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errors.push(msg);
+      console.warn('[quote] Zoho Mail API failed', msg);
+    }
+  }
+
+  if (isZohoSmtpConfigured()) {
+    try {
+      const host = process.env.SMTP_HOST!.trim();
+      const user = process.env.SMTP_USER!.trim();
+      const pass = process.env.SMTP_PASS!.trim();
+      let lastError: unknown;
+      for (const target of smtpTargets(host)) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: target.host,
+            port: target.port,
+            secure: target.secure,
+            auth: { user, pass },
+            connectionTimeout: 12_000,
+            greetingTimeout: 12_000,
+            socketTimeout: 20_000,
+            requireTLS: !target.secure,
+            tls: { minVersion: 'TLSv1.2' },
+          });
+          await transporter.sendMail({
+            from: fromAddress(),
+            to: COMING_SOON_NOTIFY_TO,
+            replyTo: quote.email,
+            subject,
+            text,
+            html,
+          });
+          return { provider: 'zoho-smtp' as const };
+        } catch (err) {
+          lastError = err;
+        }
+      }
+      if (lastError) throw lastError;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errors.push(msg);
+      console.warn('[quote] Zoho SMTP failed', msg);
+    }
+  }
+
+  throw new Error(errors[0] || 'Mail is not configured for quote requests.');
 }

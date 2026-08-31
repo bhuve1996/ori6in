@@ -95,7 +95,7 @@ export function ComingSoonView() {
         >
           <h1 className="coming-soon__title type-display">Coming soon</h1>
           <p className="coming-soon__lead type-lead">
-            Mentorship, real programs, and internships — launching shortly. Register to get
+            Study abroad counselling, test prep, and admits — Dream. Apply. Fly. Register to get
             notified the moment we open.
           </p>
         </motion.div>

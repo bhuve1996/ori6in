@@ -8,24 +8,24 @@ type Props = {
 
 const STEPS = [
   {
-    key: 'programs',
-    role: 'Student',
-    title: 'Enroll & ship',
-    caption: 'Join a track and build weekly milestones.',
+    key: 'discover',
+    role: 'Discover',
+    title: 'Find your path',
+    caption: 'Profile, course, and country fit with a counsellor.',
     image: HOME.pathPrograms,
   },
   {
-    key: 'mentors',
-    role: 'Mentor',
-    title: 'Get reviews',
-    caption: 'Notes and grades that show what to fix next.',
+    key: 'apply',
+    role: 'Apply',
+    title: 'Shortlist & apply',
+    caption: 'Universities, essays, tests, and scholarships.',
     image: HOME.pathMentors,
   },
   {
-    key: 'internships',
-    role: 'Internship',
-    title: 'Apply to roles',
-    caption: 'Use your portfolio to apply and track status.',
+    key: 'fly',
+    role: 'Fly',
+    title: 'Visa & depart',
+    caption: 'Visa file, mocks, and pre-departure with ORI6IN Fly.',
     image: HOME.pathInternships,
   },
 ] as const;
@@ -47,10 +47,10 @@ export function HomePath({ sectionRef }: Props) {
           How it works
         </p>
         <h2 className="home-title reveal series" style={series(1)}>
-          Student → mentor → role
+          Dream → Apply → Fly
         </h2>
         <p className="home-lead reveal series" style={series(2)}>
-          One path. Three chapters.
+          One study-abroad journey. Three chapters.
         </p>
 
         <ol className="home-path-rail">

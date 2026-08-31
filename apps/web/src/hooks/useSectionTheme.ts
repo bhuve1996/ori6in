@@ -2,8 +2,8 @@
 
 import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 
-const DEFAULT_THRESHOLD = [0.2, 0.45, 0.7];
-const DEFAULT_ROOT_MARGIN = '-18% 0px -32% 0px';
+const DEFAULT_THRESHOLD = [0.12, 0.28, 0.45, 0.65];
+const DEFAULT_ROOT_MARGIN = '-12% 0px -24% 0px';
 
 type ThemeConfig<T extends string> = {
   themes: readonly T[];
@@ -72,6 +72,7 @@ export function useSectionTheme<T extends string>({
           }
           if (bestRatio > 0 && best !== themeRef.current) {
             themeRef.current = best;
+            sectionRefs.current[best]?.classList.add('is-inview');
             startTransition(() => setTheme(best));
           }
         },
@@ -79,6 +80,15 @@ export function useSectionTheme<T extends string>({
       );
 
       for (const section of sections) observer.observe(section);
+
+      // Catch sections already on screen when the observer attaches (dynamic imports).
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        const visible = rect.top < vh * 0.85 && rect.bottom > vh * 0.15;
+        if (visible) section.classList.add('is-inview');
+      }
+
       return true;
     };
 

@@ -5,6 +5,7 @@ import type { Repositories } from '@ori6in/db';
 import {
   DEMO_CURRICULUM,
   DEMO_EMAIL_DOMAIN,
+  DEMO_FLAGSHIP_PROGRAM_SLUG,
   DEMO_INTERNSHIPS,
   DEMO_MENTORS,
   DEMO_PAGES,
@@ -41,6 +42,7 @@ export class DemoContentService implements OnModuleInit {
         this.log.log(`Seeded demo program ${program.slug}`);
       }
     }
+    await this.unpublishRetiredPrograms();
 
     for (const page of DEMO_PAGES) {
       await this.repos.cms.upsertPage({ ...page });
@@ -62,6 +64,17 @@ export class DemoContentService implements OnModuleInit {
     await this.seedDemoCertificate();
 
     this.log.log('Demo catalog synced from @ori6in/shared demo-content');
+  }
+
+  /** Hide legacy catalog rows that are no longer in DEMO_PROGRAMS. */
+  private async unpublishRetiredPrograms() {
+    const keep = new Set<string>(DEMO_PROGRAMS.map((p) => p.slug));
+    const all = await this.repos.programs.listAll(true);
+    for (const program of all) {
+      if (keep.has(program.slug) || !program.published) continue;
+      await this.repos.programs.update(program.id, { published: false });
+      this.log.log(`Unpublished retired program ${program.slug}`);
+    }
   }
 
   private async seedCurriculum() {
@@ -107,7 +120,7 @@ export class DemoContentService implements OnModuleInit {
 
   private async seedDemoStudentEnrollment() {
     const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
-    const program = await this.repos.programs.findBySlug('career-launchpad');
+    const program = await this.repos.programs.findBySlug(DEMO_FLAGSHIP_PROGRAM_SLUG);
     if (!student || !program) return;
 
     const paid = await this.repos.orders.findPaidByUserProgram(student.id, program.id);
@@ -122,7 +135,7 @@ export class DemoContentService implements OnModuleInit {
       couponCode: 'DEMO',
       status: 'paid',
     });
-    this.log.log('Seeded demo student enrollment for career-launchpad');
+    this.log.log(`Seeded demo student enrollment for ${DEMO_FLAGSHIP_PROGRAM_SLUG}`);
   }
 
   private async seedInternships() {
@@ -229,7 +242,7 @@ export class DemoContentService implements OnModuleInit {
       demoMentorEmail(primary.emailLocalPart),
     );
     const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
-    const program = await this.repos.programs.findBySlug('career-launchpad');
+    const program = await this.repos.programs.findBySlug(DEMO_FLAGSHIP_PROGRAM_SLUG);
     if (!mentor || !student || !program) return;
 
     const existing = await this.repos.mentors.findAssignment(mentor.id, student.id);
@@ -241,7 +254,9 @@ export class DemoContentService implements OnModuleInit {
       programId: program.id,
       status: 'active',
     });
-    this.log.log('Seeded mentor assignment (primary mentor ↔ student / career-launchpad)');
+    this.log.log(
+      `Seeded mentor assignment (primary mentor ↔ student / ${DEMO_FLAGSHIP_PROGRAM_SLUG})`,
+    );
   }
 
   private async seedMentorSessions() {
@@ -250,7 +265,7 @@ export class DemoContentService implements OnModuleInit {
       demoMentorEmail(primary.emailLocalPart),
     );
     const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
-    const program = await this.repos.programs.findBySlug('career-launchpad');
+    const program = await this.repos.programs.findBySlug(DEMO_FLAGSHIP_PROGRAM_SLUG);
     if (!mentor || !student) return;
 
     const existing = await this.repos.mentors.listSessionsByMentor(mentor.id);
@@ -262,7 +277,7 @@ export class DemoContentService implements OnModuleInit {
       mentorId: mentor.id,
       studentId: student.id,
       programId: program?.id ?? null,
-      topic: 'Career Launchpad weekly check-in',
+      topic: 'ORI6IN 360° weekly counselling check-in',
       startsAt,
       endsAt: new Date(startsAt.getTime() + 45 * 60 * 1000),
       status: 'scheduled',
@@ -293,13 +308,13 @@ export class DemoContentService implements OnModuleInit {
         userId: student.id,
         channel: 'in_app',
         title: 'Welcome to ORI6IN',
-        body: 'Your student portal is ready. Complete your profile and explore Career Launchpad.',
+        body: 'Your student portal is ready. Complete your profile and explore ORI6IN 360°.',
       });
       await this.repos.notifications.create({
         userId: student.id,
         channel: 'in_app',
-        title: 'Mentor assigned',
-        body: 'You have been paired with a mentor on Career Launchpad. Check your courses to get started.',
+        title: 'Counsellor assigned',
+        body: 'You have been paired with a counsellor on ORI6IN 360°. Check your courses to get started.',
       });
       this.log.log('Seeded demo student notifications');
     }
@@ -314,13 +329,13 @@ export class DemoContentService implements OnModuleInit {
       userId: parentUser.id,
       channel: 'in_app',
       title: 'Linked student update',
-      body: 'Demo Student enrolled in Career Launchpad. Track progress from the Parent portal.',
+      body: 'Demo Student enrolled in ORI6IN 360°. Track progress from the Parent portal.',
     });
     await this.repos.notifications.create({
       userId: parentUser.id,
       channel: 'in_app',
       title: 'Internship application',
-      body: 'Your linked student may apply to internships — review Approvals when needed.',
+      body: 'Your linked student may apply to roles — review Approvals when needed.',
     });
     this.log.log('Seeded demo parent alerts');
   }
@@ -360,12 +375,12 @@ export class DemoContentService implements OnModuleInit {
       await this.repos.parent.createMessage({
         threadId: thread.id,
         senderUserId: student.id,
-        body: 'Hi — I finished the first Career Launchpad lessons this week.',
+        body: 'Hi — I finished the first ORI6IN 360° lessons this week.',
       });
       await this.repos.parent.createMessage({
         threadId: thread.id,
         senderUserId: parent.id,
-        body: 'Proud of you! Keep going — I’ll review your internship applications here.',
+        body: 'Proud of you! Keep going — I’ll review approvals here when needed.',
       });
       this.log.log('Seeded demo parent messaging thread');
     }
@@ -373,11 +388,18 @@ export class DemoContentService implements OnModuleInit {
 
   private async seedDemoCertificate() {
     const student = await this.repos.users.findByEmail(DEMO_STUDENT_PROFILE.email);
-    const program = await this.repos.programs.findBySlug('career-launchpad');
+    const program = await this.repos.programs.findBySlug(DEMO_FLAGSHIP_PROGRAM_SLUG);
     if (!student || !program) return;
 
     const existing = await this.repos.certificates.findByUserProgram(student.id, program.id);
     if (existing) return;
+
+    // Legacy demo cert may still use this code under an old program — skip re-create.
+    const byCode = await this.repos.certificates.findByCode('ORI6IN-DEMO01');
+    if (byCode) {
+      this.log.log('Demo certificate ORI6IN-DEMO01 already exists; skipping');
+      return;
+    }
 
     // Mark all published lessons complete so eligibility matches a finished program
     const courses = await this.repos.learning.listCoursesByProgramIds([program.id]);
@@ -397,6 +419,6 @@ export class DemoContentService implements OnModuleInit {
       programTitle: program.title,
       issuedAt: new Date(),
     });
-    this.log.log('Seeded demo certificate for Career Launchpad');
+    this.log.log(`Seeded demo certificate for ${DEMO_FLAGSHIP_PROGRAM_SLUG}`);
   }
 }

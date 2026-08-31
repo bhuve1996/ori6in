@@ -36,22 +36,13 @@ export function HomeHero({ ready, sectionRef }: Props) {
 
       <div className="home-section__inner home-hero__layout">
         <div className="home-hero__copy">
-          <motion.p
-            className="home-hero__tag"
-            variants={fadeUp}
-            initial="hidden"
-            animate={ready ? 'show' : 'hidden'}
-            transition={{ delay: 0.05, duration: 0.4, ease: easeOut }}
-          >
-            {BRAND.tagline}
-          </motion.p>
           <motion.h1
             id="home-hero-brand"
             className="home-hero__brand"
             variants={scaleIn}
             initial="hidden"
             animate={ready ? 'show' : 'hidden'}
-            transition={{ delay: 0.12, duration: 0.5, ease: easeOut }}
+            transition={{ delay: 0.08, duration: 0.5, ease: easeOut }}
           >
             <img
               className="home-hero__logo"
@@ -66,44 +57,34 @@ export function HomeHero({ ready, sectionRef }: Props) {
             variants={fadeUp}
             initial="hidden"
             animate={ready ? 'show' : 'hidden'}
-            transition={{ delay: 0.2, duration: 0.45, ease: easeOut }}
+            transition={{ delay: 0.18, duration: 0.45, ease: easeOut }}
           >
-            Learn with mentors. Build real work. Step into your next role.
+            Study abroad with counsellor-led clarity.
           </motion.p>
           <motion.p
             className="home-hero__support"
             variants={fadeUp}
             initial="hidden"
             animate={ready ? 'show' : 'hidden'}
-            transition={{ delay: 0.28, duration: 0.45, ease: easeOut }}
+            transition={{ delay: 0.26, duration: 0.45, ease: easeOut }}
           >
-            Programs, mentorship, and internships in one crisp path from skill to opportunity.
+            Counselling, test prep, applications, scholarships, visas — one clear journey.
           </motion.p>
           <motion.div
             className="home-hero__cta"
             variants={fadeUp}
             initial="hidden"
             animate={ready ? 'show' : 'hidden'}
-            transition={{ delay: 0.36, duration: 0.45, ease: easeOut }}
+            transition={{ delay: 0.34, duration: 0.45, ease: easeOut }}
           >
             <Button href="/programs" variant="accent">
               Explore programs
             </Button>
-            <Button href="/register" variant="ghost">
-              Get started
+            <Button href="/pricing" variant="ghost">
+              Get a quote
             </Button>
           </motion.div>
         </div>
-
-        <motion.figure
-          className="home-hero__owl"
-          variants={scaleIn}
-          initial="hidden"
-          animate={ready ? 'show' : 'hidden'}
-          transition={{ delay: 0.22, duration: 0.55, ease: easeOut }}
-        >
-          <img src={BRAND.owl} alt="ORI6IN owl mascot" width={420} height={420} />
-        </motion.figure>
       </div>
     </section>
   );

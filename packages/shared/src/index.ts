@@ -2,6 +2,7 @@ export * from './kernel.js';
 export * from './auth.js';
 export * from './email.js';
 export * from './demo-accounts.js';
+export * from './education-catalog.js';
 export * from './demo-content.js';
 export * from './catalog.js';
 export * from './commerce.js';
@@ -12,4 +13,3 @@ export * from './certificate.js';
 export * from './mentor.js';
 export * from './admin.js';
 export * from './profile.js';
-

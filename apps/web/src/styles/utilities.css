@@ -192,6 +192,12 @@
   letter-spacing: -0.02em;
 }
 
+@utility quote-tag {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  font-weight: 650;
+}
+
 @utility section-block {
   margin: 1.75rem 0;
 }

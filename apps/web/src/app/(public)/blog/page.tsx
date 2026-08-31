@@ -6,7 +6,7 @@ import { listBlogPosts } from '../../../services/public-content';
 
 export const metadata = pageMeta({
   title: 'Blog',
-  description: 'Guides and notes from ORI6IN on learning, mentorship, and careers.',
+  description: 'Guides from ORI6IN on study abroad, applications, scholarships, and visas.',
   path: '/blog',
 });
 
@@ -19,7 +19,7 @@ export default async function BlogPage() {
         image={BANNERS.blog}
         kicker="Blog"
         title="Stories from the path"
-        lead="Guides and notes from ORI6IN — learning, mentorship, and careers."
+        lead="Guides and notes from ORI6IN — destinations, applications, funding, and fly-ready tips."
       />
       <main id="main-content" className="page page-after-banner page-wide">
         {posts.length === 0 ? (

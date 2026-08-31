@@ -3,7 +3,6 @@
 import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { FlowConnector } from './FlowConnector';
 import { useInView } from '../hooks/useInView';
-import { formatPrice } from '../lib/format';
 import { HOME } from '../lib/media';
 
 export type ProgramCurriculumCourse = {
@@ -32,24 +31,24 @@ type Props = {
 
 const CHAPTERS = [
   {
-    key: 'enroll',
-    label: 'Enroll',
-    title: 'Ship weekly work',
-    caption: 'Join the track and build milestones with real tools.',
+    key: 'discover',
+    label: 'Discover',
+    title: 'Find your path',
+    caption: 'Profile, course, and country fit with a counsellor.',
     image: HOME.pathPrograms,
-  },
-  {
-    key: 'mentor',
-    label: 'Mentor reviews',
-    title: 'Get notes that stick',
-    caption: 'Mentors leave feedback so you know what to fix next.',
-    image: HOME.pathMentors,
   },
   {
     key: 'apply',
     label: 'Apply',
-    title: 'Step into roles',
-    caption: 'Use your portfolio to apply when your work is ready.',
+    title: 'Shortlist & submit',
+    caption: 'Universities, essays, tests, and scholarships.',
+    image: HOME.pathMentors,
+  },
+  {
+    key: 'fly',
+    label: 'Fly',
+    title: 'Visa & depart',
+    caption: 'Visa file, mocks, and pre-departure with ORI6IN Fly.',
     image: HOME.pathInternships,
   },
 ] as const;
@@ -111,14 +110,17 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
                 <span>Lessons</span>
               </li>
               <li>
-                <strong>{formatPrice(program.priceCents, program.currency)}</strong>
-                <span>Tuition</span>
+                <strong>Custom</strong>
+                <span>Quote</span>
               </li>
             </ul>
 
             <div className="cta-row reveal series" style={series(4)}>
-              <a className="btn btn-accent" href={`/checkout?programId=${program.id}`}>
-                Buy now
+              <a
+                className="btn btn-accent"
+                href={`/pricing?program=${encodeURIComponent(program.slug)}`}
+              >
+                Get a quote
               </a>
               <a className="btn btn-secondary" href="/register">
                 Create account
@@ -188,15 +190,15 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
           The path
         </p>
         <h2 className="program-detail__title reveal series" style={series(1)}>
-          Enroll → mentor → apply
+          Dream → Apply → Fly
         </h2>
 
         <div className="program-detail__flow-mini reveal series" style={series(2)} aria-hidden="true">
-          <span className="mkt-flow-mini__node">Enroll</span>
-          <FlowConnector />
-          <span className="mkt-flow-mini__node">Mentor reviews</span>
+          <span className="mkt-flow-mini__node">Discover</span>
           <FlowConnector />
           <span className="mkt-flow-mini__node">Apply</span>
+          <FlowConnector />
+          <span className="mkt-flow-mini__node">Fly</span>
         </div>
 
         <ol className="program-detail__chapters">
@@ -218,8 +220,11 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
         </ol>
 
         <div className="cta-row reveal series" style={series(7)}>
-          <a className="btn btn-accent" href={`/checkout?programId=${program.id}`}>
-            Buy now
+          <a
+            className="btn btn-accent"
+            href={`/pricing?program=${encodeURIComponent(program.slug)}`}
+          >
+            Get a quote
           </a>
           <a className="btn btn-secondary" href="/how-it-works">
             How it works

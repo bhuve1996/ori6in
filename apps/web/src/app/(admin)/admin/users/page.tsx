@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiFetch, clearSession, getToken, setSession } from '../../../../lib/auth';
+import { AdminShell, AdminStatusPill } from '../../../../components/admin/AdminShell';
 import { Avatar } from '../../../../components/Avatar';
-import { PageBanner } from '../../../../components/PageBanner';
 import { useToast } from '../../../../components/Toast';
 import { Tooltip } from '../../../../components/Tooltip';
-import { BANNERS } from '../../../../lib/media';
+import { apiFetch, clearSession, getToken, setSession } from '../../../../lib/auth';
 
 type UserRow = {
   id: string;
@@ -18,6 +17,20 @@ type UserRow = {
 };
 
 type Program = { id: string; title: string };
+
+const ROLE_FILTERS = [
+  { id: '', label: 'All' },
+  { id: 'student', label: 'Student' },
+  { id: 'mentor', label: 'Counsellor' },
+  { id: 'parent', label: 'Parent' },
+  { id: 'company', label: 'Company' },
+  { id: 'admin', label: 'Admin' },
+] as const;
+
+function roleLabel(role: string) {
+  if (role === 'mentor') return 'counsellor';
+  return role;
+}
 
 export default function AdminUsersPage() {
   const router = useRouter();
@@ -39,12 +52,11 @@ export default function AdminUsersPage() {
   });
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
   async function loadUsers(nextRole = role) {
     const qs = nextRole ? `?role=${encodeURIComponent(nextRole)}` : '';
-    const { ok, status, data } = await apiFetch<{ items: UserRow[] }>(
-      `/admin/users${qs}`,
-    );
+    const { ok, status, data } = await apiFetch<{ items: UserRow[] }>(`/admin/users${qs}`);
     if (status === 401 || status === 403) {
       clearSession();
       router.replace('/login');
@@ -52,9 +64,11 @@ export default function AdminUsersPage() {
     }
     if (!ok) {
       setError('Failed to load users');
+      setLoading(false);
       return;
     }
     setUsers(Array.isArray(data.items) ? data.items : []);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -79,10 +93,10 @@ export default function AdminUsersPage() {
     e.preventDefault();
     setError('');
     setMessage('');
-    const { ok, data } = await apiFetch<UserRow | { message?: unknown }>(
-      '/admin/users/company',
-      { method: 'POST', body: JSON.stringify(company) },
-    );
+    const { ok, data } = await apiFetch<UserRow | { message?: unknown }>('/admin/users/company', {
+      method: 'POST',
+      body: JSON.stringify(company),
+    });
     if (!ok) {
       setError(JSON.stringify((data as { message?: unknown }).message ?? data));
       toast.error('Could not create company');
@@ -98,17 +112,17 @@ export default function AdminUsersPage() {
     e.preventDefault();
     setError('');
     setMessage('');
-    const { ok, data } = await apiFetch<{ message?: unknown }>(
-      '/admin/users/assign-mentor',
-      { method: 'POST', body: JSON.stringify(assign) },
-    );
+    const { ok, data } = await apiFetch<{ message?: unknown }>('/admin/users/assign-mentor', {
+      method: 'POST',
+      body: JSON.stringify(assign),
+    });
     if (!ok) {
       setError(JSON.stringify((data as { message?: unknown }).message ?? data));
-      toast.error('Could not assign mentor');
+      toast.error('Could not assign counsellor');
       return;
     }
-    setMessage('Mentor assigned.');
-    toast.success('Mentor assigned');
+    setMessage('Counsellor assigned.');
+    toast.success('Counsellor assigned');
   }
 
   async function impersonate(userId: string) {
@@ -119,8 +133,7 @@ export default function AdminUsersPage() {
       message?: string;
     }>(`/admin/impersonate/${userId}`, { method: 'POST' });
     if (!ok || !data.token || !data.user) {
-      const msg =
-        typeof data.message === 'string' ? data.message : 'Impersonation failed';
+      const msg = typeof data.message === 'string' ? data.message : 'Impersonation failed';
       setError(msg);
       toast.error(msg);
       return;
@@ -134,145 +147,180 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.admin}
-        title="Users"
-        lead="Filter accounts, create companies, assign mentors, and impersonate for support."
-      />
-      <main id="main-content" className="page page-after-banner">
-      <a className="back-link" href="/admin">
-        ← Admin
-      </a>
-      {error && <p className="text-error">{error}</p>}
-      {message && <p className="text-success">{message}</p>}
+    <AdminShell
+      title="Users"
+      lead="Filter accounts, create companies, assign counsellors, and impersonate for support."
+      loading={loading}
+      error={error}
+      message={message}
+      stats={[
+        { value: users.length, label: role ? `${roleLabel(role)}s` : 'Listed' },
+        { value: mentors.length, label: 'Counsellors' },
+        { value: students.length, label: 'Students' },
+      ]}
+    >
+      <section className="admin-panel">
+        <div className="admin-panel__head">
+          <h2>Accounts</h2>
+          <p className="admin-panel__meta">{users.length} shown</p>
+        </div>
+        <div className="admin-filters">
+          <div className="admin-filter-chips" role="group" aria-label="Role filter">
+            {ROLE_FILTERS.map((f) => (
+              <button
+                key={f.id || 'all'}
+                type="button"
+                className="admin-chip"
+                aria-pressed={role === f.id}
+                onClick={() => {
+                  setRole(f.id);
+                  setLoading(true);
+                  void loadUsers(f.id);
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      <p className="meta">
-        Filter:{' '}
-        <select
-          value={role}
-          onChange={(e) => {
-            const next = e.target.value;
-            setRole(next);
-            void loadUsers(next);
-          }}
-        >
-          <option value="">All</option>
-          <option value="student">Student</option>
-          <option value="mentor">Mentor</option>
-          <option value="parent">Parent</option>
-          <option value="company">Company</option>
-          <option value="admin">Admin</option>
-        </select>
-      </p>
+        {users.length === 0 ? (
+          <p className="admin-empty">No users for this filter.</p>
+        ) : (
+          <ul className="admin-card-list">
+            {users.map((u) => (
+              <li key={u.id}>
+                <article className="admin-person">
+                  <Avatar
+                    name={u.fullName}
+                    seed={u.id}
+                    kind={u.role === 'mentor' ? 'mentor' : 'student'}
+                  />
+                  <div>
+                    <h3>{u.fullName}</h3>
+                    <p className="meta">
+                      {u.email} · {roleLabel(u.role)}
+                    </p>
+                    <AdminStatusPill tone={u.emailVerified ? 'ok' : 'neutral'}>
+                      {u.emailVerified ? 'Verified' : 'Unverified'}
+                    </AdminStatusPill>
+                  </div>
+                  {u.role !== 'admin' && u.role !== 'super_admin' ? (
+                    <div className="admin-table__actions">
+                      <Tooltip label="Open their portal with a temporary session">
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={() => void impersonate(u.id)}
+                        >
+                          Impersonate
+                        </button>
+                      </Tooltip>
+                    </div>
+                  ) : null}
+                </article>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
-      <div className="card-list">
-        {users.map((u) => (
-          <article key={u.id} className="person-row">
-            <Avatar
-              name={u.fullName}
-              seed={u.id}
-              kind={u.role === 'mentor' ? 'mentor' : 'student'}
-            />
-            <div>
-              <h3>{u.fullName}</h3>
-              <p className="meta">
-                {u.email} · {u.role}
-                {u.emailVerified ? ' · verified' : ''}
-              </p>
-              {u.role !== 'admin' && u.role !== 'super_admin' && (
-                <p>
-                  <Tooltip label="Open their portal with a temporary session">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={() => void impersonate(u.id)}
-                    >
-                      Impersonate
-                    </button>
-                  </Tooltip>
-                </p>
-              )}
-            </div>
-          </article>
-        ))}
+      <div className="admin-split">
+        <section className="admin-panel">
+          <div className="admin-panel__head">
+            <h2>Create company account</h2>
+          </div>
+          <form onSubmit={createCompany} className="admin-form">
+            <label>
+              Company / contact name
+              <input
+                value={company.fullName}
+                onChange={(e) => setCompany({ ...company, fullName: e.target.value })}
+                required
+              />
+            </label>
+            <label>
+              Email
+              <input
+                type="email"
+                value={company.email}
+                onChange={(e) => setCompany({ ...company, email: e.target.value })}
+                required
+              />
+            </label>
+            <label>
+              Temp password
+              <input
+                type="password"
+                value={company.password}
+                onChange={(e) => setCompany({ ...company, password: e.target.value })}
+                minLength={8}
+                required
+              />
+              <span className="admin-form__hint">Minimum 8 characters</span>
+            </label>
+            <button className="btn btn-accent" type="submit">
+              Create company
+            </button>
+          </form>
+        </section>
+
+        <section className="admin-panel">
+          <div className="admin-panel__head">
+            <h2>Assign counsellor</h2>
+          </div>
+          <form onSubmit={assignMentor} className="admin-form">
+            <label>
+              Counsellor
+              <select
+                value={assign.mentorId}
+                onChange={(e) => setAssign({ ...assign, mentorId: e.target.value })}
+                required
+              >
+                <option value="">Select…</option>
+                {mentors.map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.fullName}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Student
+              <select
+                value={assign.studentId}
+                onChange={(e) => setAssign({ ...assign, studentId: e.target.value })}
+                required
+              >
+                <option value="">Select…</option>
+                {students.map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.fullName}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Program
+              <select
+                value={assign.programId}
+                onChange={(e) => setAssign({ ...assign, programId: e.target.value })}
+                required
+              >
+                <option value="">Select…</option>
+                {programs.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button className="btn btn-accent" type="submit">
+              Assign
+            </button>
+          </form>
+        </section>
       </div>
-
-      <section className="section-block">
-        <h2>Create company account</h2>
-        <form onSubmit={createCompany} className="form-grid">
-          <input
-            placeholder="Company / contact name"
-            value={company.fullName}
-            onChange={(e) => setCompany({ ...company, fullName: e.target.value })}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={company.email}
-            onChange={(e) => setCompany({ ...company, email: e.target.value })}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Temp password (min 8)"
-            value={company.password}
-            onChange={(e) => setCompany({ ...company, password: e.target.value })}
-            minLength={8}
-            required
-          />
-          <button className="btn btn-accent" type="submit">
-            Create company
-          </button>
-        </form>
-      </section>
-
-      <section className="section-block">
-        <h2>Assign mentor</h2>
-        <form onSubmit={assignMentor} className="form-grid">
-          <select
-            value={assign.mentorId}
-            onChange={(e) => setAssign({ ...assign, mentorId: e.target.value })}
-            required
-          >
-            <option value="">Mentor</option>
-            {mentors.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.fullName}
-              </option>
-            ))}
-          </select>
-          <select
-            value={assign.studentId}
-            onChange={(e) => setAssign({ ...assign, studentId: e.target.value })}
-            required
-          >
-            <option value="">Student</option>
-            {students.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.fullName}
-              </option>
-            ))}
-          </select>
-          <select
-            value={assign.programId}
-            onChange={(e) => setAssign({ ...assign, programId: e.target.value })}
-            required
-          >
-            <option value="">Program</option>
-            {programs.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title}
-              </option>
-            ))}
-          </select>
-          <button className="btn btn-accent" type="submit">
-            Assign
-          </button>
-        </form>
-      </section>
-    </main>
-    </>
+    </AdminShell>
   );
 }

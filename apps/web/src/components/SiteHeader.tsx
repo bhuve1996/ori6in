@@ -136,7 +136,7 @@ export function SiteHeader() {
             link.label === 'Alerts'
               ? 'Notifications'
               : link.label === 'How it works'
-                ? 'Student → mentor → role'
+                ? 'Dream → Apply → Fly'
                 : link.label === 'AI'
                   ? 'Career coach chat'
                   : link.href === '#logout'

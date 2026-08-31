@@ -35,10 +35,10 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
           <div style={{ fontSize: 52, fontWeight: 650, lineHeight: 1.15 }}>
-            Everything starts here.
+            Dream. Apply. Fly.
           </div>
           <div style={{ fontSize: 28, opacity: 0.88, lineHeight: 1.35, color: '#d4b87a' }}>
-            {SITE_TAGLINE}
+            Study abroad with ORI6IN Education
           </div>
         </div>
       </div>

@@ -1,14 +1,13 @@
 import type { CSSProperties } from 'react';
-import { Tooltip } from '../Tooltip';
 
 type Props = {
   sectionRef: (el: HTMLElement | null) => void;
 };
 
 const MICRO = [
-  { label: 'Portfolio', hint: 'Show real projects' },
-  { label: 'Apply', hint: 'Pick open roles' },
-  { label: 'Track', hint: 'Watch status update' },
+  { label: 'Destinations', hint: 'USA · UK · Canada · more' },
+  { label: 'Shortlist', hint: 'Safe · Target · Ambitious' },
+  { label: 'Apply', hint: 'Essays, tests, tracking' },
 ] as const;
 
 function series(n: number): CSSProperties {
@@ -26,13 +25,13 @@ export function HomeInternships({ sectionRef }: Props) {
       <div className="home-section__inner">
         <div className="home-internships__panel">
           <p className="home-kicker reveal series" style={series(0)}>
-            Internships
+            Destinations
           </p>
           <h2 className="home-title reveal series" style={series(1)}>
-            From portfolio to opportunity
+            From shortlist to admit
           </h2>
           <p className="home-lead reveal series" style={series(2)}>
-            Sign in, browse roles, and apply when your work is ready to show.
+            Study in the USA, UK, Canada, Australia, Germany, and more — with counsellor support.
           </p>
           <ul className="home-micro-steps">
             {MICRO.map((m, i) => (
@@ -43,11 +42,9 @@ export function HomeInternships({ sectionRef }: Props) {
             ))}
           </ul>
           <div className="reveal series" style={series(6)}>
-            <Tooltip label="Internships open after you sign in as a student">
-              <a className="btn" href="/login?next=/student/internships">
-                Sign in to explore
+              <a className="btn btn-accent" href="/programs">
+                Explore study abroad
               </a>
-            </Tooltip>
           </div>
         </div>
       </div>

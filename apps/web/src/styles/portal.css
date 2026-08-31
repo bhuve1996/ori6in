@@ -37,13 +37,13 @@
   margin: 1.25rem 0 0.5rem;
 }
 
-.page a:not(.btn):not(.portal-grid a):not(.back-link):not(.brand) {
+.page a:not(.btn):not(.portal-grid a):not(.back-link):not(.brand):not(.admin-subnav__link) {
   text-decoration: underline;
   text-underline-offset: 0.15em;
   text-decoration-color: color-mix(in srgb, var(--ink) 25%, transparent);
 }
 
-.page a:not(.btn):not(.portal-grid a):not(.back-link):hover {
+.page a:not(.btn):not(.portal-grid a):not(.back-link):not(.admin-subnav__link):hover {
   text-decoration-color: var(--teal);
   color: var(--teal);
 }

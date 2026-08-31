@@ -27,17 +27,17 @@ export function HomeClosing({ sectionRef }: Props) {
             Ready when you are
           </p>
           <h2 className="home-title reveal series" style={series(1)}>
-            Start building your next chapter
+            Start your study-abroad chapter
           </h2>
           <p className="home-lead reveal series" style={series(2)}>
-            Create an account, pick a program, and learn with a mentor beside you.
+            Create an account, pick a package, and plan with a counsellor beside you.
           </p>
           <div className="home-hero__cta reveal series" style={series(3)}>
             <Button href="/register" variant="accent">
               Create account
             </Button>
-            <Button href="/programs" variant="ghost">
-              Explore programs
+            <Button href="/pricing" variant="ghost">
+              Get a quote
             </Button>
           </div>
         </div>

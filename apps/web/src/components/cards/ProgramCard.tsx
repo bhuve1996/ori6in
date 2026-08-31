@@ -13,7 +13,6 @@ import {
 import { motion } from 'motion/react';
 import type { CSSProperties } from 'react';
 import type { Program } from '../../lib/api';
-import { formatPrice } from '../../lib/format';
 import { programImage } from '../../lib/media';
 import { easeOut, softSpring } from '../../lib/motion';
 
@@ -65,7 +64,7 @@ export function ProgramCard({
           <CardTitle as={titleAs}>{program.title}</CardTitle>
           <TileSub lines={summaryLines}>{program.summary}</TileSub>
           <CardFooter className={`${root}__foot`}>
-            <span className="price-tag price">{formatPrice(program.priceCents, program.currency)}</span>
+            <span className="price-tag price quote-tag">Get a quote</span>
             <TileCta>{cta}</TileCta>
           </CardFooter>
         </CardBody>

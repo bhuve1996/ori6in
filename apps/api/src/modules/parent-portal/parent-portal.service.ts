@@ -11,6 +11,7 @@ import {
   createParentThreadSchema,
   DEMO_COUPON_CODE,
   DEMO_COUPON_PERCENT,
+  DEMO_FLAGSHIP_PROGRAM_SLUG,
   inviteParentLinkSchema,
   parentCheckoutSchema,
   parentInternshipDecisionSchema,
@@ -88,10 +89,10 @@ export class ParentPortalService {
     try {
       const student = await this.requireLinkedStudent(parentId);
       child = { id: student.id, fullName: student.fullName, email: student.email };
-      const launchpad = await this.repos.programs.findBySlug('career-launchpad');
-      if (launchpad) {
-        program = { id: launchpad.id, title: launchpad.title, slug: launchpad.slug };
-        progress = await this.progressFor(student.id, launchpad.id);
+      const flagship = await this.repos.programs.findBySlug(DEMO_FLAGSHIP_PROGRAM_SLUG);
+      if (flagship) {
+        program = { id: flagship.id, title: flagship.title, slug: flagship.slug };
+        progress = await this.progressFor(student.id, flagship.id);
       }
       const orders = await this.repos.orders.listByUser(student.id);
       paidOrders = orders.filter((o) => o.status === 'paid').length;

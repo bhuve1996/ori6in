@@ -31,11 +31,13 @@ Edit that file to change programs, CMS pages, blog, mentors, internships, curric
 
 | Type | What you should see |
 |------|---------------------|
-| Programs | Career Launchpad, AI Foundations (public); Mentor Intensive draft (admin only) |
-| Pages | `/about`, `/pricing` from CMS |
+| Programs | Full Education catalogue (360°, packages, test prep incl. PTE/DET, country admissions, combos, premium) — see `education-catalog.ts` |
+| Tools | `/tools` University Finder, Course Finder, Scholarships, Cost Calculator, Eligibility, Country Compare |
+| Hub | `/hub` Student Hub communities & sessions |
+| Pages | `/about`, `/pricing` (Get a quote) from CMS |
 | Blog | Welcome + Choosing your first program |
-| Mentors | 6 public mentor personas on `/mentors` (profiles + bios). Portal login remains `mentor@…` only |
-| Internships | Frontend / Data / Mentor Ops (student portal) |
+| Mentors | 6 public counsellor personas on `/mentors` |
+| Internships | Frontend / Data / Counsellor Ops (student portal) |
 
 ### Demo purchase path
 
@@ -46,11 +48,11 @@ Edit that file to change programs, CMS pages, blog, mentors, internships, curric
 
 ### Demo learning path
 
-Demo student is pre-enrolled in **Career Launchpad**.
+Demo student is pre-enrolled in **ORI6IN 360°**.
 
 1. Login as student → `/student/courses`
-2. Open **Getting Started** → open a lesson → **Mark complete**
-3. Buy **AI Foundations** to unlock its course too
+2. Open **Discover & Decide** → open a lesson → **Mark complete**
+3. Buy **ORI6IN IELTS** (or another package) to unlock more courses
 
 ### Demo internships path
 
@@ -64,7 +66,7 @@ Internships are **login-only** (not on the public site).
 
 Public directory: http://localhost:3000/mentors (all personas from `demo-content.ts`).
 
-Portal login mentor is assigned to the demo student on **Career Launchpad**.
+Portal login mentor is assigned to the demo student on **ORI6IN 360°**.
 
 1. Login as `mentor@demo.ori6in.test` → `/mentor`
 2. Open **Students** → Demo Student → add a session note

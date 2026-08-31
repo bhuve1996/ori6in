@@ -31,7 +31,7 @@ export default function NotFound() {
             Browse programs
           </a>
           <a className="btn btn-secondary" href="/mentors">
-            Meet mentors
+            Meet counsellors
           </a>
           <a className="btn btn-secondary" href="/login">
             Log in

@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { AdminShell, AdminStatusPill } from '../../../../components/admin/AdminShell';
 import { apiFetch } from '../../../../lib/auth';
 import { useApiResource } from '../../../../hooks/useApiResource';
-import { PortalShell } from '../../../../components/portal/PortalShell';
-import { BANNERS } from '../../../../lib/media';
 
 type Signup = {
   id: string;
@@ -61,27 +60,31 @@ export default function AdminComingSoonPage() {
 
     setNotice(
       `Sent ${result.sent}. Failed ${result.failed}.` +
-        (result.failures?.length
-          ? ` First error: ${result.failures[0]}`
-          : ''),
+        (result.failures?.length ? ` First error: ${result.failures[0]}` : ''),
     );
     reload();
   }
 
   return (
-    <PortalShell
-      banner={{
-        image: BANNERS.admin,
-        title: 'Coming soon waitlist',
-        lead: data
+    <AdminShell
+      title="Coming soon waitlist"
+      lead={
+        data
           ? `${data.total} signup${data.total === 1 ? '' : 's'} · ${pending} waiting for launch email.`
-          : 'Notify signups from the soft-launch page.',
-      }}
-      back={{ href: '/admin', label: 'Admin' }}
+          : 'Notify signups from the soft-launch page.'
+      }
       loading={loading}
       error={error}
-    >
-      <div className="cta-row" style={{ marginBottom: '1.25rem' }}>
+      message={notice ?? undefined}
+      stats={[
+        { value: data?.total ?? 0, label: 'Total' },
+        { value: pending, label: 'Pending email' },
+        {
+          value: (data?.total ?? 0) - pending,
+          label: 'Announced',
+        },
+      ]}
+      actions={
         <button
           type="button"
           className="btn btn-accent"
@@ -90,21 +93,19 @@ export default function AdminComingSoonPage() {
         >
           {busy ? 'Sending…' : `Email “we're live” (${pending})`}
         </button>
-      </div>
-
-      {notice ? <p className="notice">{notice}</p> : null}
-
+      }
+    >
       {items.length === 0 ? (
-        <p className="meta">No waitlist signups yet.</p>
+        <p className="admin-empty">No waitlist signups yet.</p>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
-          <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
             <thead>
               <tr>
-                <th align="left">Name</th>
-                <th align="left">Email</th>
-                <th align="left">Signed up</th>
-                <th align="left">Launch email</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Signed up</th>
+                <th>Launch email</th>
               </tr>
             </thead>
             <tbody>
@@ -116,9 +117,13 @@ export default function AdminComingSoonPage() {
                   </td>
                   <td>{new Date(row.createdAt).toLocaleString()}</td>
                   <td>
-                    {row.announcedAt
-                      ? `Sent ${new Date(row.announcedAt).toLocaleString()}`
-                      : 'Pending'}
+                    {row.announcedAt ? (
+                      <AdminStatusPill tone="ok">
+                        Sent {new Date(row.announcedAt).toLocaleDateString()}
+                      </AdminStatusPill>
+                    ) : (
+                      <AdminStatusPill tone="warn">Pending</AdminStatusPill>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -126,6 +131,6 @@ export default function AdminComingSoonPage() {
           </table>
         </div>
       )}
-    </PortalShell>
+    </AdminShell>
   );
 }

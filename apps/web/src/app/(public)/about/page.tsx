@@ -11,7 +11,7 @@ const ABOUT_FALLBACK = DEMO_PAGES.find((p) => p.slug === 'about')!;
 export const metadata = pageMeta({
   title: 'About',
   description:
-    'ORI6IN brings programs, mentorship, and internships together so students can learn and launch with clarity.',
+    'ORI6IN Education helps students Dream. Apply. Fly. — counselling, test prep, admits, scholarships, visas, and pre-departure.',
   path: '/about',
 });
 
@@ -25,25 +25,25 @@ export default async function AboutPage() {
         image={BANNERS.about}
         kicker="About"
         title={title}
-        lead="Programs, mentorship, and internships — in one place."
+        lead="Study abroad counselling — from first shortlist to departure."
       />
       <main id="main-content" className="page page-after-banner page-wide">
         <div className="mkt-about">
           <div className="mkt-about__media">
             <img
               src={HOME.pathMentors}
-              alt="Mentor guiding a student through project work"
+              alt="Counsellor guiding a student through study-abroad planning"
               loading="lazy"
             />
           </div>
           <div className="mkt-about__copy">
             <div className="prose">{body}</div>
             <div className="mkt-flow-mini" aria-label="How ORI6IN works">
-              <span className="mkt-flow-mini__node">Student</span>
+              <span className="mkt-flow-mini__node">Discover</span>
               <FlowConnector />
-              <span className="mkt-flow-mini__node">Mentor</span>
+              <span className="mkt-flow-mini__node">Apply</span>
               <FlowConnector />
-              <span className="mkt-flow-mini__node">Internship</span>
+              <span className="mkt-flow-mini__node">Fly</span>
             </div>
             <div className="cta-row">
               <Button href="/programs" variant="accent">

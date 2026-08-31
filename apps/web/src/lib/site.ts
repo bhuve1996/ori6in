@@ -1,9 +1,9 @@
 /** Canonical site settings for SEO, sitemap, and social cards. */
 
 export const SITE_NAME = 'ORI6IN';
-export const SITE_TAGLINE = 'Everything starts here.';
+export const SITE_TAGLINE = 'Dream. Apply. Fly.';
 export const SITE_DESCRIPTION =
-  'Learn with mentors, build real work, and step into internships. ORI6IN connects programs, mentorship, and career pathways — everything starts here.';
+  'ORI6IN Education helps students study abroad — counselling, test prep, university applications, scholarships, visas, and pre-departure. Dream. Apply. Fly.';
 
 export function getSiteUrl() {
   const raw =

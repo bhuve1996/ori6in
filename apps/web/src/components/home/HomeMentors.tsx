@@ -26,13 +26,13 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
     >
       <div className="home-section__inner">
         <p className="home-kicker reveal series" style={series(0)}>
-          Mentors
+          Counsellors
         </p>
         <h2 className="home-title reveal series" style={series(1)}>
-          Faces behind the feedback
+          Faces behind your plan
         </h2>
         <p className="home-lead reveal series" style={series(2)}>
-          Real people review your work — not a faceless queue.
+          Real counsellors guide shortlists, essays, and visas — not a faceless queue.
         </p>
 
         <div className="home-mentor-strip reveal series" style={series(3)}>
@@ -67,7 +67,7 @@ export function HomeMentors({ mentors, sectionRef }: Props) {
           style={{ ...series(4 + Math.min(faces.length, 5)), marginTop: '1.75rem' }}
         >
           <a className="btn btn-accent" href="/mentors">
-            Meet mentors
+            Meet counsellors
           </a>
         </div>
       </div>

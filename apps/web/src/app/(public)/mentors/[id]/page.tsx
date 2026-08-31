@@ -51,18 +51,18 @@ export default async function MentorDetailPage({
 
   const focus = [
     {
-      title: 'Reviews',
-      caption: 'Written notes on your milestones — what works, what to fix next.',
+      title: 'Guidance',
+      caption: 'Clear next steps on shortlists, essays, and documents.',
       image: HOME.outcomesFeedback,
     },
     {
       title: 'Sessions',
-      caption: 'Book time for walkthroughs, critiques, and career questions.',
+      caption: 'Book time for profile reviews, applications, and visa prep.',
       image: HOME.pathMentors,
     },
     {
       title: 'Outcomes',
-      caption: 'Leave with clearer portfolio work and a sharper story for roles.',
+      caption: 'Leave with a stronger admit plan and travel-ready checklist.',
       image: HOME.outcomesReady,
     },
   ] as const;
@@ -71,13 +71,13 @@ export default async function MentorDetailPage({
     <>
       <PageBanner
         image={BANNERS.mentors}
-        kicker="Mentor"
+        kicker="Counsellor"
         title={mentor.fullName}
         lead={mentor.title}
       />
       <main id="main-content" className="page page-after-banner page-wide" tabIndex={-1}>
         <a className="back-link" href="/mentors">
-          ← Mentors
+          ← Counsellors
         </a>
 
         <div className="mentor-detail">
@@ -88,7 +88,7 @@ export default async function MentorDetailPage({
               <ul className="mentor-detail__meta">
                 {location ? <li>{location}</li> : null}
                 <li>
-                  {mentor.assignedStudents} active mentee
+                  {mentor.assignedStudents} active student
                   {mentor.assignedStudents === 1 ? '' : 's'}
                 </li>
               </ul>
@@ -112,8 +112,8 @@ export default async function MentorDetailPage({
           </section>
 
           <section className="mentor-detail__focus">
-            <p className="mentor-detail__kicker">How mentoring works</p>
-            <h2>Reviews, sessions, outcomes</h2>
+            <p className="mentor-detail__kicker">How counselling works</p>
+            <h2>Guidance, sessions, outcomes</h2>
             <ul className="mentor-detail__focus-grid">
               {focus.map((item) => (
                 <li key={item.title}>

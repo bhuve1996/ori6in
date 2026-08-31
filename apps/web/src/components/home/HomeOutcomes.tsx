@@ -7,18 +7,18 @@ type Props = {
 
 const TILES = [
   {
-    title: 'A portfolio project',
-    line: 'Ship something you can demo in interviews.',
+    title: 'A clear university shortlist',
+    line: 'Safe, target, and ambitious options matched to your profile.',
     image: HOME.outcomesPortfolio,
   },
   {
-    title: 'Mentor feedback trail',
-    line: 'Reviews and notes that show how you improved.',
+    title: 'Counsellor-reviewed applications',
+    line: 'SOP, LOR, and resume feedback you can act on.',
     image: HOME.outcomesFeedback,
   },
   {
-    title: 'Internship-ready profile',
-    line: 'Skills, projects, and proof — ready to apply.',
+    title: 'Visa- and fly-ready',
+    line: 'Documentation, mocks, and pre-departure checklists.',
     image: HOME.outcomesReady,
   },
 ] as const;
@@ -40,10 +40,10 @@ export function HomeOutcomes({ sectionRef }: Props) {
           What you leave with
         </p>
         <h2 className="home-title reveal series" style={series(1)}>
-          Proof, not just progress bars
+          Admits, funding, and a boarding plan
         </h2>
         <p className="home-lead reveal series" style={series(2)}>
-          Finish with work and feedback you can show — not only completed lessons.
+          Finish with applications, scholarships, and visa readiness — not only lesson checkmarks.
         </p>
         <div className="home-outcome-tiles">
           {TILES.map((t, i) => (
