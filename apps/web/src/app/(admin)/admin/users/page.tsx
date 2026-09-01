@@ -148,6 +148,7 @@ export default function AdminUsersPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="Users"
       lead="Filter accounts, create companies, assign counsellors, and impersonate for support."
       loading={loading}

@@ -88,6 +88,7 @@ export default function AdminCmsPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="CMS"
       lead="Edit public pages (About, Get a quote) and blog posts."
       loading={loading}

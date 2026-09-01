@@ -21,6 +21,7 @@ export default function AdminCertificatesPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="Certificates"
       lead="Issued program-completion certificates across the platform."
       loading={loading}

@@ -48,6 +48,7 @@ export default function AdminApprovalsPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="Internship approvals"
       lead={
         items.length > 0

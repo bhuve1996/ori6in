@@ -67,6 +67,7 @@ export default function AdminComingSoonPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="Coming soon waitlist"
       lead={
         data

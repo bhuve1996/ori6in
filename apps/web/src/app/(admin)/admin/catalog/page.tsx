@@ -1,36 +1,18 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AdminShell, AdminStatusPill } from '../../../../components/admin/AdminShell';
 import { apiFetch, clearSession, getToken } from '../../../../lib/auth';
 import type { Program } from '../../../../lib/api';
 import { formatPrice } from '../../../../lib/format';
 
-const emptyForm = {
-  title: '',
-  slug: '',
-  summary: '',
-  description: '',
-  priceCents: 99900,
-  currency: 'INR',
-  published: true,
-};
-
-function slugify(title: string) {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 type PubFilter = 'all' | 'published' | 'draft';
 
-export default function AdminCatalogPage() {
+function AdminCatalogPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [programs, setPrograms] = useState<Program[]>([]);
-  const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -62,6 +44,11 @@ export default function AdminCatalogPage() {
     void load();
   }, [router]);
 
+  useEffect(() => {
+    const created = searchParams.get('created');
+    if (created) setMessage(`Created ${created}`);
+  }, [searchParams]);
+
   const publishedCount = programs.filter((p) => p.published).length;
   const draftCount = programs.length - publishedCount;
 
@@ -78,27 +65,6 @@ export default function AdminCatalogPage() {
       );
     });
   }, [programs, query, pubFilter]);
-
-  async function onCreate(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    setMessage('');
-    const payload = {
-      ...form,
-      slug: form.slug.trim() || slugify(form.title),
-    };
-    const { ok, data } = await apiFetch<Program | { message?: unknown }>('/admin/catalog/programs', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-    if (!ok) {
-      setError(JSON.stringify((data as { message?: unknown }).message ?? data));
-      return;
-    }
-    setMessage(`Created ${(data as Program).title}`);
-    setForm(emptyForm);
-    await load();
-  }
 
   async function togglePublish(program: Program) {
     setError('');
@@ -117,6 +83,7 @@ export default function AdminCatalogPage() {
 
   return (
     <AdminShell
+      layout="full"
       title="Catalog"
       lead="Education packages and programs — publish for the public catalogue. Prices are internal (checkout); the public site uses Get a quote."
       loading={loading}
@@ -127,178 +94,116 @@ export default function AdminCatalogPage() {
         { value: publishedCount, label: 'Published' },
         { value: draftCount, label: 'Drafts' },
       ]}
+      actions={
+        <a className="btn btn-accent" href="/admin/catalog/new">
+          Create program
+        </a>
+      }
     >
-      <div className="admin-split">
-        <section className="admin-panel">
-          <div className="admin-panel__head">
-            <h2>Programs</h2>
-            <p className="admin-panel__meta">
-              {filtered.length} shown
-              {filtered.length !== programs.length ? ` of ${programs.length}` : ''}
-            </p>
-          </div>
-
-          <div className="admin-filters">
-            <input
-              type="search"
-              placeholder="Search title, slug, summary…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search programs"
-            />
-            <div className="admin-filter-chips" role="group" aria-label="Publish filter">
-              {(
-                [
-                  ['all', 'All'],
-                  ['published', 'Published'],
-                  ['draft', 'Draft'],
-                ] as const
-              ).map(([id, label]) => (
-                <button
-                  key={id}
-                  type="button"
-                  className="admin-chip"
-                  aria-pressed={pubFilter === id}
-                  onClick={() => setPubFilter(id)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {filtered.length === 0 ? (
-            <p className="admin-empty">No programs match these filters.</p>
-          ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Program</th>
-                    <th>Slug</th>
-                    <th>Internal price</th>
-                    <th>Status</th>
-                    <th aria-label="Actions" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((p) => (
-                    <tr key={p.id}>
-                      <td>
-                        <p className="admin-table__title">{p.title}</p>
-                        <p className="admin-table__sub">{p.summary}</p>
-                      </td>
-                      <td>
-                        <span className="admin-table__slug">{p.slug}</span>
-                      </td>
-                      <td>
-                        <span>{formatPrice(p.priceCents, p.currency)}</span>
-                        <p className="admin-table__sub">Checkout only</p>
-                      </td>
-                      <td>
-                        <AdminStatusPill tone={p.published ? 'ok' : 'warn'}>
-                          {p.published ? 'Published' : 'Draft'}
-                        </AdminStatusPill>
-                      </td>
-                      <td>
-                        <div className="admin-table__actions">
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            disabled={busyId === p.id}
-                            onClick={() => void togglePublish(p)}
-                          >
-                            {p.published ? 'Unpublish' : 'Publish'}
-                          </button>
-                          <a className="btn btn-secondary" href={`/programs/${p.slug}`}>
-                            View
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-          <p className="admin-form__hint" style={{ marginTop: '0.85rem' }}>
-            Public site shows Get a quote — not these list prices.
+      <section className="admin-panel">
+        <div className="admin-panel__head">
+          <h2>Programs</h2>
+          <p className="admin-panel__meta">
+            {filtered.length} shown
+            {filtered.length !== programs.length ? ` of ${programs.length}` : ''}
           </p>
-        </section>
+        </div>
 
-        <section className="admin-panel">
-          <div className="admin-panel__head">
-            <h2>Create program</h2>
+        <div className="admin-filters">
+          <input
+            type="search"
+            placeholder="Search title, slug, summary…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search programs"
+          />
+          <div className="admin-filter-chips" role="group" aria-label="Publish filter">
+            {(
+              [
+                ['all', 'All'],
+                ['published', 'Published'],
+                ['draft', 'Draft'],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                className="admin-chip"
+                aria-pressed={pubFilter === id}
+                onClick={() => setPubFilter(id)}
+              >
+                {label}
+              </button>
+            ))}
           </div>
-          <form onSubmit={onCreate} className="admin-form">
-            <label>
-              Title
-              <input
-                value={form.title}
-                onChange={(e) => {
-                  const title = e.target.value;
-                  setForm((prev) => ({
-                    ...prev,
-                    title,
-                    slug: prev.slug === slugify(prev.title) || !prev.slug ? slugify(title) : prev.slug,
-                  }));
-                }}
-                required
-              />
-            </label>
-            <label>
-              Slug
-              <input
-                value={form.slug}
-                onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                placeholder="auto-from-title"
-                required
-              />
-            </label>
-            <label>
-              Summary
-              <input
-                value={form.summary}
-                onChange={(e) => setForm({ ...form, summary: e.target.value })}
-                required
-              />
-            </label>
-            <label>
-              Description
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                required
-                rows={5}
-              />
-            </label>
-            <label>
-              Price (cents, INR)
-              <input
-                type="number"
-                value={form.priceCents}
-                onChange={(e) => setForm({ ...form, priceCents: Number(e.target.value) })}
-                required
-                min={0}
-              />
-              <span className="admin-form__hint">
-                Preview: {formatPrice(form.priceCents || 0, form.currency)}
-              </span>
-            </label>
-            <label className="admin-form__check">
-              <input
-                type="checkbox"
-                checked={form.published}
-                onChange={(e) => setForm({ ...form, published: e.target.checked })}
-              />
-              Publish immediately
-            </label>
-            <button className="btn btn-accent" type="submit">
-              Create program
-            </button>
-          </form>
-        </section>
-      </div>
+        </div>
+
+        {filtered.length === 0 ? (
+          <p className="admin-empty">No programs match these filters.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Program</th>
+                  <th>Slug</th>
+                  <th>Internal price</th>
+                  <th>Status</th>
+                  <th aria-label="Actions" />
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((p) => (
+                  <tr key={p.id}>
+                    <td>
+                      <p className="admin-table__title">{p.title}</p>
+                      <p className="admin-table__sub">{p.summary}</p>
+                    </td>
+                    <td>
+                      <span className="admin-table__slug">{p.slug}</span>
+                    </td>
+                    <td>
+                      <span>{formatPrice(p.priceCents, p.currency)}</span>
+                      <p className="admin-table__sub">Checkout only</p>
+                    </td>
+                    <td>
+                      <AdminStatusPill tone={p.published ? 'ok' : 'warn'}>
+                        {p.published ? 'Published' : 'Draft'}
+                      </AdminStatusPill>
+                    </td>
+                    <td>
+                      <div className="admin-table__actions">
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          disabled={busyId === p.id}
+                          onClick={() => void togglePublish(p)}
+                        >
+                          {p.published ? 'Unpublish' : 'Publish'}
+                        </button>
+                        <a className="btn btn-secondary" href={`/programs/${p.slug}`}>
+                          View
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p className="admin-form__hint" style={{ marginTop: '0.85rem' }}>
+          Public site shows Get a quote — not these list prices.
+        </p>
+      </section>
     </AdminShell>
+  );
+}
+
+export default function AdminCatalogPage() {
+  return (
+    <Suspense fallback={<p className="meta">Loading…</p>}>
+      <AdminCatalogPageInner />
+    </Suspense>
   );
 }
