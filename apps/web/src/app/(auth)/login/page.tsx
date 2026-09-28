@@ -4,8 +4,7 @@ import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch, setSession } from '../../../lib/auth';
 import { resolvePostLoginPath } from '../../../lib/routes';
-import { PageBanner } from '../../../components/PageBanner';
-import { BANNERS } from '../../../lib/media';
+import { AuthFrame } from '../../../components/public/AuthFrame';
 
 function LoginForm() {
   const router = useRouter();
@@ -41,13 +40,10 @@ function LoginForm() {
   }
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.auth}
-        title="Login"
-        lead="Sign in to your ORI6IN portal."
-      />
-      <main id="main-content" className="page page-auth page-after-banner">
+    <AuthFrame
+      title="Sign in"
+      lead="Student, parent, and counsellor portals — one sign-in."
+    >
       <form onSubmit={onSubmit} className="form-grid">
         <input
           placeholder="Email"
@@ -75,14 +71,13 @@ function LoginForm() {
         {' · '}
         <a href="/demo-login">Demo logins</a>
       </p>
-    </main>
-    </>
+    </AuthFrame>
   );
 }
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<main className="page page-auth">Loading…</main>}>
+    <Suspense fallback={<main className="pub">Loading…</main>}>
       <LoginForm />
     </Suspense>
   );

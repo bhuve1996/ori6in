@@ -1,4 +1,4 @@
-import { PageBanner } from '../../../../components/PageBanner';
+import { PublicToolFrame } from '../../../../components/public/PublicToolFrame';
 import { CostCalculatorTool } from '../../../../components/tools/CostCalculatorTool';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
@@ -11,19 +11,12 @@ export const metadata = pageMeta({
 
 export default function CostCalculatorPage() {
   return (
-    <>
-      <PageBanner
-        image={BANNERS.pricing}
-        kicker="Tools"
-        title="Cost Calculator"
-        lead="Estimate tuition + living expenses by country, length, and lifestyle."
-      />
-      <main id="main-content" className="page page-after-banner page-wide">
-        <p className="tools-back">
-          <a href="/tools">← All tools</a>
-        </p>
-        <CostCalculatorTool />
-      </main>
-    </>
+    <PublicToolFrame
+      title="Cost Calculator"
+      lead="Estimate tuition + living expenses by country, length, and lifestyle."
+      image={BANNERS.pricing}
+    >
+      <CostCalculatorTool />
+    </PublicToolFrame>
   );
 }

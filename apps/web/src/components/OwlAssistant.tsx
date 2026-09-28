@@ -1,5 +1,6 @@
 'use client';
 
+import { COMPANY } from '@ori6in/shared';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { usePathname } from 'next/navigation';
@@ -10,45 +11,99 @@ import { easeOut, softSpring } from '../lib/motion';
 type Turn = { role: 'user' | 'assistant'; content: string };
 
 const QUICK = [
-  { label: 'Programs', prompt: 'What programs do you offer?' },
-  { label: 'Tools', prompt: 'What free tools do you have?' },
-  { label: 'Get a quote', prompt: 'How does pricing work?' },
-  { label: 'Get started', prompt: 'How do I get started?' },
+  { label: 'ED6E', prompt: 'What is ED6E?' },
+  { label: 'BRI6GE', prompt: 'What is BRI6GE?' },
+  { label: '6LOBAL', prompt: 'How does study-abroad counselling work?' },
+  { label: 'Discovery', prompt: 'How do I book a Discovery Session?' },
 ] as const;
 
 function localReply(message: string): string {
   const q = message.toLowerCase();
-  if (q.includes('program') || q.includes('course') || q.includes('track') || q.includes('package')) {
-    return 'We offer ORI6IN 360°, Essential / Advantage / Premier admissions packages, test prep (IELTS, GRE, GMAT, and more), plus Visa Assist and Fly. Browse /programs to compare.';
+  const phone = COMPANY.phoneDisplay;
+
+  if (
+    q.includes('ed6e') ||
+    q.includes('class 8') ||
+    q.includes('class 9') ||
+    q.includes('class 10') ||
+    q.includes('class 11') ||
+    q.includes('class 12') ||
+    q.includes('school')
+  ) {
+    return 'ED6E is the Class 8–12 profile-building programme: Excellence · Direction · Growth · Exposure. One counsellor, a monthly parent letter, and a compounding profile. Read /ed6e or book a free Discovery Session.';
   }
-  if (q.includes('price') || q.includes('cost') || q.includes('pay') || q.includes('fee') || q.includes('quote')) {
-    return 'We do not publish fixed prices. Request a personalised quote at /pricing — a counsellor will reply based on your profile.';
+  if (q.includes('bri6ge') || q.includes('ug year') || q.includes('college year')) {
+    return 'BRI6GE is the UG Year 1–3 runway from an Indian undergraduate degree to a global master’s — Foundation, Momentum, or Launch. Same counsellor as ED6E. See /bri6ge.';
+  }
+  if (
+    q.includes('6lobal') ||
+    q.includes('study abroad') ||
+    q.includes('study-abroad') ||
+    q.includes('mba') ||
+    q.includes('phd')
+  ) {
+    return '6LOBAL by Edumillenia is admission counselling for UG, master’s, MBA, and PhD — one counsellor from first call to departure. Destinations and tracks: /study-abroad. Quotes are personal, never a public rate card.';
+  }
+  if (
+    q.includes('6rip') ||
+    q.includes('ielts') ||
+    q.includes('toefl') ||
+    q.includes('gre') ||
+    q.includes('gmat') ||
+    q.includes('sat') ||
+    q.includes('dmat') ||
+    q.includes('german')
+  ) {
+    return '6RIP is test preparation: IELTS, TOEFL, GRE, GMAT Focus, SAT, German A1–B2, and dMAT for summer 2027. Variants and bundles are on /test-prep. Ask for a quote — fees are not listed publicly.';
+  }
+  if (q.includes('6rant') || q.includes('grant')) {
+    return '6RANT is a ₹25,000 forex credit across counselling, IELTS, offer letter, visa, and campus arrival. It is not on 6RAND. Details live on /terms.';
+  }
+  if (
+    q.includes('price') ||
+    q.includes('cost') ||
+    q.includes('pay') ||
+    q.includes('fee') ||
+    q.includes('quote')
+  ) {
+    return `We do not publish fees. Request a personalised quote from /contact or the gold buttons on the site. A counsellor will call from ${phone} within one working day.`;
+  }
+  if (
+    q.includes('discover') ||
+    q.includes('book a session') ||
+    q.includes('book the session') ||
+    q.includes('complimentary')
+  ) {
+    return `The first Discovery Session is complimentary — student and parents together. Use Book a free Discovery Session in the header, or call ${phone}.`;
+  }
+  if (q.includes('eligib')) {
+    return 'The six-question eligibility quiz is at /eligibility. You can send the full read to a counsellor from there.';
+  }
+  if (q.includes('destination') || q.includes('country') || q.includes('germany') || q.includes('usa') || q.includes('canada')) {
+    return 'We counsel for USA, UK, Canada, Germany, Ireland, Netherlands, Singapore, and Australia. Country notes: /destinations. Compare in /tools/compare if you want a planning sketch.';
+  }
+  if (q.includes('how') || q.includes('work') || q.includes('step') || q.includes('path')) {
+    return 'Six steps, one counsellor: Discovery Session, personalised roadmap, build, progress in writing, position, admission. After Class 12, ED6E continues into BRI6GE or 6LOBAL. See /how-it-works.';
   }
   if (q.includes('mentor') || q.includes('counsellor') || q.includes('counselor')) {
-    return 'Counsellors guide shortlists, essays, and visas. Meet them on /mentors — after you enroll, they guide your path.';
-  }
-  if (q.includes('visa') || q.includes('fly') || q.includes('abroad') || q.includes('university')) {
-    return 'ORI6IN covers study abroad end-to-end: universities, scholarships, visas, and pre-departure. Start with ORI6IN 360° or an admissions package on /programs.';
-  }
-  if (q.includes('ielts') || q.includes('gre') || q.includes('gmat') || q.includes('toefl') || q.includes('test')) {
-    return 'Test prep includes IELTS, TOEFL, PTE, DET, GRE, GMAT, SAT, and German. See /programs, then request a quote at /pricing.';
-  }
-  if (q.includes('how') || q.includes('work') || q.includes('path')) {
-    return 'Dream → Apply → Fly. Discover your path, shortlist and apply, then visa and depart. See /how-it-works.';
+    return 'You work with one counsellor, not a rotating desk. Meet published counsellors on /mentors. Book Discovery to be assigned.';
   }
   if (q.includes('start') || q.includes('register') || q.includes('sign')) {
-    return 'Create an account at /register, or request a quote at /pricing. Demo logins are on /demo-login if you want a walkthrough.';
+    return `Book a Discovery Session, write via /contact, or create an account at /register. Call ${phone} or WhatsApp from the footer.`;
   }
-  if (q.includes('parent') || q.includes('company')) {
-    return 'Parents follow progress from their portal after login. Companies can still post internship roles. Students should start with /programs, /tools, or /pricing for a quote.';
+  if (q.includes('parent')) {
+    return 'Parents sit in the Discovery Session. ED6E includes a monthly parent letter. After you create accounts, the parent portal follows progress — start at /login.';
   }
   if (q.includes('tool') || q.includes('finder') || q.includes('calculator')) {
-    return 'Free tools live at /tools — University Finder, Course Finder, Scholarship Finder, Cost Calculator, Eligibility Checker, and Country Compare.';
+    return 'Planning tools are at /tools — University Finder, Course Finder, Scholarships, Cost Calculator, and Country Compare. The full eligibility quiz is /eligibility. They are sketches; a counsellor quote comes next.';
   }
   if (q.includes('hub') || q.includes('community')) {
-    return 'ORI6IN Student Hub is at /hub — country communities, webinars, and pre-departure resources. Create an account to go deeper.';
+    return 'Student Hub is at /hub — country communities, webinars, and pre-departure notes. Create an account to go deeper.';
   }
-  return 'I am Ori, your ORI6IN guide. Ask about programs, tools, quotes, or how to get started — or open /programs and /tools to explore.';
+  if (q.includes('program') || q.includes('course') || q.includes('offer') || q.includes('package')) {
+    return 'Four product lines: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted per family, never listed on a rate card.';
+  }
+  return `I am Ori. ${BRAND.tagline} Ask about ED6E, BRI6GE, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
 }
 
 export function OwlAssistant() {
@@ -60,7 +115,7 @@ export function OwlAssistant() {
   const [turns, setTurns] = useState<Turn[]>([
     {
       role: 'assistant',
-      content: `Hi — I am Ori. ${BRAND.tagline} Ask me anything about programs, mentors, or getting started.`,
+      content: `Hi — I am Ori. ${BRAND.tagline} Ask about ED6E, BRI6GE, 6LOBAL, 6RIP, or a free Discovery Session.`,
     },
   ]);
   const listRef = useRef<HTMLDivElement>(null);

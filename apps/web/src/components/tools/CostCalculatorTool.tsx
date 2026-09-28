@@ -80,8 +80,7 @@ export function CostCalculatorTool() {
         </article>
         <p className="tool-footnote">
           Rough planning only — exchange rates and fees vary.{' '}
-          <a href="/programs/ori6in-finance">ORI6IN Finance</a> can help with loans & forex, or{' '}
-          <a href="/pricing">get a quote</a>.
+          <a href="/contact">Get a quote</a> for a counsellor-backed plan.
         </p>
       </div>
     </div>

@@ -14,6 +14,8 @@
   --line: #e2d8c8;
   --muted: #6e655a;
   --header-h: 4.25rem;
+  --ticker-h: 2.15rem;
+  --chrome-h: calc(var(--ticker-h) + var(--header-h));
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --theme-a: #efe6d6;
   --theme-b: #e8dfd0;

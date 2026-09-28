@@ -112,7 +112,7 @@ export function EligibilityTool() {
         <p className="tool-footnote">
           Basic checker only — universities set their own bars.{' '}
           <a href="/tools/university-finder">University Finder</a> ·{' '}
-          <a href="/pricing">Get a quote</a>
+          <a href="/contact">Get a quote</a>
         </p>
       </div>
     </div>

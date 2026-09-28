@@ -31,14 +31,14 @@ export default function OpenGraphImage() {
             letterSpacing: '0.08em',
           }}
         >
-          ORI<span style={{ color: '#c2a772', fontStyle: 'italic', fontFamily: "Didot, 'Bodoni MT', Georgia, serif", fontWeight: 400 }}>6</span>IN
+          ORI<span style={{ color: '#c2a772', fontStyle: 'normal', fontFamily: "Didot, 'Bodoni MT', Georgia, serif", fontWeight: 500 }}>6</span>IN
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
           <div style={{ fontSize: 52, fontWeight: 650, lineHeight: 1.15 }}>
-            Dream. Apply. Fly.
+            Everything starts here.
           </div>
           <div style={{ fontSize: 28, opacity: 0.88, lineHeight: 1.35, color: '#d4b87a' }}>
-            Study abroad with ORI6IN Education
+            ED6E · BRI6GE · 6LOBAL · 6RIP — profile building from Class 8
           </div>
         </div>
       </div>

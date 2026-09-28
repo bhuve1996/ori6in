@@ -1,8 +1,8 @@
 import { MentorCard } from '../../../components/cards';
-import { PageBanner } from '../../../components/PageBanner';
+import { PublicHero } from '../../../components/public/PublicHero';
 import { BANNERS } from '../../../lib/media';
 import { pageMeta } from '../../../lib/seo';
-import { listMentors } from '../../../services/public-content';
+import { listMentors, resolveDemoMentor } from '../../../services/public-content';
 
 export const metadata = pageMeta({
   title: 'Counsellors',
@@ -15,26 +15,26 @@ export default async function MentorsPage() {
   const mentors = await listMentors();
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.mentors}
+    <main id="main-content" className="pub">
+      <PublicHero
         kicker="People"
         title="Counsellors"
         lead="Real counsellors guide your study-abroad plan — shortlists, essays, and visas."
+        image={BANNERS.mentors}
       />
-      <main id="main-content" className="page page-after-banner page-wide">
+      <section className="pub-section">
         {mentors.length === 0 ? (
           <p className="meta">No published counsellors yet.</p>
         ) : (
           <ul className="mkt-mentor-grid">
             {mentors.map((m, i) => (
               <li key={m.id}>
-                <MentorCard mentor={m} index={i} />
+                <MentorCard mentor={resolveDemoMentor(m)} index={i} />
               </li>
             ))}
           </ul>
         )}
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

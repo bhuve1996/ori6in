@@ -10,6 +10,6 @@ export default function CommerceError({
   reset: () => void;
 }) {
   return (
-    <ErrorFallback error={error} reset={reset} title="Checkout hit a snag" homeHref="/programs" />
+    <ErrorFallback error={error} reset={reset} title="Checkout hit a snag" homeHref="/programmes" />
   );
 }

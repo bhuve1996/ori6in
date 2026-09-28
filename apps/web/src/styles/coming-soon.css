@@ -8,6 +8,8 @@
   width: 100%;
   margin: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.9fr);
+  gap: clamp(1.25rem, 4vw, 2.5rem);
   align-items: center;
   overflow: hidden;
   padding: clamp(1.5rem, 4vw, 3rem);
@@ -46,20 +48,48 @@
 }
 
 .coming-soon__brand {
-  display: grid;
-  gap: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.coming-soon__owl {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #0c0c0c;
+  flex-shrink: 0;
 }
 
 .coming-soon__logo {
-  width: min(280px, 78vw);
-  height: auto;
+  height: 2.4rem;
+  width: 10.2rem;
+  max-width: min(10.2rem, 68vw);
+  object-fit: cover;
+  object-position: 50% 0;
   display: block;
+}
+
+.coming-soon__kicker {
+  margin: 0 0 0.45rem;
+  color: color-mix(in srgb, var(--gold) 85%, #fff);
 }
 
 .coming-soon__title {
   margin: 0;
   font-size: clamp(2.4rem, 7vw, 3.6rem);
   color: #fffcf7;
+}
+
+.coming-soon__contact {
+  margin: 0.85rem 0 0;
+  font-size: 0.95rem;
+}
+
+.coming-soon__contact a {
+  color: color-mix(in srgb, var(--gold) 80%, #fff);
+  font-weight: 650;
 }
 
 .coming-soon__lead {
@@ -121,100 +151,22 @@
   color: #f0b4a0;
 }
 
-/* “Revealing soon” — square stand-in where the owl mascot sits */
-.coming-soon__reveal {
-  position: absolute;
-  right: clamp(0.75rem, 5vw, 4rem);
-  bottom: clamp(1.25rem, 6vw, 3.5rem);
+.coming-soon__media {
+  position: relative;
   z-index: 1;
-  width: min(40vw, 320px);
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-  border-radius: var(--radius-md);
+  min-height: 18rem;
+  height: min(72vh, 36rem);
+  border-radius: var(--radius-media, 1.15rem);
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
-  background:
-    radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--gold) 32%, transparent), transparent 52%),
-    linear-gradient(165deg, #1f1a14 0%, #0c0c0c 100%);
   box-shadow: 0 20px 36px rgba(0, 0, 0, 0.4);
-  isolation: isolate;
 }
 
-.coming-soon__reveal-curtain {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, #0c0c0c 70%, transparent) 0%,
-    transparent 45%,
-    color-mix(in srgb, var(--gold) 18%, transparent) 100%
-  );
-  z-index: 0;
-}
-
-.coming-soon__reveal-text {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  display: grid;
-  gap: 0.15rem;
-  text-align: center;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(1.35rem, 3.5vw, 2rem);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #fffcf7;
-  line-height: 1.05;
-}
-
-.coming-soon__reveal-text span:last-child {
-  color: var(--gold-bright);
-  font-style: italic;
-  letter-spacing: 0.14em;
-}
-
-.coming-soon__reveal-shimmer {
-  position: absolute;
-  inset: -20% -40%;
-  z-index: 1;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    color-mix(in srgb, #fff 22%, transparent) 50%,
-    transparent 65%
-  );
-  transform: translateX(-40%) rotate(8deg);
-  animation: coming-soon-reveal-sweep 4.5s var(--ease-out) infinite;
-}
-
-@keyframes coming-soon-reveal-sweep {
-  0%,
-  18% {
-    transform: translateX(-55%) rotate(8deg);
-    opacity: 0;
-  }
-  28% {
-    opacity: 0.85;
-  }
-  55% {
-    transform: translateX(55%) rotate(8deg);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(55%) rotate(8deg);
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .coming-soon__reveal-shimmer {
-    animation: none;
-    opacity: 0.25;
-    transform: translateX(0) rotate(8deg);
-  }
+.coming-soon__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .coming-soon-toggle {
@@ -271,14 +223,14 @@
 }
 
 @media (max-width: 720px) {
-  .coming-soon__reveal {
-    width: min(44vw, 180px);
-    right: 0.75rem;
-    bottom: 1rem;
+  .coming-soon {
+    grid-template-columns: 1fr;
   }
 
-  .coming-soon__reveal-text {
-    font-size: clamp(0.95rem, 3.2vw, 1.25rem);
+  .coming-soon__media {
+    order: -1;
+    height: 14rem;
+    min-height: 12rem;
   }
 
   .coming-soon__stage {

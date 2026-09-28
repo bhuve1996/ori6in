@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
-import { DEMO_MENTORS } from '@ori6in/shared';
 import { Avatar } from '../../../../components/Avatar';
-import { PageBanner } from '../../../../components/PageBanner';
+import { PublicHero } from '../../../../components/public/PublicHero';
 import { BANNERS, HOME } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
-import { getMentorById } from '../../../../services/public-content';
+import { getMentorById, resolveDemoMentor } from '../../../../services/public-content';
 
 type MentorDetail = {
   id: string;
@@ -22,11 +21,12 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mentor = await getMentorById<MentorDetail>(id);
-  if (!mentor) return { title: 'Mentor' };
+  const raw = await getMentorById<MentorDetail>(id);
+  if (!raw) return { title: 'Mentor' };
+  const mentor = resolveDemoMentor(raw);
   return pageMeta({
     title: mentor.fullName,
-    description: mentor.title || `${mentor.fullName} — mentor on ORI6IN`,
+    description: mentor.title || `${mentor.fullName} — counsellor on ORI6IN`,
     path: `/mentors/${mentor.id}`,
   });
 }
@@ -37,16 +37,12 @@ export default async function MentorDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const mentor = await getMentorById<MentorDetail>(id);
-  if (!mentor) notFound();
-
-  const demo = DEMO_MENTORS.find(
-    (m) => m.fullName.toLowerCase() === mentor.fullName.toLowerCase(),
-  );
-  const bio =
-    mentor.bio && mentor.bio.length > 120 ? mentor.bio : (demo?.bio ?? mentor.bio);
-  const skills = mentor.skills?.length ? mentor.skills : (demo?.skills ?? []);
-  const location = mentor.location || demo?.location;
+  const raw = await getMentorById<MentorDetail>(id);
+  if (!raw) notFound();
+  const mentor = resolveDemoMentor(raw);
+  const bio = mentor.bio ?? '';
+  const skills = mentor.skills?.length ? mentor.skills : [];
+  const location = mentor.location;
   const bioBlocks = bio.split(/\n\n+/).filter(Boolean);
 
   const focus = [
@@ -68,14 +64,14 @@ export default async function MentorDetailPage({
   ] as const;
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.mentors}
+    <main id="main-content" className="pub">
+      <PublicHero
         kicker="Counsellor"
         title={mentor.fullName}
         lead={mentor.title}
+        image={BANNERS.mentors}
       />
-      <main id="main-content" className="page page-after-banner page-wide" tabIndex={-1}>
+      <section className="pub-section">
         <a className="back-link" href="/mentors">
           ← Counsellors
         </a>
@@ -132,15 +128,15 @@ export default async function MentorDetailPage({
           </section>
 
           <div className="cta-row">
-            <a className="btn btn-accent" href="/programs">
-              Explore programs
+            <a className="btn btn-accent" href="/programmes">
+              Explore programmes
             </a>
             <a className="btn btn-secondary" href="/register">
               Get started
             </a>
           </div>
         </div>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

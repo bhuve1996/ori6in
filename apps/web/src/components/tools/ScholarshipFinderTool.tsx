@@ -81,8 +81,8 @@ export function ScholarshipFinderTool() {
           })}
         </ul>
         <p className="tool-footnote">
-          Want a tailored shortlist? <a href="/programs/ori6in-scholarship-assist">Scholarship Assist</a> or{' '}
-          <a href="/pricing">get a quote</a>.
+          Want a tailored shortlist? <a href="/study-abroad">6LOBAL counselling</a> or{' '}
+          <a href="/contact">get a quote</a>.
         </p>
       </div>
     </div>

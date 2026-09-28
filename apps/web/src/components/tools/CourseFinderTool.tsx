@@ -77,8 +77,8 @@ export function CourseFinderTool() {
         </ul>
         {matches.length === 0 ? <p className="meta">No pathway match — try a broader keyword.</p> : null}
         <p className="tool-footnote">
-          Next step: <a href="/programs/ori6in-career-compass">Career Compass</a> counselling or{' '}
-          <a href="/pricing">get a quote</a>.
+          Next step: a counsellor session via <a href="/eligibility">eligibility</a> or{' '}
+          <a href="/contact">get a quote</a>.
         </p>
       </div>
     </div>

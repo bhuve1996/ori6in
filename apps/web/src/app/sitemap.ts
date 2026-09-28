@@ -1,23 +1,26 @@
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '../lib/site';
-import { listBlogPosts, listPrograms } from '../services/public-content';
+import { listBlogPosts } from '../services/public-content';
 
 const STATIC_PATHS = [
   '/',
-  '/programs',
-  '/tools',
-  '/tools/university-finder',
-  '/tools/course-finder',
-  '/tools/scholarship-finder',
-  '/tools/cost-calculator',
-  '/tools/eligibility',
-  '/tools/compare',
-  '/hub',
-  '/mentors',
   '/how-it-works',
-  '/blog',
-  '/pricing',
+  '/ed6e',
+  '/bri6ge',
+  '/study-abroad',
+  '/destinations',
+  '/test-prep',
+  '/programmes',
   '/about',
+  '/stories',
+  '/contact',
+  '/eligibility',
+  '/privacy',
+  '/terms',
+  '/blog',
+  '/mentors',
+  '/tools',
+  '/hub',
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -29,17 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === '/' ? 1 : 0.7,
   }));
 
-  const [programs, posts] = await Promise.all([listPrograms(), listBlogPosts()]);
-
-  for (const p of programs) {
-    entries.push({
-      url: absoluteUrl(`/programs/${p.slug}`),
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    });
-  }
-
+  const posts = await listBlogPosts();
   for (const post of posts) {
     entries.push({
       url: absoluteUrl(`/blog/${post.slug}`),

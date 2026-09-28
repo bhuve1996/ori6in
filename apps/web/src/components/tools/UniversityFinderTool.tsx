@@ -139,7 +139,7 @@ export function UniversityFinderTool() {
           <p className="meta">No matches — widen budget, country, or field, then request a counsellor quote.</p>
         ) : null}
         <p className="tool-footnote">
-          Sample shortlist only. <a href="/pricing">Get a quote</a> for a profile-based Safe / Target / Ambitious list.
+          Sample shortlist only. <a href="/contact">Get a quote</a> for a profile-based Safe / Target / Ambitious list.
         </p>
       </div>
     </div>

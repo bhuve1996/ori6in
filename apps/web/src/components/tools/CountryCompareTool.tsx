@@ -84,7 +84,7 @@ export function CountryCompareTool() {
         </div>
         <p className="tool-footnote">
           Rules change — verify before you apply. Continue with{' '}
-          <a href="/tools/cost-calculator">Cost Calculator</a> or <a href="/pricing">get a quote</a>.
+          <a href="/tools/cost-calculator">Cost Calculator</a> or <a href="/contact">get a quote</a>.
         </p>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '../../../lib/auth';
+import { AuthFrame } from '../../../components/public/AuthFrame';
 import { useToast } from '../../../components/Toast';
 
 function ResetPasswordForm() {
@@ -33,10 +34,9 @@ function ResetPasswordForm() {
   }
 
   return (
-    <main id="main-content" className="page page-auth">
-      <h1>Reset password</h1>
+    <AuthFrame title="Reset password" lead="Choose a new password, then sign in.">
       {done ? (
-        <p className="text-success">Password updated. Redirecting to login…</p>
+        <p className="text-success">Password updated. Redirecting to sign in…</p>
       ) : (
         <form onSubmit={onSubmit} className="form-grid">
           <input
@@ -59,13 +59,13 @@ function ResetPasswordForm() {
           </button>
         </form>
       )}
-    </main>
+    </AuthFrame>
   );
 }
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<main className="page page-auth">Loading…</main>}>
+    <Suspense fallback={<main className="pub">Loading…</main>}>
       <ResetPasswordForm />
     </Suspense>
   );

@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch, portalPathForRole, setSession } from '../../../lib/auth';
-import { PageBanner } from '../../../components/PageBanner';
-import { BANNERS } from '../../../lib/media';
+import { AuthFrame } from '../../../components/public/AuthFrame';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -36,13 +35,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.auth}
-        title="Register"
-        lead="One person, one role. Company accounts are created by admins."
-      />
-      <main id="main-content" className="page page-auth page-after-banner">
+    <AuthFrame
+      title="Create an account"
+      lead="One person, one role. Company accounts are created by admins."
+    >
       <form onSubmit={onSubmit} className="form-grid">
         <input
           placeholder="Full name"
@@ -70,7 +66,7 @@ export default function RegisterPage() {
           onChange={(e) => setForm({ ...form, role: e.target.value })}
         >
           <option value="student">Student</option>
-          <option value="mentor">Mentor</option>
+          <option value="mentor">Counsellor</option>
           <option value="parent">Parent</option>
         </select>
         {error && <p className="text-error">{error}</p>}
@@ -81,7 +77,6 @@ export default function RegisterPage() {
       <p className="meta">
         <a href="/login">Already have an account?</a>
       </p>
-    </main>
-    </>
+    </AuthFrame>
   );
 }

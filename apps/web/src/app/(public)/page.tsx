@@ -1,13 +1,7 @@
 import type { Metadata } from 'next';
-import { HomeExperience } from '../../components/home/HomeExperience';
 import { JsonLd } from '../../components/JsonLd';
-import {
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_TAGLINE,
-  absoluteUrl,
-} from '../../lib/site';
-import { listMentors, listPrograms } from '../../services/public-content';
+import { PublicHome } from '../../components/public/PublicHome';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, absoluteUrl } from '../../lib/site';
 
 export const metadata: Metadata = {
   title: { absolute: `${SITE_NAME} — ${SITE_TAGLINE}` },
@@ -20,9 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
-  const [programs, mentors] = await Promise.all([listPrograms(), listMentors()]);
-
+export default function HomePage() {
   return (
     <>
       <JsonLd
@@ -44,7 +36,7 @@ export default async function HomePage() {
           },
         ]}
       />
-      <HomeExperience programs={programs} mentors={mentors} />
+      <PublicHome />
     </>
   );
 }

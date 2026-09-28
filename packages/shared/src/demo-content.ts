@@ -4,7 +4,8 @@ import { toSeedPrograms } from './education-catalog.js';
 /**
  * Single source of truth for demo catalog content.
  * Seeded into the DB when ENABLE_DEMO_LOGINS=true (see DemoContentService).
- * Full Education product list lives in education-catalog.ts.
+ * Public CMS/blog/mentor copy follows the September 2026 brief (ED6E · BRI6GE · 6LOBAL · 6RIP).
+ * Internal demo enrolment still uses DEMO_FLAGSHIP_PROGRAM_SLUG.
  */
 
 /** Flagship product used for demo enrollment, mentor assignment, and certificates. */
@@ -16,19 +17,19 @@ export const DEMO_PAGES = [
   {
     slug: 'about',
     title: 'About ORI6IN Education',
-    body: `ORI6IN Education helps students Dream. Apply. Fly. — from career clarity and test prep to university admits, scholarships, visas, and pre-departure.
+    body: `ORI6IN Education Private Limited is a profile-building platform for students from Class 8 onwards. Everything starts here.
 
-We counsel for USA, UK, Canada, Australia, Germany, Ireland, New Zealand, Japan, France, Netherlands, and Europe across bachelor’s, master’s, MBA, and PhD pathways.
+Four product lines, one counsellor, one plan: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL by Edumillenia for study-abroad counselling, and 6RIP test preparation.
 
-Students pick packages (Essential, Advantage, Premier) or the flagship ORI6IN 360° journey. Test prep (IELTS, TOEFL, PTE, DET, GRE, GMAT, SAT, German), Profile Builder, Scholarship Assist, Visa Assist, Finance, Apply, and Fly plug in as needed. Free tools include University Finder, Course Finder, Scholarship Finder, Cost Calculator, Eligibility Checker, and Country Comparison — plus the ORI6IN Student Hub.`,
+We counsel from Jayanagar, Bengaluru — pan-India and online — for USA, UK, Canada, Germany, Ireland, Netherlands, Singapore, and Australia. Fees are quoted privately. The first Discovery Session is complimentary for student and parents together.`,
     published: true,
   },
   {
     slug: 'pricing',
     title: 'Get a quote',
-    body: `We don't publish a fixed price list — every student's path is different.
+    body: `We do not publish a rate card. Every family’s plan is quoted after a Discovery Session.
 
-Share your destination, degree level, and timeline. An ORI6IN counsellor will reply with a personalised quote for Essential, Advantage, Premier, ORI6IN 360°, country admissions, combos, test prep, or add-ons like Visa Assist, Finance, and Fly.`,
+Write via /contact with your current class or UG year, destination interest, and timeline. A counsellor will call from +91 91130 88519 within one working day.`,
     published: true,
   },
 ] as const;
@@ -37,49 +38,49 @@ export const DEMO_POSTS = [
   {
     slug: 'welcome-to-ori6in',
     title: 'Welcome to ORI6IN Education',
-    excerpt: 'How we take students from dream destination to boarding pass.',
-    body: `ORI6IN Education is built around one promise: Dream. Apply. Fly.
+    excerpt: 'Profile building from Class 8. Everything starts here.',
+    body: `ORI6IN Education is built around one line: Everything starts here.
 
-Students explore destinations, prepare for tests, shortlist universities, submit strong applications, unlock funding, clear visas, and leave India ready — with counsellors beside them.
+From Class 8 we build evidence beyond the marksheet. After Class 12 the same counsellor can continue into BRI6GE (the college years) or straight into 6LOBAL study-abroad counselling. Tests sit in 6RIP when the journey needs them.
 
-## What you can buy today
-- Flagship ORI6IN 360° end-to-end journey
-- Essential / Advantage / Premier admission packages
-- Country admissions: USA, UK, Canada, Australia, Germany, Ireland, NZ, Japan, Europe
-- Combos: GRE+USA, GMAT+USA, IELTS+Abroad, TOEFL+USA, SAT+USA UG, German+Germany
-- Test prep: IELTS, TOEFL, PTE, DET, GRE, GMAT, SAT, German
-- Profile Builder, Apply, Scholarship Assist, Finance, Visa Assist, Fly, Career Compass
-
-## Free tools
-University Finder · Course Finder · Scholarship Finder · Cost Calculator · Eligibility · Country Compare · Student Hub
+## The four product lines
+- ED6E — Class 8–12 profile building, monthly parent letter
+- BRI6GE — UG Year 1–3 runway to a global master’s
+- 6LOBAL by Edumillenia — UG, master’s, MBA, and PhD counselling
+- 6RIP — IELTS, TOEFL, GRE, GMAT Focus, SAT, German, dMAT
 
 ## Destinations
-USA · UK · Canada · Australia · Germany · Ireland · New Zealand · Japan · France · Netherlands · Europe
+USA · UK · Canada · Germany · Ireland · Netherlands · Singapore · Australia
+
+Fees are never listed on the public site. Start with a complimentary Discovery Session, or read How it works.
 
 This post is seeded for demos and can be edited from Admin → CMS → Blog.`,
     published: true,
   },
   {
     slug: 'choosing-your-first-program',
-    title: 'Choosing your first ORI6IN program',
-    excerpt: 'A short guide for students starting their study-abroad journey.',
-    body: `Start with ORI6IN 360° if you want one end-to-end path. Pick Advantage or Premier if you already know your country. Add IELTS/GRE/PTE/DET (or other tests) when scores are still pending. Use free tools on /tools to shortlist before you request a quote.
+    title: 'Choosing your first ORI6IN programme',
+    excerpt: 'ED6E, BRI6GE, 6LOBAL, or 6RIP — start where you are.',
+    body: `Start where you are. The plan is not a template.
 
-## ORI6IN 360°
-Best if you want Discover → Decide → Shortlist → Prepare → Apply → Fund → Visa → Fly in one package.
+## Still in school (Class 8–12)
+ED6E is the multi-year profile-building programme. Join at the current class. Parents receive a monthly letter.
 
-## Advantage / Premier / Combos
-Best if you need application depth (Advantage), a dedicated counsellor plus visa & pre-departure (Premier), or a test+admissions combo.
+## Already in an Indian UG degree
+BRI6GE is the college-years runway — Foundation (Year 1), Momentum (Year 2), or Launch (Year 3) — then 6LOBAL for the applications.
 
-## Test prep first
-Choose IELTS, TOEFL, PTE, DET, GRE, GMAT, SAT, or German when your score is the blocker — then layer an admissions package.
+## Ready to apply abroad
+6LOBAL covers UG, master’s, MBA, and PhD with one counsellor from first call to departure. Country notes live on /destinations. Check /eligibility if you want a first read.
+
+## Tests in the way
+6RIP is test preparation (IELTS, TOEFL, GRE, GMAT Focus, SAT, German, dMAT). Bundles with counselling are quoted together — never as a public price list.
 
 ## How to decide
-1. Confirm country and degree level (try Country Compare).
-2. Check whether you need test prep or profile building first.
-3. Request a quote or enroll, then book a counsellor session early.
+1. Book a complimentary Discovery Session (student and parents together).
+2. Confirm class or UG year, destination, and timeline.
+3. Request a quote from /contact. A counsellor will call within one working day.
 
-All listed products are ORI6IN own products — pricing via personalised quote.`,
+All listed products are brands of ORI6IN Education Private Limited.`,
     published: true,
   },
 ] as const;
@@ -101,8 +102,8 @@ export const DEMO_MENTORS: DemoMentorPersona[] = [
   {
     emailLocalPart: 'mentor',
     fullName: 'Demo Mentor',
-    title: 'Lead Counsellor · ORI6IN 360°',
-    bio: 'Guides students through the full Dream → Apply → Fly journey on ORI6IN 360°. Former admissions counsellor turned lead coach.\n\nExpect crisp profile feedback, honest university shortlists, and clear next steps each week.',
+    title: 'Lead Counsellor · ED6E & 6LOBAL',
+    bio: 'Guides families from Class 8 profile-building through 6LOBAL applications — one counsellor, one plan.\n\nExpect an honest Discovery Session, a written roadmap, and a monthly parent letter on ED6E.',
     skills: ['Study abroad', 'Profile evaluation', 'University shortlisting', 'SOP review'],
     location: 'Bengaluru',
     primaryLogin: true,
@@ -110,24 +111,24 @@ export const DEMO_MENTORS: DemoMentorPersona[] = [
   {
     emailLocalPart: 'priya.sharma',
     fullName: 'Priya Sharma',
-    title: 'Counsellor · USA & Canada Admissions',
-    bio: 'Helps students map USA/Canada bachelor’s and master’s pathways — shortlists, essays, and scholarship positioning.\n\nSessions focus on fit, deadlines, and applications that admissions officers can follow.',
+    title: 'Counsellor · 6LOBAL destinations',
+    bio: 'Helps students map USA and Canada bachelor’s and master’s pathways on 6LOBAL — shortlists, essays, and scholarship positioning.\n\nSessions focus on fit, deadlines, and applications that admissions officers can follow.',
     skills: ['USA admissions', 'Canada', 'Scholarships', 'Essays'],
     location: 'Mumbai',
   },
   {
     emailLocalPart: 'arjun.mehta',
     fullName: 'Arjun Mehta',
-    title: 'Counsellor · UK & Europe',
-    bio: 'Reviews UK, Ireland, Germany, and wider Europe applications — course fit, CAS/credibility prep, and timeline planning.\n\nBring transcripts, target courses, and a draft SOP — leave with a prioritised university list.',
+    title: 'Counsellor · 6LOBAL UK & Europe',
+    bio: 'Reviews UK, Ireland, Germany, and Netherlands applications — course fit, credibility prep, and timeline planning.\n\nBring transcripts, target courses, and a draft SOP — leave with a prioritised university list.',
     skills: ['UK admissions', 'Germany', 'CAS prep', 'Course selection'],
     location: 'Remote',
   },
   {
     emailLocalPart: 'nisha.kapoor',
     fullName: 'Nisha Kapoor',
-    title: 'Test Prep Coach · IELTS & TOEFL',
-    bio: 'Coaches band and score targets for IELTS and TOEFL with mock analysis and weekly drills.\n\nYou will practice speaking, writing structure, and timing under exam conditions.',
+    title: '6RIP Coach · IELTS & TOEFL',
+    bio: 'Coaches band and score targets for IELTS and TOEFL on 6RIP — mock analysis and weekly drills.\n\nYou will practise speaking, writing structure, and timing under exam conditions.',
     skills: ['IELTS', 'TOEFL', 'Mock tests', 'Band strategy'],
     location: 'Hyderabad',
   },
@@ -142,8 +143,8 @@ export const DEMO_MENTORS: DemoMentorPersona[] = [
   {
     emailLocalPart: 'meera.iyer',
     fullName: 'Meera Iyer',
-    title: 'Pre-Departure & Student Hub',
-    bio: 'Runs ORI6IN Fly orientation — housing, forex, SIM, packing, and arrival support — plus community webinars.\n\nBring your offer letter and travel window; leave with a clear departure checklist.',
+    title: 'Pre-departure · 6LOBAL',
+    bio: 'Runs pre-departure orientation for 6LOBAL families — housing, forex, packing, and arrival — plus Student Hub webinars.\n\nBring your offer letter and travel window; leave with a clear departure checklist.',
     skills: ['Pre-departure', 'Accommodation', 'Forex', 'Student community'],
     location: 'Chennai',
   },
@@ -182,7 +183,7 @@ export const DEMO_INTERNSHIPS = [
     company: 'ORI6IN',
     location: 'Remote',
     description:
-      'Coordinate counsellor sessions, document checklists, and student check-ins for ORI6IN 360°.',
+      'Coordinate counsellor sessions, document checklists, and student check-ins for ED6E and 6LOBAL families.',
     published: true,
     approvalStatus: 'approved' as const,
     paymentStatus: 'waived' as const,

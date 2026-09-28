@@ -112,7 +112,7 @@ export class AiChatController {
     const reply = {
       role: 'assistant',
       content:
-        'ORI6IN AI (basic): I can help with program guidance. Advanced memory/RAG arrives in Month 3.',
+        'I can help with ED6E, BRI6GE, 6LOBAL, and 6RIP. Fees are quoted privately. Book a Discovery Session from the public site, or ask your counsellor here.',
     };
     history.push(reply);
     chatSessions.set(req.user.sub, history);

@@ -1,9 +1,13 @@
+import { COMPANY, SITE_PUBLIC_DESCRIPTION, SITE_PUBLIC_NAME } from '@ori6in/shared';
+
 /** Canonical site settings for SEO, sitemap, and social cards. */
 
-export const SITE_NAME = 'ORI6IN';
-export const SITE_TAGLINE = 'Dream. Apply. Fly.';
-export const SITE_DESCRIPTION =
-  'ORI6IN Education helps students study abroad — counselling, test prep, university applications, scholarships, visas, and pre-departure. Dream. Apply. Fly.';
+export const SITE_NAME = SITE_PUBLIC_NAME;
+export const SITE_TAGLINE = COMPANY.tagline;
+export const SITE_DESCRIPTION = SITE_PUBLIC_DESCRIPTION;
+export const SITE_LEGAL_NAME = COMPANY.legalName;
+export const SITE_PHONE = COMPANY.phoneDisplay;
+export const SITE_EMAIL = COMPANY.email;
 
 export function getSiteUrl() {
   const raw =

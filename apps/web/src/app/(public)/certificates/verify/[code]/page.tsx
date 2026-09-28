@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { PageBanner } from '../../../../../components/PageBanner';
+import { PublicHero } from '../../../../../components/public/PublicHero';
 import { BANNERS } from '../../../../../lib/media';
 
 type VerifyResult = {
@@ -50,13 +50,14 @@ export default function CertificateVerifyPage() {
   }, [params.code]);
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.about}
+    <main id="main-content" className="pub">
+      <PublicHero
+        kicker="Certificates"
         title="Verify certificate"
-        lead="Confirm an ORI6IN program-completion certificate by code."
+        lead="Confirm an ORI6IN programme-completion certificate by code."
+        image={BANNERS.about}
       />
-      <main id="main-content" className="page page-after-banner">
+      <section className="pub-section">
         {loading ? <p className="meta">Checking…</p> : null}
         {error ? <p className="text-error">{error}</p> : null}
         {result ? (
@@ -72,7 +73,7 @@ export default function CertificateVerifyPage() {
             </p>
           </article>
         ) : null}
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

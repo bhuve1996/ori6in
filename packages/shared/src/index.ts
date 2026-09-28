@@ -3,6 +3,7 @@ export * from './auth.js';
 export * from './email.js';
 export * from './demo-accounts.js';
 export * from './education-catalog.js';
+export * from './ori6in-content.js';
 export * from './demo-content.js';
 export * from './catalog.js';
 export * from './commerce.js';

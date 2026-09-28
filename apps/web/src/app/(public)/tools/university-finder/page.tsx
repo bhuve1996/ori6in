@@ -1,4 +1,4 @@
-import { PageBanner } from '../../../../components/PageBanner';
+import { PublicToolFrame } from '../../../../components/public/PublicToolFrame';
 import { UniversityFinderTool } from '../../../../components/tools/UniversityFinderTool';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
@@ -11,19 +11,12 @@ export const metadata = pageMeta({
 
 export default function UniversityFinderPage() {
   return (
-    <>
-      <PageBanner
-        image={BANNERS.programs}
-        kicker="Tools"
-        title="University Finder"
-        lead="Academic profile + course + budget + country → sample shortlist with Safe / Target / Ambitious tiers."
-      />
-      <main id="main-content" className="page page-after-banner page-wide">
-        <p className="tools-back">
-          <a href="/tools">← All tools</a>
-        </p>
-        <UniversityFinderTool />
-      </main>
-    </>
+    <PublicToolFrame
+      title="University Finder"
+      lead="Academic profile + course + budget + country → sample shortlist with Safe / Target / Ambitious tiers."
+      image={BANNERS.programs}
+    >
+      <UniversityFinderTool />
+    </PublicToolFrame>
   );
 }

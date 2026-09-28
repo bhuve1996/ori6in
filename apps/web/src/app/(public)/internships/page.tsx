@@ -7,7 +7,7 @@ import { loginUrlFor } from '../../../lib/routes';
 
 /**
  * Internships board is student-only.
- * Anonymous → homepage teaser (not 404).
+ * Anonymous → contact (not 404).
  * Logged-in student → portal board.
  * Other roles → their hub.
  */
@@ -16,7 +16,7 @@ export default function InternshipsAliasPage() {
 
   useEffect(() => {
     if (!getToken()) {
-      window.location.replace('/#internships');
+      window.location.replace('/contact');
       return;
     }
     const role = getStoredRole();

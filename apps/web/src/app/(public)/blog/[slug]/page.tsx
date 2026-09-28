@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { DEMO_POSTS } from '@ori6in/shared';
-import { PageBanner } from '../../../../components/PageBanner';
+import { PublicHero } from '../../../../components/public/PublicHero';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
 import { SITE_NAME } from '../../../../lib/site';
-import { getBlogPostBySlug, listBlogPosts } from '../../../../services/public-content';
+import {
+  getBlogPostBySlug,
+  listBlogPosts,
+  resolveDemoPost,
+} from '../../../../services/public-content';
 
 export async function generateMetadata({
   params,
@@ -16,10 +19,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return { title: 'Blog' };
+  const resolved = resolveDemoPost(post);
   return pageMeta({
-    title: post.title,
-    description: post.excerpt || `${post.title} — ${SITE_NAME} blog`,
-    path: `/blog/${post.slug}`,
+    title: resolved.title,
+    description: resolved.excerpt || `${resolved.title} — ${SITE_NAME} blog`,
+    path: `/blog/${resolved.slug}`,
   });
 }
 
@@ -92,25 +96,18 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
-  if (!post) notFound();
-
-  const demo = DEMO_POSTS.find((p) => p.slug === post.slug);
-  const body =
-    post.body && post.body.length > 180 ? post.body : (demo?.body ?? post.body);
+  const raw = await getBlogPostBySlug(slug);
+  if (!raw) notFound();
+  const post = resolveDemoPost(raw);
+  const body = post.body;
 
   const allPosts = await listBlogPosts();
   const related = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
-    <>
-      <PageBanner
-        image={BANNERS.blog}
-        kicker="Blog"
-        title={post.title}
-        lead={post.excerpt}
-      />
-      <main id="main-content" className="page page-after-banner page-wide" tabIndex={-1}>
+    <main id="main-content" className="pub">
+      <PublicHero kicker="Blog" title={post.title} lead={post.excerpt} image={BANNERS.blog} />
+      <section className="pub-section">
         <a className="back-link" href="/blog">
           ← Blog
         </a>
@@ -122,19 +119,22 @@ export default async function BlogDetailPage({
             <aside className="blog-detail__related" aria-label="Related posts">
               <p className="blog-detail__kicker">Keep reading</p>
               <ul className="blog-detail__related-list">
-                {related.map((item) => (
-                  <li key={item.id}>
-                    <a href={`/blog/${item.slug}`}>
-                      <strong>{item.title}</strong>
-                      <span>{item.excerpt}</span>
-                    </a>
-                  </li>
-                ))}
+                {related.map((item) => {
+                  const card = resolveDemoPost(item);
+                  return (
+                    <li key={item.id}>
+                      <a href={`/blog/${card.slug}`}>
+                        <strong>{card.title}</strong>
+                        <span>{card.excerpt}</span>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </aside>
           ) : null}
         </article>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

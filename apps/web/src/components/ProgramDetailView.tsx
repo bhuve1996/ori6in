@@ -87,8 +87,8 @@ export function ProgramDetailView({ program, image, curriculum }: Props) {
   return (
     <div className="program-detail">
       <RevealSection className="program-detail__intro">
-        <a className="back-link reveal series" style={series(0)} href="/programs">
-          ← Programs
+        <a className="back-link reveal series" style={series(0)} href="/programmes">
+          ← Programmes
         </a>
 
         <div className="program-detail__intro-grid">

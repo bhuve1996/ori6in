@@ -51,7 +51,7 @@ function OrdersInner() {
       {error && <p className="text-error">{error}</p>}
       {orders.length === 0 && (
         <p className="notice">
-          No purchases yet. Browse <a href="/programs">programs</a>.
+          No purchases yet. Browse <a href="/programmes">programmes</a>.
         </p>
       )}
       <ul className="plain-list">

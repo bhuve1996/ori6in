@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { apiFetch } from '../../../lib/auth';
+import { AuthFrame } from '../../../components/public/AuthFrame';
 import { useToast } from '../../../components/Toast';
 
 export default function ForgotPasswordPage() {
@@ -35,9 +36,10 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main id="main-content" className="page page-auth">
-      <h1>Forgot password</h1>
-      <p className="page-lead">We’ll send a reset link if the account exists.</p>
+    <AuthFrame
+      title="Forgot password"
+      lead="We’ll send a reset link if the account exists."
+    >
       <form onSubmit={onSubmit} className="form-grid">
         <input
           type="email"
@@ -59,8 +61,8 @@ export default function ForgotPasswordPage() {
         </button>
       </form>
       <p className="meta">
-        <a href="/login">Back to login</a>
+        <a href="/login">Back to sign in</a>
       </p>
-    </main>
+    </AuthFrame>
   );
 }

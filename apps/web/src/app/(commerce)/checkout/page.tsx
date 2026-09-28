@@ -98,7 +98,7 @@ function CheckoutInner() {
       <main id="main-content" className="page">
         <h1>Checkout</h1>
         <p className="page-lead">
-          Missing program. Browse <a href="/programs">programs</a>.
+          Missing programme. Browse <a href="/programmes">programmes</a>.
         </p>
       </main>
     );
@@ -106,8 +106,8 @@ function CheckoutInner() {
 
   return (
     <main className="page">
-      <a className="back-link" href="/programs">
-        ← Programs
+      <a className="back-link" href="/programmes">
+        ← Programmes
       </a>
       <h1>Checkout</h1>
       <p className="page-lead">Direct purchase for ORI6IN programs (sandbox checkout in demo).</p>

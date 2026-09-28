@@ -1,3 +1,4 @@
+import { categoryForSlug } from '@ori6in/shared';
 import { NextResponse, type NextRequest } from 'next/server';
 import {
   COMING_SOON_COOKIE,
@@ -107,6 +108,18 @@ export function middleware(request: NextRequest) {
   if (!active && pathname === '/coming-soon') {
     const url = request.nextUrl.clone();
     url.pathname = '/';
+    const res = NextResponse.redirect(url);
+    res.headers.set('Cache-Control', 'no-store, must-revalidate');
+    return applyDeployReset(res, request, deployId);
+  }
+
+  const programMatch = pathname.match(/^\/programs\/([^/]+)$/);
+  if (!active && programMatch) {
+    const category = categoryForSlug(decodeURIComponent(programMatch[1]));
+    const url = request.nextUrl.clone();
+    if (category === 'test-prep' || category === 'combos') url.pathname = '/test-prep';
+    else if (category) url.pathname = '/study-abroad';
+    else url.pathname = '/programmes';
     const res = NextResponse.redirect(url);
     res.headers.set('Cache-Control', 'no-store, must-revalidate');
     return applyDeployReset(res, request, deployId);

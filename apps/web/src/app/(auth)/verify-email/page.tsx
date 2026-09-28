@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { apiFetch, fetchMe, getToken } from '../../../lib/auth';
+import { AuthFrame } from '../../../components/public/AuthFrame';
 
 function VerifyEmailInner() {
   const params = useSearchParams();
@@ -40,8 +41,7 @@ function VerifyEmailInner() {
   }, [params]);
 
   return (
-    <main id="main-content" className="page page-auth">
-      <h1>Verify email</h1>
+    <AuthFrame title="Verify email" lead="Confirm the address on your ORI6IN account.">
       <p className={ok ? 'text-success' : 'page-lead'}>{status}</p>
       {profile && (
         <p className="meta">
@@ -50,16 +50,16 @@ function VerifyEmailInner() {
       )}
       <div className="cta-row">
         <a className="btn btn-accent" href="/login">
-          Go to login
+          Go to sign in
         </a>
       </div>
-    </main>
+    </AuthFrame>
   );
 }
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={<main className="page page-auth">Loading…</main>}>
+    <Suspense fallback={<main className="pub">Loading…</main>}>
       <VerifyEmailInner />
     </Suspense>
   );

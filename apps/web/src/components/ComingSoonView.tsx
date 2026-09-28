@@ -2,9 +2,10 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { parseEmail } from '@ori6in/shared';
-import { BRAND } from '../lib/media';
+import { COMPANY, parseEmail } from '@ori6in/shared';
+import { BRAND, HOME } from '../lib/media';
 import { SITE_NAME } from '../lib/site';
+import { goldSixNodes } from './public/GoldSix';
 
 export function ComingSoonView() {
   const reduceMotion = useReducedMotion();
@@ -78,12 +79,13 @@ export function ComingSoonView() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
+          <img src={BRAND.owl} alt="" className="coming-soon__owl" width={48} height={48} />
           <img
             className="coming-soon__logo"
             src={BRAND.logoDark}
             alt={SITE_NAME}
-            width={280}
-            height={112}
+            width={200}
+            height={48}
           />
         </motion.div>
 
@@ -93,10 +95,19 @@ export function ComingSoonView() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
+          <p className="coming-soon__kicker type-kicker">{goldSixNodes('ORI6IN Education')}</p>
           <h1 className="coming-soon__title type-display">Coming soon</h1>
           <p className="coming-soon__lead type-lead">
-            Study abroad counselling, test prep, and admits — Dream. Apply. Fly. Register to get
-            notified the moment we open.
+            {goldSixNodes(
+              'Study-abroad counselling, ED6E profile building, BRI6GE, and 6RIP test prep. Everything starts here. Register to get notified the moment we open.',
+            )}
+          </p>
+          <p className="coming-soon__contact">
+            <a href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phoneDisplay}</a>
+            {' · '}
+            <a href={COMPANY.whatsappUrl} target="_blank" rel="noreferrer">
+              WhatsApp
+            </a>
           </p>
         </motion.div>
 
@@ -182,18 +193,13 @@ export function ComingSoonView() {
       </div>
 
       <motion.aside
-        className="coming-soon__reveal"
+        className="coming-soon__media"
         aria-hidden
         initial={reduceMotion ? false : { opacity: 0, x: 28 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="coming-soon__reveal-curtain" />
-        <p className="coming-soon__reveal-text">
-          <span>Revealing</span>
-          <span>soon</span>
-        </p>
-        <span className="coming-soon__reveal-shimmer" />
+        <img src={HOME.hero} alt="" />
       </motion.aside>
     </main>
   );

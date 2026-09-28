@@ -18,23 +18,23 @@ export default function NotFound() {
         <div className="not-found__flow" aria-hidden="true">
           <span>Home</span>
           <FlowConnector tone="dark" />
-          <span>Programs</span>
+          <span>How it works</span>
           <FlowConnector tone="dark" />
-          <span>Mentors</span>
+          <span>Contact</span>
         </div>
 
         <div className="cta-row">
           <a className="btn btn-accent" href="/">
             Back home
           </a>
-          <a className="btn btn-secondary" href="/programs">
-            Browse programs
+          <a className="btn btn-secondary" href="/how-it-works">
+            How it works
           </a>
-          <a className="btn btn-secondary" href="/mentors">
-            Meet counsellors
+          <a className="btn btn-secondary" href="/contact">
+            Contact
           </a>
           <a className="btn btn-secondary" href="/login">
-            Log in
+            Sign in
           </a>
         </div>
       </div>

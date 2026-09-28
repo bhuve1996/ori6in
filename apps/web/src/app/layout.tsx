@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Source_Sans_3 } from 'next/font/google';
 import { headers } from 'next/headers';
 import { AppProviders } from '../components/AppProviders';
 import { ComingSoonToggle } from '../components/ComingSoonToggle';
+import { LeadProvider } from '../components/leads/LeadContext';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
 import { comingSoonEnvEnabled, comingSoonToggleVisible } from '../lib/coming-soon';
@@ -50,11 +51,14 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   keywords: [
     'ORI6IN',
-    'mentorship',
-    'internships',
-    'career programs',
-    'student learning',
-    'education platform',
+    'ORI6IN Education',
+    'ED6E',
+    'BRI6GE',
+    '6LOBAL',
+    '6RIP',
+    'study abroad',
+    'IELTS',
+    'Bengaluru',
   ],
   alternates: {
     canonical: absoluteUrl('/'),
@@ -111,9 +115,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             children
           ) : (
             <div className="site-shell">
-              <SiteHeader />
-              <div className="site-shell__content">{children}</div>
-              <SiteFooter />
+              <LeadProvider>
+                <SiteHeader />
+                <div className="site-shell__content">{children}</div>
+                <SiteFooter />
+              </LeadProvider>
               {showPreviewToggle ? <ComingSoonToggle floating /> : null}
             </div>
           )}

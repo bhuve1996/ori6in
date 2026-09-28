@@ -1,4 +1,4 @@
-import { PageBanner } from '../../../components/PageBanner';
+import { PublicHero } from '../../../components/public/PublicHero';
 import { BANNERS } from '../../../lib/media';
 import { pageMeta } from '../../../lib/seo';
 
@@ -24,7 +24,7 @@ const ROLES: RoleBlock[] = [
     role: 'Student',
     headline: 'Plan, prepare, and apply for study abroad with counsellor support.',
     canDo: [
-      'Browse ORI6IN programs (packages, test prep, admissions, combos)',
+      'Browse ORI6IN programmes (ED6E, BRI6GE, 6LOBAL, 6RIP)',
       'Use free tools: University Finder, Course Finder, Scholarships, Cost Calculator',
       'Request a personalised quote (no public price list)',
       'Take courses and lessons for enrolled programs',
@@ -117,16 +117,16 @@ const ROLES: RoleBlock[] = [
 
 export default function RolesPage() {
   return (
-    <>
-      <PageBanner
-        image={BANNERS.about}
+    <main id="main-content" className="pub">
+      <PublicHero
         kicker="Roles"
         title="What you can do on ORI6IN"
         lead="Students and counsellors drive study abroad — parents, companies, and admins support the journey."
+        image={BANNERS.about}
       />
-      <main id="main-content" className="page page-after-banner page-wide">
+      <section className="pub-section">
         <p className="roles-intro">
-          Public Education surfaces include programs, free tools, Student Hub, and Get a quote. Portals
+          Public surfaces include programmes, free tools, Student Hub, and contact for a quote. Portals
           cover student learning, counsellor sessions, parent oversight, company roles, and admin CMS.
         </p>
 
@@ -171,8 +171,8 @@ export default function RolesPage() {
                 </a>
                 {r.id === 'student' ? (
                   <>
-                    <a className="btn btn-secondary" href="/programs">
-                      Browse programs
+                    <a className="btn btn-secondary" href="/programmes">
+                      Browse programmes
                     </a>
                     <a className="btn btn-secondary" href="/tools">
                       Free tools
@@ -205,14 +205,14 @@ export default function RolesPage() {
           <a className="btn btn-accent" href="/how-it-works">
             How it works
           </a>
-          <a className="btn btn-secondary" href="/pricing">
+          <a className="btn btn-secondary" href="/contact">
             Get a quote
           </a>
           <a className="btn btn-secondary" href="/demo-login">
             Demo logins
           </a>
         </div>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

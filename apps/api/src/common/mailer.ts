@@ -7,7 +7,7 @@ import {
 } from './zoho-mail';
 
 const SITE_NAME = 'ORI6IN';
-const SITE_TAGLINE = 'Dream. Apply. Fly.';
+const SITE_TAGLINE = 'Everything starts here.';
 
 export function isOutboundMailConfigured() {
   return isZohoMailConfigured();

@@ -56,7 +56,7 @@ export default function StudentCoursesPage() {
         {error && <p className="text-error">{error}</p>}
         {courses.length === 0 && (
           <p className="notice">
-            No enrolled courses yet. <a href="/programs">Browse programs</a> or check{' '}
+            No enrolled courses yet. <a href="/programmes">Browse programmes</a> or check{' '}
             <a href="/student/orders">orders</a>.
           </p>
         )}

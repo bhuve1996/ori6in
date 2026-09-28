@@ -1,4 +1,4 @@
-import { PageBanner } from '../../../../components/PageBanner';
+import { PublicToolFrame } from '../../../../components/public/PublicToolFrame';
 import { ScholarshipFinderTool } from '../../../../components/tools/ScholarshipFinderTool';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
@@ -11,19 +11,12 @@ export const metadata = pageMeta({
 
 export default function ScholarshipFinderPage() {
   return (
-    <>
-      <PageBanner
-        image={BANNERS.pricing}
-        kicker="Tools"
-        title="Scholarship Finder"
-        lead="Scan university, merit, and government funding leads — then refine with a counsellor."
-      />
-      <main id="main-content" className="page page-after-banner page-wide">
-        <p className="tools-back">
-          <a href="/tools">← All tools</a>
-        </p>
-        <ScholarshipFinderTool />
-      </main>
-    </>
+    <PublicToolFrame
+      title="Scholarship Finder"
+      lead="Scan university, merit, and government funding leads — then refine with a counsellor."
+      image={BANNERS.pricing}
+    >
+      <ScholarshipFinderTool />
+    </PublicToolFrame>
   );
 }

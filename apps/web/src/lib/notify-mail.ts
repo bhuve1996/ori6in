@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { absoluteUrl, getSiteUrl, SITE_NAME, SITE_TAGLINE } from './site';
+import { absoluteUrl, getSiteUrl, SITE_NAME, SITE_PHONE, SITE_TAGLINE } from './site';
 import {
   isZohoMailApiConfigured,
   isZohoMailConfigured,
@@ -270,6 +270,11 @@ export type QuoteRequest = {
   program?: string;
   message?: string;
   at: string;
+  kind?: string;
+  source?: string;
+  interest?: string;
+  qualification?: string;
+  extra?: string;
 };
 
 function quoteMailBody(quote: QuoteRequest) {
@@ -278,20 +283,24 @@ function quoteMailBody(quote: QuoteRequest) {
   const siteUrl = absoluteUrl('/').includes('localhost')
     ? 'https://www.ori6ineducation.com'
     : absoluteUrl('/');
-  const who = `${quote.name} <${quote.email}>`;
-  const subject = `${SITE_NAME} quote request — ${quote.name}`;
+  const kindLabel = quote.kind || 'quote';
+  const subject = `${SITE_NAME} ${kindLabel} — ${quote.name}`;
 
   const text = [
-    `New ${SITE_NAME} quote request`,
+    `New ${SITE_NAME} lead (${kindLabel})`,
     '',
+    `Source: ${quote.source || '(not specified)'}`,
     `Name: ${quote.name}`,
-    `Email: ${quote.email}`,
+    `Email: ${quote.email || '(not provided)'}`,
     `Phone: ${quote.phone || '(not provided)'}`,
-    `Program interest: ${quote.program || '(not specified)'}`,
+    `Interest: ${quote.interest || '(not specified)'}`,
+    `Programme: ${quote.program || '(not specified)'}`,
+    `Class / qualification: ${quote.qualification || '(not specified)'}`,
     `Message: ${quote.message || '(none)'}`,
+    `Notes: ${quote.extra || '(none)'}`,
     `Time: ${when}`,
     '',
-    `Reply to ${who} with a personalised quote.`,
+    `Call from ${SITE_PHONE} within one working day.`,
     siteUrl,
   ].join('\n');
 
@@ -308,18 +317,22 @@ function quoteMailBody(quote: QuoteRequest) {
           <p style="margin:12px 0 0;color:#c2a772;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;">${escapeHtml(SITE_TAGLINE)}</p>
         </td></tr>
         <tr><td style="padding:0 28px 8px;">
-          <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;">New quote request</p>
-          <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;">Someone asked for a personalised study-abroad quote.</p>
+          <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;">New ${escapeHtml(kindLabel)}</p>
+          <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;">A visitor submitted a website lead. Call from ${escapeHtml(SITE_PHONE)} within one working day.</p>
         </td></tr>
         <tr><td style="padding:16px 28px 28px;">
           <table role="presentation" width="100%" style="background:#1a1510;border-radius:12px;color:#f7f3ec;font-size:14px;">
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Source</strong><br/>${escapeHtml(quote.source || '—')}</td></tr>
             <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Name</strong><br/>${escapeHtml(quote.name)}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Email</strong><br/>${escapeHtml(quote.email)}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Email</strong><br/>${escapeHtml(quote.email || '—')}</td></tr>
             <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Phone</strong><br/>${escapeHtml(quote.phone || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Program</strong><br/>${escapeHtml(quote.program || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;"><strong>Message</strong><br/>${escapeHtml(quote.message || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Interest</strong><br/>${escapeHtml(quote.interest || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Programme</strong><br/>${escapeHtml(quote.program || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Class / qualification</strong><br/>${escapeHtml(quote.qualification || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Message</strong><br/>${escapeHtml(quote.message || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;"><strong>Notes</strong><br/>${escapeHtml(quote.extra || '—')}</td></tr>
           </table>
-          <p style="margin:16px 0 0;color:#8b6240;font-size:11px;">${escapeHtml(SITE_NAME)} · Quote · ${escapeHtml(when)}</p>
+          <p style="margin:16px 0 0;color:#8b6240;font-size:11px;">${escapeHtml(SITE_NAME)} · ${escapeHtml(kindLabel)} · ${escapeHtml(when)}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -343,7 +356,7 @@ export async function sendQuoteRequest(quote: QuoteRequest) {
         subject,
         text,
         html,
-        replyTo: quote.email,
+        replyTo: quote.email || undefined,
       });
       return { provider: 'zoho-api' as const };
     } catch (err) {
@@ -375,7 +388,7 @@ export async function sendQuoteRequest(quote: QuoteRequest) {
           await transporter.sendMail({
             from: fromAddress(),
             to: COMING_SOON_NOTIFY_TO,
-            replyTo: quote.email,
+            replyTo: quote.email || undefined,
             subject,
             text,
             html,

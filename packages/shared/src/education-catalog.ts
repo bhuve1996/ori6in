@@ -26,7 +26,8 @@ export type CatalogProgram = {
 const INR = 'INR' as const;
 const own = { currency: INR, isOwnProduct: true as const };
 
-/** Lower-priority first → newer createdAt on flagship / packages (list DESC). */
+/** Lower-priority first → newer createdAt on flagship / packages (list DESC).
+ *  v2 public site uses ori6in-content.ts Section 7; these SKUs stay unpublished. */
 export const EDUCATION_PROGRAMS: CatalogProgram[] = [
   // —— Premium add-ons ——
   {
@@ -38,7 +39,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Fly covers everything after the admit and before you leave India.\n\nIncludes pre-departure orientation, accommodation assistance, flight guidance, forex, insurance, SIM, banking, packing checklist, airport guidance, and arrival support.',
     priceCents: 999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -49,7 +50,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Finance helps fund your study-abroad journey.\n\nIncludes loan eligibility guidance, bank/NBFC options, financial documentation, loan application assistance, and forex planning.',
     priceCents: 1499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -60,7 +61,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Visa Assist helps after admission is secured.\n\nIncludes visa documentation, application guidance, financial documentation, visa SOP/statement guidance where applicable, mock interviews, and country-specific prep (F-1, UK, Australia, Canada study permit, and more).',
     priceCents: 1999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -71,7 +72,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Scholarship Assist finds and positions funding for your education.\n\nIncludes eligibility assessment, university & merit scholarships, country-specific scholarships, application guidance, education-loan pointers, and financial planning.',
     priceCents: 2499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -82,7 +83,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Profile Builder strengthens your profile before applications.\n\nIncludes profile assessment, academic planning, internship guidance, certification roadmap, research guidance, extracurricular planning, resume building, and LinkedIn guidance.',
     priceCents: 3999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -93,7 +94,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Apply takes you from shortlist to admit.\n\nIncludes university shortlisting, application strategy, submission, SOP assistance, LOR guidance, resume/CV, document verification, application tracking, university communication, and offer evaluation.',
     priceCents: 5999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -104,7 +105,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Career Compass is for students who do not yet know what to study.\n\nIncludes career counselling, course selection, country selection, career pathway mapping, industry prospects, course-to-career mapping, ROI discussion, and a personalised study-abroad roadmap. Pair with the free Career & Course Finder tool.',
     priceCents: 1999900,
-    published: true,
+    published: false,
   },
 
   // —— Combos ——
@@ -117,7 +118,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN German (A1–B2 pathway) + Germany university applications.\n\nIdeal for public universities and English/German-taught master’s. Includes language milestones, shortlisting, applications, and counsellor check-ins.',
     priceCents: 8999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -128,7 +129,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN SAT + USA Undergraduate Admissions.\n\nIncludes SAT coaching with mocks, university shortlisting, Common App / institutional applications, essays, and counsellor tracking.',
     priceCents: 9999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -139,7 +140,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN TOEFL + USA admissions pathway (undergraduate or master’s).\n\nScore-target coaching plus shortlisting, applications, SOP/LOR, and tracking.',
     priceCents: 9499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -150,7 +151,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN IELTS + admissions support for UK, Canada, Australia, Ireland, NZ, or other IELTS destinations.\n\nBand-target coaching plus shortlisting and application management.',
     priceCents: 8999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -161,7 +162,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN GMAT + USA MBA/Master’s applications.\n\nStructured GMAT coaching with mocks plus school shortlisting, essays, recommendations, and interview prep.',
     priceCents: 11999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -172,7 +173,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Combo: ORI6IN GRE + Complete USA Master’s Application.\n\nGRE coaching with score tracking plus university shortlisting, SOP/LOR, applications, and scholarship pointers.',
     priceCents: 10999900,
-    published: true,
+    published: false,
   },
 
   // —— Country admissions ——
@@ -185,7 +186,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Europe Admissions covers France, Netherlands, and other European destinations.\n\nIncludes profile evaluation, university shortlisting, applications, document guidance, and counsellor support for English- and local-language programs.',
     priceCents: 6999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -196,7 +197,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Japan study-abroad admissions support.\n\nIncludes shortlisting, application guidance, document checklists, and prep for university-specific requirements.',
     priceCents: 6999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -207,7 +208,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'New Zealand admissions for bachelor’s and master’s pathways.\n\nIncludes shortlisting, applications, SOP guidance, and offer follow-up.',
     priceCents: 6499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -218,7 +219,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Ireland study-abroad admissions.\n\nIncludes university shortlisting, applications, document verification, and scholarship pointers.',
     priceCents: 6499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -229,7 +230,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Germany Bachelor’s Admissions — including public university pathways.\n\nIncludes profile evaluation, shortlisting, applications, APS/document guidance where relevant, and counsellor tracking. Pair with ORI6IN German when needed.',
     priceCents: 6999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -240,7 +241,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Germany Master’s Admissions for STEM and non-STEM pathways.\n\nIncludes shortlisting, applications, SOP/LOR, document checklists, and scholarship pointers. Strong combo with German language training.',
     priceCents: 7499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -251,7 +252,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Australia Undergraduate Admissions.\n\nIncludes profile evaluation, university shortlisting, applications, document guidance, and offer tracking.',
     priceCents: 6999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -262,7 +263,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Australia Master’s / MBA Admissions.\n\nIncludes shortlisting, applications, SOP/LOR, scholarship pointers, and counsellor follow-up.',
     priceCents: 7999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -273,7 +274,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Canada Undergraduate / College Admissions.\n\nIncludes shortlisting, applications, document checklists, and pathway guidance for universities and colleges.',
     priceCents: 6999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -284,7 +285,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Canada Master’s Admissions.\n\nIncludes profile evaluation, university shortlisting, applications, SOP/LOR, and funding guidance.',
     priceCents: 7999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -295,7 +296,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'UK Undergraduate / Foundation Admissions.\n\nIncludes course selection, UCAS/direct applications, personal statement support, and counsellor tracking.',
     priceCents: 7499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -306,7 +307,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'UK Master’s / MBA Admissions.\n\nIncludes shortlisting, applications, SOP/LOR, scholarship pointers, and CAS-oriented checklist guidance.',
     priceCents: 8499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -317,7 +318,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'USA PhD Admissions.\n\nIncludes research-fit shortlisting, SOP, academic CV, LOR strategy, application submission, and interview preparation.',
     priceCents: 9999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -328,7 +329,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'USA MBA Admissions.\n\nIncludes school shortlisting, essays, recommendations, resume, application tracking, and interview preparation. Pair with GMAT combo when needed.',
     priceCents: 9999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -339,7 +340,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'USA STEM Programs admissions support.\n\nIncludes STEM-focused university shortlisting, applications, SOP/LOR, and funding guidance for engineering, CS, data, and related fields.',
     priceCents: 9499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -350,7 +351,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'USA Undergraduate Admissions.\n\nIncludes profile evaluation, university shortlisting (safe/target/ambitious), applications, essays, recommendations, and tracking. Pair with SAT combo when needed.',
     priceCents: 8999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -361,7 +362,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'Focused USA Master’s admissions support.\n\nIncludes profile evaluation, university shortlisting, application strategy & submission, SOP/LOR guidance, resume review, scholarship pointers, and application tracking across intakes.',
     priceCents: 8999900,
-    published: true,
+    published: false,
   },
 
   // —— Test prep ——
@@ -374,7 +375,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN DET prepares you for the Duolingo English Test.\n\nOnline format with practice sets, mock tests, and score-target coaching. Ideal for universities that accept DET.',
     priceCents: 999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -385,7 +386,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN PTE covers PTE Academic skills with timed practice.\n\nClassroom or online formats, mock tests, and performance analysis for UK, Australia, Canada, and other PTE destinations.',
     priceCents: 1299900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -396,7 +397,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN German prepares you for German-taught and many English-taught pathways in Germany.\n\nLive or online classes covering A1–B2, with speaking practice and admissions-aligned milestones.',
     priceCents: 1799900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -407,7 +408,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN SAT builds Reading, Writing, and Math skills with timed practice.\n\nIncludes live or online classes, mock tests, and an admissions-ready study plan.',
     priceCents: 1999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -418,7 +419,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN TOEFL covers Reading, Listening, Speaking, and Writing with score-target plans.\n\nIncludes free demo options, mock tests, and performance analysis.',
     priceCents: 1499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -429,7 +430,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN GMAT targets Quant, Verbal, and Data Insights with structured mocks.\n\nClassroom or online formats with performance analysis and strategy sessions.',
     priceCents: 2999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -440,7 +441,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN GRE covers Verbal, Quant, and Analytical Writing with timed mocks and score tracking.\n\nClassroom or online coaching aligned to USA/Canada/Europe master’s targets.',
     priceCents: 2499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -451,7 +452,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN IELTS builds Listening, Reading, Writing, and Speaking toward your target band.\n\nClassroom or online formats, free demo classes, mock tests, and performance analysis.',
     priceCents: 1499900,
-    published: true,
+    published: false,
   },
 
   // —— Packages ——
@@ -464,7 +465,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Essential is for students who need clear guidance without full hand-holding.\n\nIncludes profile evaluation, career & course guidance, university shortlisting, application guidance, document checklist, SOP review, and email support.',
     priceCents: 2499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -475,7 +476,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Advantage is our most popular admissions package.\n\nEverything in Essential, plus detailed university shortlisting, SOP editing, LOR guidance, resume/CV review, application submission, scholarship guidance, application tracking, and interview preparation.',
     priceCents: 7499900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -486,7 +487,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN Premier is complete end-to-end admission support.\n\nEverything in Advantage, plus a dedicated counsellor, profile building, complete application management, scholarship strategy, visa documentation guidance, mock visa interviews, priority support, and pre-departure orientation.',
     priceCents: 14999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -497,7 +498,7 @@ export const EDUCATION_PROGRAMS: CatalogProgram[] = [
     description:
       'ORI6IN 360° is our flagship study-abroad program: Dream. Apply. Fly.\n\nFrom discover → decide → shortlist → prepare → apply → fund → admit → visa → fly → connect.\n\nIncludes profile evaluation, career counselling, test-prep pathway, university shortlisting, SOP & LOR assistance, resume building, application processing, scholarship guidance, interview preparation, visa guidance, pre-departure orientation, and Student Hub access.\n\nDestinations: USA, UK, Canada, Australia, Germany, Ireland, New Zealand, Japan, France, Netherlands, and Europe.',
     priceCents: 24999900,
-    published: true,
+    published: false,
   },
   {
     ...own,
@@ -762,5 +763,5 @@ export const HUB_EVENTS = [
   { title: 'IELTS speaking clinic', when: 'Twice weekly', tag: 'Test prep' },
   { title: 'Scholarship essay lab', when: 'Saturdays', tag: 'Funding' },
   { title: 'Visa mock interviews', when: 'By cohort', tag: 'Visa' },
-  { title: 'ORI6IN Fly orientation', when: 'Pre-departure weeks', tag: 'Fly' },
+  { title: 'Pre-departure briefing', when: 'Pre-departure weeks', tag: 'Arrival' },
 ] as const;

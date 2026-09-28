@@ -137,7 +137,7 @@ export const BRAND = {
   owlFull: '/brand/owl-mascot.png',
   owlIcon: '/brand/owl-icon.png',
   introVideo: '/brand/owl-intro.mp4',
-  tagline: 'Dream. Apply. Fly.',
+  tagline: 'Everything starts here.',
 } as const;
 
 export const BANNERS = {
