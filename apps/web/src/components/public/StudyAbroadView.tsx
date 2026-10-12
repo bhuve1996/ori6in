@@ -11,7 +11,7 @@ export function StudyAbroadView() {
       <PublicHero
         kicker="6LOBAL by Edumillenia · Overseas counselling"
         title="Four tracks. One counsellor. Zero guesswork."
-        lead="One assigned counsellor from first call to departure — profile assessment → Reach/Match/Safe university shortlist (branded PDF) → application and document guidance (SOP, LOR, CV) → offer and scholarship follow-up → visa file preparation and interview prep → pre-departure and forex guidance → post-degree job-scope notes."
+        lead="One counsellor stays with you from the first call to departure. We assess your profile, build a Reach, Match and Safe shortlist, guide your SOP, LOR and CV, follow up on offers and scholarships, prepare your visa file and interview, and help with pre-departure and forex."
         image={BANNERS.programs}
       />
 
@@ -92,7 +92,7 @@ export function StudyAbroadView() {
             <h3>6RAND — concierge</h3>
             <p>
               Dedicated concierge counsellor, line-by-line essay/SOP architecture across drafts, mock interviews,
-              scholarship strategy, admit negotiation — sold in Tier 1/2/3, scope confirmed in the quote.
+              scholarship strategy, admit negotiation. Three tiers — scope agreed in your quote.
             </p>
             <LeadButton kind="quote" programmeId="grand-concierge">
               Get a quote

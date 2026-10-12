@@ -7,7 +7,7 @@ export function ProgrammesView() {
       <PublicHero
         kicker="Programmes"
         title="Four product lines. One counsellor, one plan."
-        lead="Profile building from Class 8 (ED6E), the college-years runway (BRI6GE), admission counselling for study abroad (6LOBAL), and every test the journey needs (6RIP) — quoted per family, never listed on a rate card."
+        lead="Profile building from Class 8 (ED6E), the college-years runway (BRI6GE), admission counselling for study abroad (6LOBAL), and every test the journey needs (6RIP) — quoted for each family, with no one-size price list."
         image={BANNERS.programs}
       />
       <section className="pub-section">

@@ -1,36 +1,34 @@
 import { BANNERS, HOME } from '../../lib/media';
 import { PublicHero } from './PublicHero';
 
-const STORIES = [
+type Story = { name: string; tag: string; line: string; image: string; quote?: string };
+
+const STORIES: Story[] = [
   {
     name: 'Ananya S.',
     tag: 'Master’s · 2025',
     line: 'MSc Data Science, University of Edinburgh',
-    quote: 'Placeholder quote pending family approval.',
     image: HOME.outcomesReady,
   },
   {
     name: 'Rahul V.',
     tag: 'MS · 2025',
     line: 'MS CS, Arizona State University',
-    quote: 'Placeholder quote pending family approval.',
     image: HOME.pathPrograms,
   },
   {
     name: 'Ishita M.',
     tag: 'MBA · 2026',
     line: 'MBA, Georgetown McDonough',
-    quote: 'Placeholder quote pending family approval.',
     image: HOME.mentors,
   },
   {
     name: 'Aditi & Rohan K.',
     tag: 'ED6E · 2026',
     line: 'ED6E family, Class 9 and Class 11',
-    quote: 'Placeholder quote pending family approval.',
     image: BANNERS.parents,
   },
-] as const;
+];
 
 export function StoriesView() {
   return (
@@ -38,7 +36,7 @@ export function StoriesView() {
       <PublicHero
         kicker="Success stories"
         title="Proof, in their words."
-        lead="Names abbreviated for privacy; admits verified against platform records."
+        lead="Names shortened for privacy."
         image={BANNERS.mentors}
       />
       <section className="pub-section">
@@ -49,7 +47,7 @@ export function StoriesView() {
               <p className="type-meta">{s.tag}</p>
               <h3>{s.name}</h3>
               <p>{s.line}</p>
-              <blockquote>{s.quote}</blockquote>
+              {s.quote ? <blockquote>{s.quote}</blockquote> : null}
             </article>
           ))}
         </div>

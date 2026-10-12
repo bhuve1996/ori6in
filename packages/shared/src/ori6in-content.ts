@@ -219,7 +219,7 @@ export const INTEREST_OPTIONS = [
 ] as const;
 
 export const DPDP_CONSENT_LABEL =
-  'I consent to ORI6IN Education collecting my identity, contact details, and academic interest so a counsellor can call me back. If the student is under 18, a parent or guardian is providing this consent. ORI6IN does not sell personal data. This notice is a draft pending legal review under the DPDP Act 2023.';
+  'I consent to ORI6IN Education collecting my identity, contact details, and academic interest so a counsellor can call me back. If the student is under 18, a parent or guardian is providing this consent. ORI6IN does not sell personal data.';
 
 export const LEAD_CALLBACK_PROMISE = `A counsellor will call you from ${COMPANY.phoneDisplay} within one working day.`;
 

@@ -10,7 +10,7 @@ export function DestinationsView() {
       <PublicHero
         kicker="Destinations"
         title="Eight countries, current rules."
-        lead="Figures come from the VAAK Country Rules Registry — the knowledge base counsellors work from."
+        lead="Study, work and visa rules for each country — checked by our counsellors every intake season."
         image={BANNERS.howItWorks}
       />
 

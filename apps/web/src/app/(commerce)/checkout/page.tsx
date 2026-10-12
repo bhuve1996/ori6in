@@ -137,7 +137,7 @@ function CheckoutInner() {
             {busy ? 'Processing…' : 'Pay (sandbox)'}
           </button>
           <p className="meta">
-            Uses mock payment completion until Razorpay/Stripe keys are wired.
+            Payments are in test mode — no money will be charged.
           </p>
         </div>
       )}

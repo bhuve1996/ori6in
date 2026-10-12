@@ -3,7 +3,7 @@ import { pageMeta } from '../../../lib/seo';
 
 export const metadata = pageMeta({
   title: 'Privacy policy',
-  description: 'DPDP Act 2023 privacy disclosure for ORI6IN Education (placeholder pending legal review).',
+  description: 'How ORI6IN Education collects, uses and protects personal data under the DPDP Act 2023.',
   path: '/privacy',
 });
 
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
       <section className="pub-hero pub-hero--simple">
         <p className="type-kicker">Privacy</p>
         <h1 className="type-display-lg">Privacy policy</h1>
-        <p className="pub-banner-warn">Placeholder pending advocate review under the DPDP Act 2023.</p>
+        <p className="type-meta">Last updated September 2026 · DPDP Act 2023</p>
       </section>
       <section className="pub-section prose">
         <h2>1. What we collect</h2>
@@ -28,17 +28,18 @@ export default function PrivacyPage() {
         </p>
         <h2>3. Third-party AI</h2>
         <p>
-          Document text goes to the Anthropic API only for document check/edit features — disclosed in consent text.
+          When you use document check or edit features, the document text is sent to a trusted AI provider for that
+          purpose only. This is explained in the consent you give.
         </p>
         <h2>4. What we never do</h2>
         <p>
-          We do not sell data, show commission/partner data to students, put personal data in logs, or allow counsellor
-          exports.
+          We do not sell your data, share commission or partner details with students, or let counsellors take student
+          lists outside ORI6IN.
         </p>
         <h2>5. Your rights</h2>
-        <p>Full data export in one session; deletion within 30 days with an audit record.</p>
+        <p>You can request a full copy of your data at any time, and deletion within 30 days.</p>
         <h2>6. Storage</h2>
-        <p>Encrypted at rest and in transit; private buckets; 15-minute signed URLs.</p>
+        <p>Your data is encrypted and kept in access-limited storage. Document links expire shortly after use.</p>
         <p>
           {COMPANY.legalName} · {COMPANY.email}
         </p>

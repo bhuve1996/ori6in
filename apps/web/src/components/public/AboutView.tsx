@@ -14,8 +14,8 @@ export function AboutView() {
         image={BANNERS.about}
       >
         <p className="type-lead" style={{ marginTop: '0.85rem' }}>
-          The platform exists so there is one database, one record of truth. Commission economics stay invisible to
-          students at database level.
+          Every student has one record with one counsellor. Commission and partner arrangements never shape the
+          advice.
         </p>
         <p className="type-lead" style={{ marginTop: '0.85rem' }}>
           Technology makes counsellors faster, never replaces them. Every automated output passes through a human
@@ -39,8 +39,8 @@ export function AboutView() {
         <h2>What we will not do</h2>
         <div className="pub-cards pub-cards--3">
           <article>
-            <h3>No dark patterns in data</h3>
-            <p>Commission and partner economics stay invisible to students and parents, enforced by row-level security.</p>
+            <h3>No hidden incentives</h3>
+            <p>Commission and partner arrangements never influence which university we recommend.</p>
           </article>
           <article>
             <h3>No outcome promises</h3>
@@ -48,7 +48,7 @@ export function AboutView() {
           </article>
           <article>
             <h3>No personal spreadsheets</h3>
-            <p>Counsellors cannot export student lists. There is an audit log on every write.</p>
+            <p>Your details stay with ORI6IN — counsellors cannot take student lists with them.</p>
           </article>
         </div>
       </section>

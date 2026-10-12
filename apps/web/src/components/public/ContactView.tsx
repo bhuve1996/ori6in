@@ -11,7 +11,7 @@ export function ContactView() {
       <PublicHero
         kicker="Contact"
         title="One line, one inbox."
-        lead="Sales, payments and support all route through the central line and team inbox; counsellor personal numbers never appear anywhere."
+        lead="One number for bookings, payments and support — every call and message reaches the team."
         image={BANNERS.pricing}
       />
       <section className="pub-section">

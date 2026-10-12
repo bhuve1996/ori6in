@@ -29,7 +29,7 @@ export function Ed6eView() {
       <PublicHero
         kicker="ED6E by ORI6IN · Class 8–12"
         title="Start where you are. Rise to who you’re meant to become."
-        lead={`What a student can do beyond the marksheet; one stage per grade; four measured pillars. ${ED6E_EXPANSION}.`}
+        lead={`ED6E builds what a student can do beyond the marksheet, one stage per class, measured on four pillars: ${ED6E_EXPANSION.replace('ED6E = ', '')}.`}
         image={BANNERS.student}
       />
 

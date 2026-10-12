@@ -137,13 +137,9 @@ export function PublicHome() {
 
       <section className="pub-section pub-trust">
         <p>
-          <strong>5.0</strong> · 10 reviews{' '}
-          <a href="#" aria-disabled="true">
-            Google reviews (link pending)
-          </a>
+          <strong>5.0</strong> · 10 reviews on Google
         </p>
         <p>Where we are: Bengaluru · pan-India · online · Jayanagar centre</p>
-        <blockquote>Placeholder quote pending family approval.</blockquote>
       </section>
 
       <section className="navy-cta">

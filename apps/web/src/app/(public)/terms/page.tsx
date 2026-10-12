@@ -3,7 +3,7 @@ import { pageMeta } from '../../../lib/seo';
 
 export const metadata = pageMeta({
   title: 'Terms & conditions',
-  description: 'ORI6IN Education service terms and 6RANT reward conditions (placeholder pending legal review).',
+  description: 'ORI6IN Education service terms and 6RANT reward conditions.',
   path: '/terms',
 });
 
@@ -13,7 +13,7 @@ export default function TermsPage() {
       <section className="pub-hero pub-hero--simple">
         <p className="type-kicker">Terms</p>
         <h1 className="type-display-lg">Terms & conditions</h1>
-        <p className="pub-banner-warn">Placeholder pending advocate review. 6RANT amounts must match BRI6GE and 6LOBAL.</p>
+        <p className="type-meta">Last updated September 2026</p>
       </section>
       <section className="pub-section prose">
         <h2>1. Services</h2>

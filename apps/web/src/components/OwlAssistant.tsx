@@ -42,7 +42,7 @@ function localReply(message: string): string {
     q.includes('mba') ||
     q.includes('phd')
   ) {
-    return '6LOBAL by Edumillenia is admission counselling for UG, master’s, MBA, and PhD — one counsellor from first call to departure. Destinations and tracks: /study-abroad. Quotes are personal, never a public rate card.';
+    return '6LOBAL by Edumillenia is admission counselling for UG, master’s, MBA, and PhD — one counsellor from first call to departure. Destinations and tracks: /study-abroad. Every quote is personal to the student.';
   }
   if (
     q.includes('6rip') ||
@@ -101,7 +101,7 @@ function localReply(message: string): string {
     return 'Student Hub is at /hub — country communities, webinars, and pre-departure notes. Create an account to go deeper.';
   }
   if (q.includes('program') || q.includes('course') || q.includes('offer') || q.includes('package')) {
-    return 'Four product lines: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted per family, never listed on a rate card.';
+    return 'Four product lines: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted for each family, with no one-size price list.';
   }
   return `I am Ori. ${BRAND.tagline} Ask about ED6E, BRI6GE, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
 }
