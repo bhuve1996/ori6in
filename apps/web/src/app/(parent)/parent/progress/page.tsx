@@ -25,14 +25,14 @@ export default function ParentProgressPage() {
       banner={{
         image: BANNERS.student,
         title: 'Learning progress',
-        lead: 'See how your linked student is moving through enrolled programs.',
+        lead: 'See how your linked student is moving through enrolled programmes.',
       }}
       back={{ href: '/parent', label: 'Parent' }}
       loading={loading}
       error={error}
     >
       {!data || data.programs.length === 0 ? (
-        <p className="notice">No enrolled programs yet.</p>
+        <p className="notice">No enrolled programmes yet.</p>
       ) : (
         <ul className="card-list">
           {data.programs.map((p) => (
@@ -45,7 +45,7 @@ export default function ParentProgressPage() {
                 </p>
                 <ProgressBar percent={p.progress.percent} />
                 <p className="meta">
-                  <a href={`/programs/${p.slug}`}>View program</a>
+                  <a href={`/programs/${p.slug}`}>View programme</a>
                 </p>
               </article>
             </li>

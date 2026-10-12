@@ -210,8 +210,8 @@
 .coming-soon-toggle--float {
   position: fixed;
   top: auto;
-  right: 1rem;
-  bottom: 1rem;
+  right: clamp(0.85rem, 3vw, 1.5rem);
+  bottom: calc(clamp(0.85rem, 3vw, 1.5rem) + 4.5rem);
   z-index: 40;
   opacity: 0.55;
   transition: opacity 0.2s var(--ease-out);

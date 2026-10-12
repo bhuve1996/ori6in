@@ -7,6 +7,7 @@ const nextConfig = {
       { source: '/programs', destination: '/programmes', permanent: true },
       { source: '/pricing', destination: '/contact?lead=quote', permanent: false },
       { source: '/tools/eligibility', destination: '/eligibility', permanent: true },
+      { source: '/roles', destination: '/how-it-works', permanent: false },
     ];
   },
   webpack: (config, { dev }) => {

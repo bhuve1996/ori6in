@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { usePathname } from 'next/navigation';
 import { apiFetch, getStoredRole, getToken } from '../lib/auth';
+import { linkifyPaths } from '../lib/linkify';
 import { BRAND } from '../lib/media';
 import { easeOut, softSpring } from '../lib/motion';
 
@@ -224,7 +225,7 @@ export function OwlAssistant() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, ease: easeOut }}
                   >
-                    {t.content}
+                    {t.role === 'assistant' ? linkifyPaths(t.content) : t.content}
                   </motion.div>
                 ))}
               </AnimatePresence>

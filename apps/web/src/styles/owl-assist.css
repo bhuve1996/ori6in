@@ -173,6 +173,13 @@
   border-bottom-left-radius: 0.35rem;
 }
 
+.owl-assist__bubble--assistant a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .owl-assist__bubble--user {
   justify-self: end;
   background: var(--ink-deep);

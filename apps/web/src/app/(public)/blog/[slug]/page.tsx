@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { PublicHero } from '../../../../components/public/PublicHero';
+import { linkifyPaths } from '../../../../lib/linkify';
 import { BANNERS } from '../../../../lib/media';
 import { pageMeta } from '../../../../lib/seo';
 import { SITE_NAME } from '../../../../lib/site';
@@ -50,7 +51,7 @@ function renderBody(body: string) {
         nodes.push(
           <ul key={`ul-${nodes.length}`}>
             {items.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>{linkifyPaths(item)}</li>
             ))}
           </ul>,
         );
@@ -65,7 +66,7 @@ function renderBody(body: string) {
         nodes.push(
           <ol key={`ol-${nodes.length}`}>
             {items.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>{linkifyPaths(item)}</li>
             ))}
           </ol>,
         );
@@ -82,7 +83,7 @@ function renderBody(body: string) {
         i += 1;
       }
       if (para.length) {
-        nodes.push(<p key={`p-${nodes.length}`}>{para.join(' ')}</p>);
+        nodes.push(<p key={`p-${nodes.length}`}>{linkifyPaths(para.join(' '))}</p>);
       }
     }
   }

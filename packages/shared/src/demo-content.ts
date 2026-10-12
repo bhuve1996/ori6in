@@ -27,7 +27,7 @@ We counsel from Jayanagar, Bengaluru — pan-India and online — for USA, UK, C
   {
     slug: 'pricing',
     title: 'Get a quote',
-    body: `We do not publish a rate card. Every family’s plan is quoted after a Discovery Session.
+    body: `Every family’s plan is quoted after a Discovery Session.
 
 Write via /contact with your current class or UG year, destination interest, and timeline. A counsellor will call from +91 91130 88519 within one working day.`,
     published: true,
@@ -52,9 +52,7 @@ From Class 8 we build evidence beyond the marksheet. After Class 12 the same cou
 ## Destinations
 USA · UK · Canada · Germany · Ireland · Netherlands · Singapore · Australia
 
-Fees are never listed on the public site. Start with a complimentary Discovery Session, or read How it works.
-
-This post is seeded for demos and can be edited from Admin → CMS → Blog.`,
+Every plan is quoted for the family. Start with a complimentary Discovery Session, or read /how-it-works.`,
     published: true,
   },
   {
@@ -73,7 +71,7 @@ BRI6GE is the college-years runway — Foundation (Year 1), Momentum (Year 2), o
 6LOBAL covers UG, master’s, MBA, and PhD with one counsellor from first call to departure. Country notes live on /destinations. Check /eligibility if you want a first read.
 
 ## Tests in the way
-6RIP is test preparation (IELTS, TOEFL, GRE, GMAT Focus, SAT, German, dMAT). Bundles with counselling are quoted together — never as a public price list.
+6RIP is test preparation (IELTS, TOEFL, GRE, GMAT Focus, SAT, German, dMAT). Bundles with counselling are quoted together.
 
 ## How to decide
 1. Book a complimentary Discovery Session (student and parents together).

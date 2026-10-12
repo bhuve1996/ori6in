@@ -724,7 +724,7 @@ export const SAMPLE_SCHOLARSHIPS: Array<{
   { id: 'commonwealth', name: 'Commonwealth Scholarships (indicative)', country: 'uk', type: 'government', level: 'masters', amountHint: 'Full / substantial', eligibility: 'Academic merit + development impact' },
   { id: 'vanier', name: 'Vanier-like doctoral awards (indicative)', country: 'canada', type: 'government', level: 'phd', amountHint: 'High stipend', eligibility: 'Research excellence' },
   { id: 'australia-awards', name: 'Australia Awards (indicative)', country: 'australia', type: 'government', level: 'any', amountHint: 'Full / substantial', eligibility: 'Country-specific eligibility windows' },
-  { id: 'daad', name: 'DAAD scholarships (indicative)', country: 'germany', type: 'government', level: 'masters', amountHint: 'Stipend + support', eligibility: 'Academic merit; program-specific' },
+  { id: 'daad', name: 'DAAD scholarships (indicative)', country: 'germany', type: 'government', level: 'masters', amountHint: 'Stipend + support', eligibility: 'Academic merit; programme-specific' },
   { id: 'govt-ireland', name: 'Government of Ireland (indicative)', country: 'ireland', type: 'government', level: 'masters', amountHint: 'Tuition contribution', eligibility: 'Merit-based calls' },
   { id: 'uni-merit-usa', name: 'University merit awards (USA)', country: 'usa', type: 'university', level: 'any', amountHint: '$5k–$25k+/yr', eligibility: 'GPA + profile; early applications help' },
   { id: 'uni-merit-uk', name: 'University merit awards (UK)', country: 'uk', type: 'university', level: 'any', amountHint: '£2k–£10k+', eligibility: 'Offer holders; course-specific' },
@@ -742,7 +742,7 @@ export const CAREER_PATHS: Array<{
 }> = [
   { id: 'cs', title: 'Computer Science / Software', courses: ['MS CS', 'MS Software Engineering', 'MEng Computing'], countries: ['usa', 'canada', 'uk', 'germany', 'netherlands'], outlook: 'Strong hiring in product & services; portfolio matters.' },
   { id: 'data', title: 'Data / AI', courses: ['MS Data Science', 'MS AI', 'MSc Business Analytics'], countries: ['usa', 'uk', 'canada', 'ireland', 'germany'], outlook: 'High demand; math + projects differentiate.' },
-  { id: 'eng', title: 'Engineering', courses: ['MS Mechanical', 'MS Electrical', 'MEng Civil'], countries: ['usa', 'germany', 'australia', 'canada', 'uk'], outlook: 'Industry-linked programs and co-ops help ROI.' },
+  { id: 'eng', title: 'Engineering', courses: ['MS Mechanical', 'MS Electrical', 'MEng Civil'], countries: ['usa', 'germany', 'australia', 'canada', 'uk'], outlook: 'Industry-linked programmes and co-ops help ROI.' },
   { id: 'business', title: 'Business / Management', courses: ['MBA', 'MSc Management', 'MSc Finance'], countries: ['usa', 'uk', 'france', 'australia', 'canada'], outlook: 'Work experience boosts MBA outcomes.' },
   { id: 'design', title: 'Design / UX', courses: ['MDes', 'MA Interaction Design', 'MSc HCI'], countries: ['usa', 'uk', 'netherlands', 'australia'], outlook: 'Portfolio-first admissions.' },
   { id: 'health', title: 'Public Health / Life Sciences', courses: ['MPH', 'MSc Biotechnology', 'MSc Epidemiology'], countries: ['usa', 'uk', 'australia', 'new-zealand', 'canada'], outlook: 'Research fit and labs matter for PhD tracks.' },

@@ -26,7 +26,7 @@ export function SiteHeader() {
   const { openLead } = useLead();
   const [open, setOpen] = useState(false);
   const [compactNav, setCompactNav] = useState(false);
-  const [tone, setTone] = useState<'light' | 'dark'>('light');
+  const [tone, setTone] = useState<'light' | 'dark'>(() => (pathname === '/' ? 'dark' : 'light'));
   const [role, setRole] = useState<string | null>(null);
   const links = useMemo(() => navLinksForPath(pathname, role), [pathname, role]);
   const portal = isPortalChromePath(pathname);
