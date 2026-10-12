@@ -30,7 +30,7 @@ body {
   padding: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body), 'Source Sans 3', sans-serif;
+  font-family: var(--font-body), 'Outfit', system-ui, sans-serif;
   min-height: 100%;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -74,8 +74,8 @@ body:not(:has(.home)):not(.is-coming-soon):not(:has(.coming-soon)) {
 
 body.is-coming-soon,
 body:has(.coming-soon) {
-  background: #0c0c0c;
-  color: #f7f3ec;
+  background: var(--ink-deep);
+  color: #fcfaf5;
 }
 
 body.is-coming-soon .site-header,

@@ -17,8 +17,8 @@
   background:
     radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in srgb, var(--gold) 28%, transparent), transparent 55%),
     radial-gradient(ellipse 70% 50% at 90% 80%, color-mix(in srgb, var(--cream) 55%, transparent), transparent 50%),
-    linear-gradient(165deg, #1a1612 0%, #0c0c0c 42%, #16120e 100%);
-  color: #f7f3ec;
+    linear-gradient(165deg, #1a1510 0%, var(--ink-deep) 42%, #16120e 100%);
+  color: #fcfaf5;
 }
 
 .coming-soon__glow {
@@ -58,7 +58,7 @@
   height: 3rem;
   border-radius: 50%;
   object-fit: cover;
-  background: #0c0c0c;
+  background: var(--ink-deep);
   flex-shrink: 0;
 }
 
@@ -79,7 +79,7 @@
 .coming-soon__title {
   margin: 0;
   font-size: clamp(2.4rem, 7vw, 3.6rem);
-  color: #fffcf7;
+  color: #fbf7ef;
 }
 
 .coming-soon__contact {
@@ -93,7 +93,7 @@
 }
 
 .coming-soon__lead {
-  color: color-mix(in srgb, #f7f3ec 78%, transparent);
+  color: color-mix(in srgb, #fcfaf5 78%, transparent);
   max-width: 28rem;
 }
 
@@ -107,16 +107,16 @@
 .coming-soon__field input {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid color-mix(in srgb, #f7f3ec 18%, transparent);
+  border: 1px solid color-mix(in srgb, #fcfaf5 18%, transparent);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, #0c0c0c 55%, transparent);
-  color: #fffcf7;
+  background: color-mix(in srgb, var(--ink-deep) 55%, transparent);
+  color: #fbf7ef;
   padding: 0.85rem 1rem;
   font: inherit;
 }
 
 .coming-soon__field input::placeholder {
-  color: color-mix(in srgb, #f7f3ec 45%, transparent);
+  color: color-mix(in srgb, #fcfaf5 45%, transparent);
 }
 
 .coming-soon__field input:focus {
@@ -191,7 +191,7 @@
   border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
   border-radius: var(--radius-sm);
   padding: 0.45rem 0.7rem;
-  background: color-mix(in srgb, #0c0c0c 40%, transparent);
+  background: color-mix(in srgb, var(--ink-deep) 40%, transparent);
   backdrop-filter: blur(8px);
 }
 
@@ -203,7 +203,7 @@
 
 .coming-soon-toggle__hint {
   font-size: 0.68rem;
-  color: color-mix(in srgb, #f7f3ec 45%, transparent);
+  color: color-mix(in srgb, #fcfaf5 45%, transparent);
   max-width: 14rem;
 }
 

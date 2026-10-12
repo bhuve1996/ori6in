@@ -1,17 +1,21 @@
 :root {
-  /* Brand from logo + owl mascot: ink black, gold 6, cream feathers */
+  /* ORI6IN Display (--font-brand) is for the wordmark, kickers and the 6 only;
+     headings and body both read in ORI6IN Sans. */
+  --font-display: var(--font-body);
+  /* Ink black (original brand) with the ORI6IN web kit gold and cream */
   --ink: #0c0c0c;
+  --ink-deep: #0c0c0c; /* dark surfaces (hero, header, footer) */
   --ink-soft: #3d3832;
-  --paper: #f7f3ec;
-  --paper-elevated: #fffcf7;
-  --accent: #c2a772;
+  --paper: #fcfaf5;
+  --paper-elevated: #fbf7ef;
+  --accent: #d3a150;
   --accent-ink: #0c0c0c;
-  --teal: #9a7b3c; /* warm bronze (legacy token → brand gold family) */
-  --gold: #c2a772;
-  --gold-bright: #d4b87a;
+  --teal: #c9a361; /* legacy token → brand gold family */
+  --gold: #d3a150;
+  --gold-bright: #c9a361;
   --brown: #8b6240;
-  --cream: #f3ebe0;
-  --line: #e2d8c8;
+  --cream: #f4efe4;
+  --line: #e3dbcb;
   --muted: #6e655a;
   --header-h: 4.25rem;
   --ticker-h: 2.15rem;
@@ -19,7 +23,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --theme-a: #efe6d6;
   --theme-b: #e8dfd0;
-  --theme-c: #f3ebe0;
+  --theme-c: #f4efe4;
   --theme-d: #e5d5b8;
   --theme-e: #0c0c0c;
   --radius-sm: 0.55rem;

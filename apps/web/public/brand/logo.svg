@@ -4,7 +4,7 @@
   <!-- Light-surface wordmark: ink letters, gold 6 -->
   <g text-anchor="middle" font-family="Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif">
     <text x="320" y="118" font-size="100" font-weight="400" letter-spacing="0.04em" fill="#0c0c0c">
-      ORI<tspan fill="#c2a772" font-style="italic" dx="-0.02em">6</tspan>IN
+      ORI<tspan fill="#d3a150" font-style="italic" dx="-0.02em">6</tspan>IN
     </text>
     <text
       x="320"

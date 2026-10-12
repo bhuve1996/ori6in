@@ -3,8 +3,8 @@
   <desc id="ori6in-dark-desc">Dream. Apply. Fly.</desc>
   <!-- Dark-surface wordmark: cream letters, gold 6 -->
   <g text-anchor="middle" font-family="Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif">
-    <text x="320" y="118" font-size="100" font-weight="400" letter-spacing="0.04em" fill="#f7f3ec">
-      ORI<tspan fill="#c2a772" font-style="italic" dx="-0.02em">6</tspan>IN
+    <text x="320" y="118" font-size="100" font-weight="400" letter-spacing="0.04em" fill="#fcfaf5">
+      ORI<tspan fill="#d3a150" font-style="italic" dx="-0.02em">6</tspan>IN
     </text>
     <text
       x="320"
@@ -12,7 +12,7 @@
       font-size="28"
       font-style="italic"
       letter-spacing="0.01em"
-      fill="#f7f3ec"
+      fill="#fcfaf5"
       opacity="0.9"
     >Dream. Apply. Fly.</text>
   </g>

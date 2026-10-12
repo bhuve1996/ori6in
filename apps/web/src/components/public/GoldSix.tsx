@@ -2,7 +2,11 @@ import type { ReactNode } from 'react';
 
 const BRAND_NAMES = ['BRI6GE', 'ORI6IN', '6LOBAL', '6RANT', '6RAND', 'ED6E', '6RIP'] as const;
 
-/** Gold upright 6 in brand names. Longer tokens first so BRI6GE is matched whole. */
+/**
+ * Gold brand 6 in brand names. Longer tokens first so BRI6GE is matched whole.
+ * The ORI6IN fonts draw the brand 6 for the letter G under `ss03`, so the visible
+ * glyph is a G and a hidden "6" keeps the text correct for screen readers and search.
+ */
 export function goldSixNodes(text: string): ReactNode[] {
   const nodes: ReactNode[] = [];
   let rest = text;
@@ -23,7 +27,10 @@ export function goldSixNodes(text: string): ReactNode[] {
     nodes.push(
       <span key={`g${key++}`}>
         {before}
-        <span className="brand__six">6</span>
+        <span className="brand__six" aria-hidden="true">
+          G
+        </span>
+        <span className="brand__six-text">6</span>
         {after.join('6')}
       </span>,
     );

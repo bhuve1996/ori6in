@@ -23,17 +23,18 @@
 
 @theme {
   --color-ink: #0c0c0c;
+  --color-ink-deep: #0c0c0c;
   --color-ink-soft: #3d3832;
-  --color-paper: #f7f3ec;
-  --color-paper-elevated: #fffcf7;
-  --color-gold: #c2a772;
-  --color-gold-bright: #d4b87a;
+  --color-paper: #fcfaf5;
+  --color-paper-elevated: #fbf7ef;
+  --color-gold: #d3a150;
+  --color-gold-bright: #c9a361;
   --color-brown: #8b6240;
-  --color-cream: #f3ebe0;
-  --color-line: #e2d8c8;
+  --color-cream: #f4efe4;
+  --color-line: #e3dbcb;
   --color-muted: #6e655a;
-  --color-teal: #9a7b3c;
-  --color-accent: #c2a772;
+  --color-teal: #c9a361;
+  --color-accent: #d3a150;
   --radius-sm: 0.55rem;
   --radius-md: 0.95rem;
   --radius-lg: 1.4rem;

@@ -95,7 +95,7 @@
 
 .admin-stat strong {
   display: block;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.35rem;
   letter-spacing: -0.02em;
   line-height: 1.15;
@@ -126,13 +126,13 @@
 
 .admin-alert--ok {
   background: color-mix(in srgb, var(--teal) 12%, var(--paper));
-  color: color-mix(in srgb, var(--teal) 70%, #0c0c0c);
+  color: color-mix(in srgb, var(--teal) 70%, var(--ink-deep));
   border: 1px solid color-mix(in srgb, var(--teal) 28%, transparent);
 }
 
 .admin-alert--warn {
   background: color-mix(in srgb, var(--accent) 18%, var(--paper));
-  color: color-mix(in srgb, var(--brown) 85%, #0c0c0c);
+  color: color-mix(in srgb, var(--brown) 85%, var(--ink-deep));
   border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
@@ -292,13 +292,13 @@
 
 .admin-pill--ok {
   background: color-mix(in srgb, var(--teal) 16%, #fff);
-  color: color-mix(in srgb, var(--teal) 75%, #0c0c0c);
+  color: color-mix(in srgb, var(--teal) 75%, var(--ink-deep));
   border-color: color-mix(in srgb, var(--teal) 28%, transparent);
 }
 
 .admin-pill--warn {
   background: color-mix(in srgb, var(--accent) 22%, #fff);
-  color: color-mix(in srgb, var(--brown) 80%, #0c0c0c);
+  color: color-mix(in srgb, var(--brown) 80%, var(--ink-deep));
   border-color: color-mix(in srgb, var(--accent) 40%, transparent);
 }
 

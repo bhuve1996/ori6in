@@ -59,7 +59,7 @@
 }
 
 .mkt-program-card h2 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.15rem, 2vw, 1.3rem);
   margin: 0;
   letter-spacing: -0.025em;
@@ -143,7 +143,7 @@ figure.mkt-program-card:hover {
 }
 
 .mkt-mentor-card h2 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.15rem;
   margin: 0;
   letter-spacing: -0.02em;
@@ -270,7 +270,7 @@ figure.mkt-program-card:hover {
 }
 
 .mkt-blog-card h2 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.2rem, 2.1vw, 1.45rem);
   margin: 0;
   letter-spacing: -0.025em;
@@ -385,7 +385,7 @@ figure.mkt-program-card:hover {
 
 .program-detail__title {
   margin: 0 0 1rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.45rem, 3vw, 2rem);
   letter-spacing: -0.03em;
   line-height: 1.2;
@@ -394,7 +394,7 @@ figure.mkt-program-card:hover {
 
 .program-detail__price {
   margin: 0 0 1.25rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -439,7 +439,7 @@ figure.mkt-program-card:hover {
   padding: 0.3rem 0.55rem;
   border-radius: var(--radius-sm);
   background: rgba(12, 12, 12, 0.55);
-  color: #f7f3ec;
+  color: #fcfaf5;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
@@ -508,11 +508,11 @@ figure.mkt-program-card:hover {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
-  color: #f7f3ec;
+  color: #fcfaf5;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
@@ -523,7 +523,7 @@ figure.mkt-program-card:hover {
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
   background: rgba(12, 12, 12, 0.62);
-  color: #f7f3ec;
+  color: #fcfaf5;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -538,7 +538,7 @@ figure.mkt-program-card:hover {
 
 .program-detail__chapter figcaption h3 {
   margin: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -589,7 +589,7 @@ figure.mkt-program-card:hover {
 }
 
 .program-detail__stats strong {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
 }
@@ -634,7 +634,7 @@ figure.mkt-program-card:hover {
 
 .program-detail__module h3 {
   margin: 0 0 0.35rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -657,7 +657,7 @@ figure.mkt-program-card:hover {
 }
 
 .program-detail__lessons > li > span {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--muted);
@@ -738,7 +738,7 @@ figure.mkt-program-card:hover {
 
 .mentor-detail__focus h2 {
   margin: 0 0 1.15rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.35rem, 2.8vw, 1.75rem);
   letter-spacing: -0.02em;
 }
@@ -803,7 +803,7 @@ figure.mkt-program-card:hover {
 
 .mentor-detail__focus-grid h3 {
   margin: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -838,7 +838,7 @@ figure.mkt-program-card:hover {
 .blog-detail__body.prose :where(h2) {
   margin: 0.85rem 0 0;
   color: var(--ink);
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.25rem, 2.2vw, 1.5rem);
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -1029,7 +1029,7 @@ figure.mkt-program-card:hover {
 
 .roles-card__head h2 {
   margin: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.25rem, 2.4vw, 1.55rem);
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -1067,7 +1067,7 @@ figure.mkt-program-card:hover {
 
 .roles-skip h2 {
   margin: 0 0 0.75rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.25rem;
 }
 
@@ -1302,7 +1302,7 @@ a.tools-hub-card:hover {
 .tools-hub-card h2,
 .hub-card h3 {
   margin: 0 0 0.45rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.2rem;
   letter-spacing: -0.02em;
 }
@@ -1420,10 +1420,10 @@ a.tools-hub-card:hover {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: color-mix(in srgb, #0c0c0c 72%, transparent);
-  border: 1px solid color-mix(in srgb, #f7f3ec 35%, transparent);
-  color: #f7f3ec;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  background: color-mix(in srgb, var(--ink-deep) 72%, transparent);
+  border: 1px solid color-mix(in srgb, #fcfaf5 35%, transparent);
+  color: #fcfaf5;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1445,7 +1445,7 @@ a.tools-hub-card:hover {
 
 .tool-card h3 {
   margin: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
 }
@@ -1495,7 +1495,7 @@ a.tools-hub-card:hover {
 
 .tool-stat-total {
   margin-top: 0.65rem !important;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--ink) !important;
@@ -1554,7 +1554,7 @@ a.tools-hub-card:hover {
 
 .hub-section__title {
   margin: 0 0 0.4rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   letter-spacing: -0.02em;
 }

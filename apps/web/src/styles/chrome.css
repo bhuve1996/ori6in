@@ -25,7 +25,7 @@
 }
 
 .toast--success {
-  background: color-mix(in srgb, var(--gold) 55%, #0c0c0c);
+  background: color-mix(in srgb, var(--gold) 55%, var(--ink-deep));
 }
 
 .toast--error {
@@ -147,7 +147,7 @@
   z-index: 5;
   flex-shrink: 0;
   margin-top: clamp(1.5rem, 4vw, 2.75rem);
-  background: #0c0c0c;
+  background: var(--ink-deep);
   color: rgba(247, 243, 236, 0.88);
   border-top: 1px solid rgba(247, 243, 236, 0.14);
 }
@@ -391,7 +391,7 @@ body:has(.home) .site-footer {
   display: flex;
   align-items: center;
   overflow: hidden;
-  color: #f7f3ec;
+  color: #fcfaf5;
 }
 
 .not-found__media {
@@ -399,7 +399,7 @@ body:has(.home) .site-footer {
   inset: 0;
   background:
     radial-gradient(ellipse at 70% 40%, rgba(194, 167, 114, 0.22), transparent 50%),
-    linear-gradient(160deg, #0c0c0c 0%, #1a1510 55%, #3d3220 140%);
+    linear-gradient(160deg, var(--ink-deep) 0%, #1a1510 55%, #3d3220 140%);
 }
 
 .not-found::after {
@@ -413,7 +413,7 @@ body:has(.home) .site-footer {
   margin: 0 0 1rem;
   border-radius: 50%;
   object-fit: cover;
-  background: #0c0c0c;
+  background: var(--ink-deep);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
@@ -435,7 +435,7 @@ body:has(.home) .site-footer {
 }
 
 .not-found__code {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(4rem, 14vw, 7rem);
   line-height: 0.9;
   letter-spacing: -0.04em;
@@ -443,7 +443,7 @@ body:has(.home) .site-footer {
 }
 
 .not-found__title {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.5rem, 3.5vw, 2.1rem);
   letter-spacing: -0.03em;
   margin: 0 0 0.65rem;

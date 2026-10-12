@@ -17,7 +17,7 @@ export default function OpenGraphImage() {
           justifyContent: 'space-between',
           padding: 72,
           background: 'linear-gradient(135deg, #0c0c0c 0%, #1a1510 55%, #3d3220 100%)',
-          color: '#f7f3ec',
+          color: '#fcfaf5',
           fontFamily: 'Georgia, serif',
         }}
       >
@@ -31,13 +31,13 @@ export default function OpenGraphImage() {
             letterSpacing: '0.08em',
           }}
         >
-          ORI<span style={{ color: '#c2a772', fontStyle: 'normal', fontFamily: "Didot, 'Bodoni MT', Georgia, serif", fontWeight: 500 }}>6</span>IN
+          ORI<span style={{ color: '#d3a150', fontStyle: 'normal', fontFamily: "Didot, 'Bodoni MT', Georgia, serif", fontWeight: 500 }}>6</span>IN
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
           <div style={{ fontSize: 52, fontWeight: 650, lineHeight: 1.15 }}>
             Everything starts here.
           </div>
-          <div style={{ fontSize: 28, opacity: 0.88, lineHeight: 1.35, color: '#d4b87a' }}>
+          <div style={{ fontSize: 28, opacity: 0.88, lineHeight: 1.35, color: '#c9a361' }}>
             ED6E · BRI6GE · 6LOBAL · 6RIP — profile building from Class 8
           </div>
         </div>

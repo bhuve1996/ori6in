@@ -5,7 +5,7 @@
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  color: #f7f3ec;
+  color: #fcfaf5;
 }
 
 .page-banner[data-tone='light'] {
@@ -84,7 +84,7 @@
   background: color-mix(in srgb, var(--teal) 25%, var(--theme-a));
   color: var(--ink);
   flex-shrink: 0;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 700;
 }
 

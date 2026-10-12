@@ -13,8 +13,8 @@
 .announcement-ticker {
   height: var(--ticker-h);
   overflow: hidden;
-  background: #0c0c0c;
-  color: #f7f3ec;
+  background: var(--ink-deep);
+  color: #fcfaf5;
   border-bottom: 1px solid rgba(194, 167, 114, 0.35);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
@@ -71,20 +71,20 @@
 }
 
 .site-header[data-tone='dark'] {
-  --ink: #f7f3ec;
+  --ink: #fcfaf5;
   --line: rgba(255, 255, 255, 0.18);
-  background: color-mix(in srgb, #0c0c0c 90%, transparent);
-  color: #f7f3ec;
+  background: color-mix(in srgb, var(--ink-deep) 90%, transparent);
+  color: #fcfaf5;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-brand), 'Cinzel', Georgia, serif;
   font-size: 1.15rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-weight: 600;
   text-decoration: none;
   color: inherit;
 }
@@ -94,7 +94,7 @@
   height: 2.35rem;
   border-radius: 50%;
   object-fit: cover;
-  background: #0c0c0c;
+  background: var(--ink-deep);
   flex-shrink: 0;
 }
 
@@ -116,12 +116,20 @@
 }
 
 .brand__six {
-  /* Upright gold 6 — same colour as the wordmark, never italic */
-  font-family: Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif;
+  /* Both ORI6IN fonts map G to the brand 6 under ss03; inherit the family so the 6
+     matches the surrounding text (Display in kickers, Sans in headings). */
   color: var(--gold);
   font-style: normal;
   font-synthesis: none;
-  font-weight: 500;
+  font-feature-settings: 'ss03' 1;
+  user-select: none;
+}
+
+/* Real "6" for screen readers, search and copy-paste. Must stay inline (not sr-only's
+   absolute positioning) or browsers split the brand name into "ED 6 E". */
+.brand__six-text {
+  font-size: 0;
+  letter-spacing: 0;
 }
 
 .site-header nav {
@@ -274,7 +282,7 @@
   }
 
   .site-header[data-tone='dark'] nav {
-    background: color-mix(in srgb, #0c0c0c 96%, transparent);
+    background: color-mix(in srgb, var(--ink-deep) 96%, transparent);
   }
 
   .site-header nav[data-open='true'] {

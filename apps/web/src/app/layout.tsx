@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Bricolage_Grotesque, Source_Sans_3 } from 'next/font/google';
+import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { AppProviders } from '../components/AppProviders';
 import { ComingSoonToggle } from '../components/ComingSoonToggle';
@@ -17,21 +17,33 @@ import {
 } from '../lib/site';
 import './globals.css';
 
-const display = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--font-display',
+const ori6inDisplay = localFont({
+  src: [
+    { path: '../fonts/ORI6INDisplay-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/ORI6INDisplay-SemiBold.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/ORI6INDisplay-Bold.woff2', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-brand',
   display: 'swap',
+  fallback: ['Cinzel', 'Georgia', 'serif'],
 });
 
-const body = Source_Sans_3({
-  subsets: ['latin'],
+const ori6inSans = localFont({
+  src: [
+    { path: '../fonts/ORI6INSans-Light.woff2', weight: '300', style: 'normal' },
+    { path: '../fonts/ORI6INSans-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/ORI6INSans-Medium.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/ORI6INSans-SemiBold.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/ORI6INSans-Bold.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-body',
   display: 'swap',
+  fallback: ['Outfit', 'system-ui', 'sans-serif'],
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f3ec' },
+    { media: '(prefers-color-scheme: light)', color: '#fcfaf5' },
     { media: '(prefers-color-scheme: dark)', color: '#0c0c0c' },
   ],
   width: 'device-width',
@@ -103,7 +115,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     !comingSoon && comingSoonEnvEnabled() && comingSoonToggleVisible();
 
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${ori6inDisplay.variable} ${ori6inSans.variable}`} suppressHydrationWarning>
       <body className={comingSoon ? 'is-coming-soon' : undefined} suppressHydrationWarning>
         {!comingSoon ? (
           <a className="skip-link" href="#main-content">

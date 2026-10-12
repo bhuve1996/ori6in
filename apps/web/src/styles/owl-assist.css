@@ -21,7 +21,7 @@
   padding: 0.35rem 0.85rem 0.35rem 0.35rem;
   border: 1px solid color-mix(in srgb, var(--gold) 55%, var(--line));
   border-radius: 999px;
-  background: color-mix(in srgb, var(--paper-elevated) 92%, #0c0c0c);
+  background: color-mix(in srgb, var(--paper-elevated) 92%, var(--ink-deep));
   color: var(--ink);
   box-shadow:
     0 12px 32px rgba(12, 12, 12, 0.18),
@@ -42,11 +42,11 @@
   height: 3.15rem;
   border-radius: 50%;
   object-fit: cover;
-  background: #0c0c0c;
+  background: var(--ink-deep);
 }
 
 .owl-assist__fab-label {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.92rem;
   letter-spacing: 0.02em;
@@ -84,8 +84,8 @@
   gap: 0.65rem;
   align-items: center;
   padding: 0.85rem 0.9rem;
-  background: #0c0c0c;
-  color: #f7f3ec;
+  background: var(--ink-deep);
+  color: #fcfaf5;
 }
 
 .owl-assist__avatar {
@@ -98,7 +98,7 @@
 
 .owl-assist__head strong {
   display: block;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   letter-spacing: 0.04em;
 }
 
@@ -111,7 +111,7 @@
 .owl-assist__close {
   border: 0;
   background: transparent;
-  color: #f7f3ec;
+  color: #fcfaf5;
   font-size: 1.4rem;
   line-height: 1;
   cursor: pointer;
@@ -175,8 +175,8 @@
 
 .owl-assist__bubble--user {
   justify-self: end;
-  background: #0c0c0c;
-  color: #f7f3ec;
+  background: var(--ink-deep);
+  color: #fcfaf5;
   border-bottom-right-radius: 0.35rem;
 }
 

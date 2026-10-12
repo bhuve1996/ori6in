@@ -2,13 +2,13 @@
 
 /* ——— Typography ——— */
 @utility type-display {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
 @utility type-display-lg {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(2rem, 4.5vw, 3rem);
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -17,8 +17,9 @@
 @utility type-kicker {
   margin: 0;
   font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-family: var(--font-brand), 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
@@ -185,7 +186,7 @@
 }
 
 @utility price-tag {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 700;
   color: var(--teal);
   font-size: 1.12rem;

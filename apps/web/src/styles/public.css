@@ -191,8 +191,8 @@
   margin: 1rem clamp(1.1rem, 4vw, 2rem) 0;
   padding: clamp(1.75rem, 4vw, 2.75rem);
   border-radius: var(--radius-lg);
-  background: #0c0c0c;
-  color: #f7f3ec;
+  background: var(--ink-deep);
+  color: #fcfaf5;
 }
 
 .navy-cta p {

@@ -73,8 +73,8 @@ function mailBody(signup: ComingSoonSignup) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(subject)}</title>
 </head>
-<body style="margin:0;padding:0;background:#f3ebe0;font-family:Georgia,'Times New Roman',serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3ebe0;padding:24px 12px;">
+<body style="margin:0;padding:0;background:#f4efe4;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4efe4;padding:24px 12px;">
     <tr>
       <td align="center">
         <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
@@ -86,14 +86,14 @@ function mailBody(signup: ComingSoonSignup) {
           <tr>
             <td style="padding:28px 28px 8px 28px;text-align:center;">
               <img src="${escapeHtml(logoUrl)}" width="200" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:200px;height:auto;max-width:70%;" />
-              <p style="margin:12px 0 0;color:#c2a772;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;">
+              <p style="margin:12px 0 0;color:#d3a150;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;">
                 ${escapeHtml(SITE_TAGLINE)}
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 28px 8px;">
-              <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;letter-spacing:-0.02em;">
+              <p style="margin:0;color:#fbf7ef;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;letter-spacing:-0.02em;">
                 New notify signup
               </p>
               <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;font-family:Arial,Helvetica,sans-serif;">
@@ -106,16 +106,16 @@ function mailBody(signup: ComingSoonSignup) {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#16120e;border:1px solid #3d3220;border-radius:12px;">
                 <tr>
                   <td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif;">
-                    <p style="margin:0 0 12px;color:#9a7b3c;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Details</p>
-                    <p style="margin:0 0 10px;color:#f7f3ec;font-size:15px;line-height:1.45;">
+                    <p style="margin:0 0 12px;color:#c9a361;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Details</p>
+                    <p style="margin:0 0 10px;color:#fcfaf5;font-size:15px;line-height:1.45;">
                       <span style="color:#9a8f80;">Name</span><br/>
                       <strong>${escapeHtml(name)}</strong>
                     </p>
-                    <p style="margin:0 0 10px;color:#f7f3ec;font-size:15px;line-height:1.45;">
+                    <p style="margin:0 0 10px;color:#fcfaf5;font-size:15px;line-height:1.45;">
                       <span style="color:#9a8f80;">Email</span><br/>
-                      <a href="mailto:${escapeHtml(signup.email)}" style="color:#d4b87a;text-decoration:none;"><strong>${escapeHtml(signup.email)}</strong></a>
+                      <a href="mailto:${escapeHtml(signup.email)}" style="color:#c9a361;text-decoration:none;"><strong>${escapeHtml(signup.email)}</strong></a>
                     </p>
-                    <p style="margin:0;color:#f7f3ec;font-size:15px;line-height:1.45;">
+                    <p style="margin:0;color:#fcfaf5;font-size:15px;line-height:1.45;">
                       <span style="color:#9a8f80;">Signed up</span><br/>
                       <strong>${escapeHtml(when)}</strong>
                     </p>
@@ -127,12 +127,12 @@ function mailBody(signup: ComingSoonSignup) {
           <tr>
             <td style="padding:20px 28px 28px;text-align:center;font-family:Arial,Helvetica,sans-serif;">
               <a href="mailto:${escapeHtml(signup.email)}?subject=${encodeURIComponent(`${SITE_NAME} is opening soon`)}"
-                 style="display:inline-block;background:#c2a772;color:#0c0c0c;text-decoration:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;">
+                 style="display:inline-block;background:#d3a150;color:#0c0c0c;text-decoration:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;">
                 Reply to ${escapeHtml(name)}
               </a>
               <p style="margin:16px 0 0;color:#6e655a;font-size:12px;line-height:1.45;">
                 Reply-To is already set to this visitor.<br/>
-                <a href="${escapeHtml(siteUrl)}" style="color:#c2a772;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
+                <a href="${escapeHtml(siteUrl)}" style="color:#d3a150;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
               </p>
             </td>
           </tr>
@@ -308,20 +308,20 @@ function quoteMailBody(quote: QuoteRequest) {
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8" /><title>${escapeHtml(subject)}</title></head>
-<body style="margin:0;padding:0;background:#f3ebe0;font-family:Arial,Helvetica,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3ebe0;padding:24px 12px;">
+<body style="margin:0;padding:0;background:#f4efe4;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4efe4;padding:24px 12px;">
     <tr><td align="center">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
         <tr><td style="padding:28px;text-align:center;">
           <img src="${escapeHtml(logoUrl)}" width="180" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:180px;height:auto;" />
-          <p style="margin:12px 0 0;color:#c2a772;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;">${escapeHtml(SITE_TAGLINE)}</p>
+          <p style="margin:12px 0 0;color:#d3a150;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;">${escapeHtml(SITE_TAGLINE)}</p>
         </td></tr>
         <tr><td style="padding:0 28px 8px;">
-          <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;">New ${escapeHtml(kindLabel)}</p>
+          <p style="margin:0;color:#fbf7ef;font-size:22px;font-weight:700;">New ${escapeHtml(kindLabel)}</p>
           <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;">A visitor submitted a website lead. Call from ${escapeHtml(SITE_PHONE)} within one working day.</p>
         </td></tr>
         <tr><td style="padding:16px 28px 28px;">
-          <table role="presentation" width="100%" style="background:#1a1510;border-radius:12px;color:#f7f3ec;font-size:14px;">
+          <table role="presentation" width="100%" style="background:#1a1510;border-radius:12px;color:#fcfaf5;font-size:14px;">
             <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Source</strong><br/>${escapeHtml(quote.source || '—')}</td></tr>
             <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Name</strong><br/>${escapeHtml(quote.name)}</td></tr>
             <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Email</strong><br/>${escapeHtml(quote.email || '—')}</td></tr>

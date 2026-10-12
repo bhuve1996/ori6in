@@ -17,7 +17,7 @@
 }
 
 .page h1 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.9rem, 4vw, 2.6rem);
   letter-spacing: -0.03em;
   line-height: 1.15;
@@ -25,14 +25,14 @@
 }
 
 .page h2 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.25rem, 2.5vw, 1.55rem);
   letter-spacing: -0.02em;
   margin: 1.75rem 0 0.65rem;
 }
 
 .page h3 {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.1rem;
   margin: 1.25rem 0 0.5rem;
 }
@@ -112,7 +112,7 @@
 
 .stat-grid strong {
   display: block;
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.45rem;
   letter-spacing: -0.02em;
 }
@@ -210,7 +210,7 @@
   padding: 1.1rem 1rem;
   background: color-mix(in srgb, var(--paper-elevated) 88%, transparent);
   border-radius: var(--radius-md);
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-weight: 600;
   letter-spacing: -0.01em;
   text-decoration: none !important;
