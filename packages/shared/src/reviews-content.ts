@@ -211,6 +211,7 @@ export type OfficeLocation = {
   name: string;
   kind: 'headquarters' | 'satellite';
   city: string;
+  cityShort?: string;
   state: string;
   address: string;
   phone: string;
@@ -225,6 +226,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     name: 'Bengaluru Headquarters & Flagship Centre',
     kind: 'headquarters',
     city: 'Bengaluru',
+    cityShort: 'Jayanagar, Bengaluru',
     state: 'Karnataka',
     address:
       'Ori6in Education, 1315, 25th Main Rd, Kottapalya, Jayanagara 9th Block, JAYANAGAR, Bengaluru, Karnataka 560041',
