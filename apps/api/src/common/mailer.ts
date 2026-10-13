@@ -75,11 +75,11 @@ function liveMailBody(recipient: LiveMail) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(subject)}</title>
 </head>
-<body style="margin:0;padding:0;background:#f3ebe0;font-family:Georgia,'Times New Roman',serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3ebe0;padding:24px 12px;">
+<body style="margin:0;padding:0;background:#F4F0E8;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F0E8;padding:24px 12px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#17304D;border-radius:16px;overflow:hidden;box-shadow:0 12px 28px rgba(23,48,77,0.15);">
           <tr>
             <td style="padding:0;line-height:0;">
               <img src="${escapeHtml(bannerUrl)}" width="560" alt="" style="display:block;width:100%;max-height:160px;object-fit:cover;" />
@@ -88,17 +88,17 @@ function liveMailBody(recipient: LiveMail) {
           <tr>
             <td style="padding:28px 28px 8px 28px;text-align:center;">
               <img src="${escapeHtml(logoUrl)}" width="200" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:200px;height:auto;max-width:70%;" />
-              <p style="margin:12px 0 0;color:#c2a772;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;">
+              <p style="margin:12px 0 0;color:#C9A361;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;font-weight:600;">
                 ${escapeHtml(SITE_TAGLINE)}
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 28px 8px;font-family:Arial,Helvetica,sans-serif;">
-              <p style="margin:0;color:#fffcf7;font-size:22px;font-weight:700;letter-spacing:-0.02em;">
+              <p style="margin:0;color:#FFFFFF;font-size:22px;font-weight:700;letter-spacing:-0.02em;">
                 We're live, ${escapeHtml(first)}
               </p>
-              <p style="margin:12px 0 0;color:#d4c4a8;font-size:15px;line-height:1.55;">
+              <p style="margin:12px 0 0;color:#ECE6DA;font-size:15px;line-height:1.55;">
                 Thanks for signing up on our coming soon page. ${escapeHtml(SITE_NAME)} is open — explore programs, mentorship, and internships.
               </p>
             </td>
@@ -106,11 +106,11 @@ function liveMailBody(recipient: LiveMail) {
           <tr>
             <td style="padding:20px 28px 28px;text-align:center;font-family:Arial,Helvetica,sans-serif;">
               <a href="${escapeHtml(siteUrl)}"
-                 style="display:inline-block;background:#c2a772;color:#0c0c0c;text-decoration:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;">
+                 style="display:inline-block;background:#D3A150;color:#17304D;text-decoration:none;font-weight:700;font-size:14px;padding:12px 24px;border-radius:8px;">
                 Visit ${escapeHtml(SITE_NAME)}
               </a>
-              <p style="margin:16px 0 0;color:#6e655a;font-size:12px;line-height:1.45;">
-                <a href="${escapeHtml(siteUrl)}" style="color:#c2a772;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
+              <p style="margin:16px 0 0;color:#ECE6DA;font-size:12px;line-height:1.45;">
+                <a href="${escapeHtml(siteUrl)}" style="color:#D3A150;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
               </p>
             </td>
           </tr>

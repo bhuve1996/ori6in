@@ -7,6 +7,8 @@ import { useMounted } from '../hooks/useMounted';
 import { ClientDeployReset } from './ClientDeployReset';
 import { ToastProvider } from './Toast';
 
+import { MascotFlightLoader } from './MascotFlightLoader';
+
 const OwlAssistant = dynamic(() =>
   import('./OwlAssistant').then((m) => m.OwlAssistant),
 );
@@ -29,6 +31,7 @@ export function AppProviders({
       <ClientDeployReset />
       <ToastProvider>
         {children}
+        <MascotFlightLoader />
         <OwlAssistantGate softLaunch={softLaunch} />
       </ToastProvider>
     </MotionConfig>

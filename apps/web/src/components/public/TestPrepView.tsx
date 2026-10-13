@@ -1,9 +1,10 @@
 'use client';
 
-import { BUNDLE_IDS, catalogueById, GRIP_FORMAT_LINE, GRIP_TESTS } from '@ori6in/shared';
+import { BUNDLE_IDS, catalogueById, GRIP_FORMAT_LINE, GRIP_PARENT_REVIEWS, GRIP_TESTS } from '@ori6in/shared';
 import { BANNERS } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { goldSixNodes } from './GoldSix';
+import { ParentReviewsSection } from './ParentReviewsSection';
 import { PublicHero } from './PublicHero';
 
 export function TestPrepView() {
@@ -49,6 +50,14 @@ export function TestPrepView() {
           </article>
         </article>
       </section>
+
+      <ParentReviewsSection
+        kicker="Score & Prep Reviews"
+        title="What parents say about 6RIP"
+        lead="How small batches and diagnostic test preparation unlocked breakthrough scores."
+        reviews={GRIP_PARENT_REVIEWS}
+        programmeTag="6RIP · Test Prep"
+      />
 
       <section className="navy-cta">
         <h2>Not sure which test? Ask before you book anything.</h2>

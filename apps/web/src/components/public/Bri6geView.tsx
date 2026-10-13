@@ -1,9 +1,10 @@
 'use client';
 
-import { BRI6GE_STAGES, ED6E_EXPANSION } from '@ori6in/shared';
+import { BRI6GE_PARENT_REVIEWS, BRI6GE_STAGES, ED6E_EXPANSION } from '@ori6in/shared';
 import { BANNERS, HOME } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { GrantStrip } from './GrantStrip';
+import { ParentReviewsSection } from './ParentReviewsSection';
 import { PublicHero } from './PublicHero';
 
 const INCLUDED = [
@@ -73,6 +74,14 @@ export function Bri6geView() {
           </a>
         </div>
       </section>
+
+      <ParentReviewsSection
+        kicker="College Parents"
+        title="What parents say about BRI6GE"
+        lead="How the UG runway prepared their college students for elite master’s and scholarships."
+        reviews={BRI6GE_PARENT_REVIEWS}
+        programmeTag="BRI6GE · UG Year 1–3"
+      />
 
       <GrantStrip intro="Milestone rewards if you continue into 6LOBAL." />
 

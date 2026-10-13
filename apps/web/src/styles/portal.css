@@ -28,13 +28,13 @@
   font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: clamp(1.25rem, 2.5vw, 1.55rem);
   letter-spacing: -0.02em;
-  margin: 1.75rem 0 0.65rem;
+  margin: 1.25rem 0 0.5rem;
 }
 
 .page h3 {
   font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
   font-size: 1.1rem;
-  margin: 1.25rem 0 0.5rem;
+  margin: 0.95rem 0 0.4rem;
 }
 
 .page a:not(.btn):not(.portal-grid a):not(.back-link):not(.brand):not(.admin-subnav__link) {

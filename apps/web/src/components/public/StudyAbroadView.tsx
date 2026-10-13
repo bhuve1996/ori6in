@@ -1,8 +1,10 @@
 'use client';
 
+import { GLOBAL_PARENT_REVIEWS } from '@ori6in/shared';
 import { BANNERS, HOME } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { GrantStrip } from './GrantStrip';
+import { ParentReviewsSection } from './ParentReviewsSection';
 import { PublicHero } from './PublicHero';
 
 export function StudyAbroadView() {
@@ -100,6 +102,14 @@ export function StudyAbroadView() {
           </article>
         </div>
       </section>
+
+      <ParentReviewsSection
+        kicker="Global Admissions"
+        title="What parents say about 6LOBAL"
+        lead="Stories from families whose children secured admits and scholarships worldwide."
+        reviews={GLOBAL_PARENT_REVIEWS}
+        programmeTag="6LOBAL · Study Abroad"
+      />
 
       <GrantStrip intro="Finish each step, earn ₹25,000 back." />
     </main>

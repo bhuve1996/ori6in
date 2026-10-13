@@ -51,41 +51,61 @@ export default function DemoLoginPage() {
       title="Demo logins"
       lead="Temporary walkthrough accounts for exploring ORI6IN portals."
     >
-      <p className="page-lead">
-        Credentials live in <code>docs/demo-logins.md</code>. Disable with{' '}
-        <code>ENABLE_DEMO_LOGINS=false</code>.
-      </p>
-      <p className="notice">
-        Shared password:{' '}
-        <Tooltip label="Copied from docs/demo-logins.md">
-          <code>DemoPass123!</code>
-        </Tooltip>
-      </p>
-      {error && <p className="text-error">{error}</p>}
-      <div className="stack">
-        {DEMO_ACCOUNTS.map((account) => (
-          <Tooltip
-            key={account.email}
-            label={`Opens the ${demoRoleLabel(account.role)} portal`}
-            side="bottom"
-          >
-            <button
-              className="btn"
-              type="button"
-              disabled={busy === account.email}
-              onClick={() => void loginAs(account.email, account.password, account.role)}
-              style={{ width: '100%' }}
+      <div className="auth-card">
+        <p className="page-lead" style={{ margin: '0 0 0.85rem' }}>
+          One-click walkthrough accounts for exploring ORI6IN portals.
+        </p>
+
+        {error && (
+          <div className="auth-alert is-error" style={{ marginBottom: '1rem' }} role="alert">
+            <span className="auth-alert-icon">⚠</span>
+            <span>{error}</span>
+          </div>
+        )}
+
+        <div className="stack" style={{ gap: '0.65rem', maxWidth: 'none' }}>
+          {DEMO_ACCOUNTS.map((account) => (
+            <Tooltip
+              key={account.email}
+              label={`Opens the ${demoRoleLabel(account.role)} portal`}
+              side="bottom"
             >
-              {busy === account.email
-                ? 'Signing in…'
-                : `${demoRoleLabel(account.role)} — ${account.email}`}
-            </button>
-          </Tooltip>
-        ))}
+              <button
+                className="auth-submit-btn"
+                type="button"
+                disabled={busy === account.email}
+                onClick={() => void loginAs(account.email, account.password, account.role)}
+                style={{
+                  background: 'color-mix(in srgb, var(--cream) 60%, #fff)',
+                  color: 'var(--navy)',
+                  border: '1.5px solid var(--hairline)',
+                  boxShadow: 'none',
+                  justifyContent: 'space-between',
+                  padding: '0.75rem 1rem',
+                  fontSize: '0.9rem',
+                }}
+              >
+                <span>
+                  <strong style={{ color: 'var(--gold-brand)' }}>✦ {demoRoleLabel(account.role)}</strong>
+                  <span style={{ color: 'var(--warm-grey)', marginLeft: '0.5rem', fontWeight: 500, fontSize: '0.82rem' }}>
+                    ({account.email})
+                  </span>
+                </span>
+                <span>{busy === account.email ? '…' : '→'}</span>
+              </button>
+            </Tooltip>
+          ))}
+        </div>
+
+        <div className="auth-card__footer">
+          <p className="auth-card__footer-text">
+            Ready to log in normally?{' '}
+            <a href="/login" className="auth-card__footer-link">
+              Standard sign in
+            </a>
+          </p>
+        </div>
       </div>
-      <p className="meta">
-        <a href="/login">Normal login</a>
-      </p>
     </AuthFrame>
   );
 }

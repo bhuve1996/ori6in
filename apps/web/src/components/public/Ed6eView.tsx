@@ -1,8 +1,9 @@
 'use client';
 
-import { ED6E_EXPANSION, ED6E_PILLARS, ED6E_STAGES } from '@ori6in/shared';
+import { ED6E_EXPANSION, ED6E_PILLARS, ED6E_STAGES, ED6E_PARENT_REVIEWS } from '@ori6in/shared';
 import { BANNERS, HOME } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
+import { ParentReviewsSection } from './ParentReviewsSection';
 import { PublicHero } from './PublicHero';
 
 const MONTHLY = [
@@ -85,6 +86,14 @@ export function Ed6eView() {
           </article>
         </div>
       </section>
+
+      <ParentReviewsSection
+        kicker="Parent Experiences"
+        title="What parents say about ED6E"
+        lead="Hear from parents whose children started profile-building from Class 8 through Class 12."
+        reviews={ED6E_PARENT_REVIEWS}
+        programmeTag="ED6E · Class 8–12"
+      />
 
       <section className="pub-note pub-section">
         <h2>After Class 12, the journey continues</h2>

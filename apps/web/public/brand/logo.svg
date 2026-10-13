@@ -1,19 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256" fill="none" role="img" aria-labelledby="ori6in-title ori6in-desc">
-  <title id="ori6in-title">ORI6IN</title>
-  <desc id="ori6in-desc">Dream. Apply. Fly.</desc>
-  <!-- Light-surface wordmark: ink letters, gold 6 -->
-  <g text-anchor="middle" font-family="Didot, 'Bodoni MT', 'Bodoni 72', 'Playfair Display', Georgia, serif">
-    <text x="320" y="118" font-size="100" font-weight="400" letter-spacing="0.04em" fill="#0c0c0c">
-      ORI<tspan fill="#d3a150" font-style="italic" dx="-0.02em">6</tspan>IN
+  <title id="ori6in-title">ORI6IN Education</title>
+  <desc id="ori6in-desc">ORI6IN Education — Dream. Apply. Fly.</desc>
+  <!-- Light-surface wordmark: Navy letters, Brand Gold 6, Descriptor Gold subtitle -->
+  <g text-anchor="middle">
+    <text x="320" y="112" font-family="'Cinzel', Georgia, serif" font-size="82" font-weight="700" letter-spacing="0.06em" fill="#17304D">
+      ORI<tspan fill="#D3A150" font-weight="700">6</tspan>IN
     </text>
     <text
       x="320"
-      y="178"
-      font-size="28"
+      y="152"
+      font-family="'Cinzel', Georgia, serif"
+      font-size="20"
+      font-weight="700"
+      letter-spacing="0.32em"
+      fill="#C9A361"
+    >EDUCATION</text>
+    <text
+      x="320"
+      y="196"
+      font-family="'Cormorant Garamond', Georgia, serif"
+      font-size="22"
       font-style="italic"
-      letter-spacing="0.01em"
-      fill="#0c0c0c"
-      opacity="0.9"
+      letter-spacing="0.04em"
+      fill="#5A554C"
     >Dream. Apply. Fly.</text>
   </g>
 </svg>

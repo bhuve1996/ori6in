@@ -43,8 +43,8 @@ const ori6inSans = localFont({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#fcfaf5' },
-    { media: '(prefers-color-scheme: dark)', color: '#0c0c0c' },
+    { media: '(prefers-color-scheme: light)', color: '#F4F0E8' },
+    { media: '(prefers-color-scheme: dark)', color: '#17304D' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -82,11 +82,20 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: absoluteUrl('/opengraph-image'),
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} Owl Mascot — ${SITE_TAGLINE}`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
+    images: [absoluteUrl('/opengraph-image')],
   },
   robots: {
     index: true,
@@ -132,7 +141,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <div className="site-shell__content">{children}</div>
                 <SiteFooter />
               </LeadProvider>
-              {showPreviewToggle ? <ComingSoonToggle floating /> : null}
             </div>
           )}
         </AppProviders>

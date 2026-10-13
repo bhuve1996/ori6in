@@ -12,6 +12,7 @@ import {
 } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { LeadKind } from '@ori6in/shared';
+import { FloatingDiscoveryPill } from './FloatingDiscoveryPill';
 import { LeadModal } from './LeadModal';
 
 export type LeadOpenOpts = {
@@ -79,6 +80,7 @@ export function LeadProvider({ children }: { children: ReactNode }) {
       <Suspense fallback={null}>
         <LeadQueryOpener />
       </Suspense>
+      <FloatingDiscoveryPill />
       {open ? <LeadModal opts={opts} onClose={closeLead} /> : null}
     </LeadContext.Provider>
   );

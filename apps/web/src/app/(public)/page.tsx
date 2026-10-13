@@ -21,11 +21,37 @@ export default function HomePage() {
         data={[
           {
             '@context': 'https://schema.org',
-            '@type': 'Organization',
+            '@type': ['EducationalOrganization', 'Organization'],
             name: SITE_NAME,
+            legalName: 'ORI6IN Education Private Limited',
             url: absoluteUrl('/'),
             description: SITE_DESCRIPTION,
-            logo: absoluteUrl('/icon'),
+            logo: {
+              '@type': 'ImageObject',
+              url: absoluteUrl('/brand/owl.png'),
+              caption: 'ORI6IN Owl Mascot',
+            },
+            image: [
+              absoluteUrl('/opengraph-image'),
+              absoluteUrl('/brand/owl.png'),
+              absoluteUrl('/brand/owl-mascot.png'),
+            ],
+            sameAs: [
+              'https://www.instagram.com/ori6ineducation/',
+              'https://www.linkedin.com/company/ori6in-education',
+              'https://www.youtube.com/@ori6ineducation',
+              'https://x.com/ori6ineducation',
+            ],
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '1315, 25th Main Rd, Kottapalya, Jayanagara 9th Block',
+              addressLocality: 'Bengaluru',
+              addressRegion: 'Karnataka',
+              postalCode: '560041',
+              addressCountry: 'IN',
+            },
+            telephone: '+91 91130 88519',
+            email: 'info@ori6ineducation.com',
           },
           {
             '@context': 'https://schema.org',
@@ -33,6 +59,7 @@ export default function HomePage() {
             name: SITE_NAME,
             url: absoluteUrl('/'),
             description: SITE_DESCRIPTION,
+            image: absoluteUrl('/opengraph-image'),
           },
         ]}
       />

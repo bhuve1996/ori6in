@@ -40,29 +40,63 @@ export default function ForgotPasswordPage() {
       title="Forgot password"
       lead="We’ll send a reset link if the account exists."
     >
-      <form onSubmit={onSubmit} className="form-grid">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        {error && <p className="text-error">{error}</p>}
-        {message && <p className="text-success">{message}</p>}
-        {devToken && (
-          <p className="notice">
-            Dev reset link:{' '}
-            <a href={`/reset-password?token=${devToken}`}>Reset password</a>
+      <div className="auth-card">
+        <form onSubmit={onSubmit} className="auth-form">
+          <div className="auth-field">
+            <label htmlFor="forgot-email" className="auth-label">
+              Email Address
+            </label>
+            <div className="auth-input-wrapper">
+              <span className="auth-input-icon" aria-hidden="true">✉</span>
+              <input
+                id="forgot-email"
+                className="auth-input"
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          {error && (
+            <div className="auth-alert is-error" role="alert">
+              <span className="auth-alert-icon">⚠</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          {message && (
+            <div className="auth-alert" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534' }} role="status">
+              <span className="auth-alert-icon">✓</span>
+              <span>{message}</span>
+            </div>
+          )}
+
+          {devToken && (
+            <div className="auth-alert" style={{ background: '#fdf8ea', border: '1px solid var(--gold-descriptor)', color: 'var(--navy)' }}>
+              <span>
+                Dev reset link:{' '}
+                <a href={`/reset-password?token=${devToken}`} style={{ color: 'var(--gold-brand)', fontWeight: 600 }}>Reset password</a>
+              </span>
+            </div>
+          )}
+
+          <button className="auth-submit-btn" type="submit">
+            Send Reset Link
+          </button>
+        </form>
+
+        <div className="auth-card__footer">
+          <p className="auth-card__footer-text">
+            Remembered your password?{' '}
+            <a href="/login" className="auth-card__footer-link">
+              Back to sign in
+            </a>
           </p>
-        )}
-        <button className="btn btn-accent" type="submit">
-          Send reset link
-        </button>
-      </form>
-      <p className="meta">
-        <a href="/login">Back to sign in</a>
-      </p>
+        </div>
+      </div>
     </AuthFrame>
   );
 }

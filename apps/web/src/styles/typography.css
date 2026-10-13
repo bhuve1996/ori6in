@@ -1,47 +1,74 @@
 /* ——— Shared typography primitives ———
-   Prefer `.type-*` in new markup. Legacy aliases keep existing class names working. */
+   Cinzel Bold for wordmark and EDUCATION;
+   Outfit Medium for taglines/meta;
+   Inter for body;
+   Cormorant Garamond Italic for editorial accents. */
 
 .type-display {
-  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  font-family: var(--font-meta), 'Outfit', system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
 }
 
 .type-kicker {
-  margin: 0;
-  font-size: 0.8rem;
-  font-family: var(--font-brand), 'Cinzel', Georgia, serif;
-  font-weight: 600;
-  letter-spacing: 0.28em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.45rem;
+  font-family: var(--font-meta), 'Outfit', system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--gold-descriptor);
+  line-height: 1.3;
+}
+
+.type-kicker::before {
+  content: '✦';
+  font-size: 0.68rem;
+  color: var(--gold-brand);
+  opacity: 0.9;
 }
 
 .type-lead {
   margin: 0;
   color: var(--ink-soft);
+  font-family: var(--font-body-family), 'Inter', system-ui, sans-serif;
   font-size: 1.05rem;
-  max-width: 40rem;
-  line-height: 1.55;
+  max-width: 42rem;
+  line-height: 1.6;
 }
 
 .type-meta {
   margin: 0;
   color: var(--muted);
+  font-family: var(--font-meta), 'Outfit', system-ui, sans-serif;
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
+.type-editorial {
+  font-family: var(--font-editorial), 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
 .type-cta {
   font-size: 0.9rem;
-  font-weight: 650;
-  color: var(--brown);
+  font-family: var(--font-meta), 'Outfit', system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--navy);
   letter-spacing: 0.01em;
 }
 
 .type-cta::after {
   content: ' →';
+  color: var(--gold-brand);
 }
 
 /* —— Display —— */
@@ -125,18 +152,20 @@
 
 /* —— Leads —— */
 .home-lead {
-  margin: 0 0 2.5rem;
+  margin: 0 0 1.5rem;
   color: var(--ink-soft);
-  max-width: 36rem;
-  font-size: 1.1rem;
+  max-width: 38rem;
+  font-size: 1.15rem;
+  line-height: 1.55;
 }
 
 .page > p,
 .page-lead {
   color: var(--ink-soft);
-  max-width: 40rem;
-  margin: 0 0 1.25rem;
-  font-size: 1.05rem;
+  max-width: 42rem;
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .error-fallback__lead {

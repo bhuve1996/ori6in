@@ -73,11 +73,11 @@ function mailBody(signup: ComingSoonSignup) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(subject)}</title>
 </head>
-<body style="margin:0;padding:0;background:#f4efe4;font-family:Georgia,'Times New Roman',serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4efe4;padding:24px 12px;">
+<body style="margin:0;padding:0;background:#F4F0E8;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F0E8;padding:24px 12px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#17304D;border-radius:16px;overflow:hidden;box-shadow:0 12px 28px rgba(23,48,77,0.15);">
           <tr>
             <td style="padding:0;line-height:0;">
               <img src="${escapeHtml(bannerUrl)}" width="560" alt="" style="display:block;width:100%;max-height:160px;object-fit:cover;" />
@@ -86,37 +86,37 @@ function mailBody(signup: ComingSoonSignup) {
           <tr>
             <td style="padding:28px 28px 8px 28px;text-align:center;">
               <img src="${escapeHtml(logoUrl)}" width="200" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:200px;height:auto;max-width:70%;" />
-              <p style="margin:12px 0 0;color:#d3a150;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;">
+              <p style="margin:12px 0 0;color:#C9A361;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;font-weight:600;">
                 ${escapeHtml(SITE_TAGLINE)}
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 28px 8px;">
-              <p style="margin:0;color:#fbf7ef;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;letter-spacing:-0.02em;">
+              <p style="margin:0;color:#FFFFFF;font-size:22px;font-weight:700;font-family:Arial,Helvetica,sans-serif;letter-spacing:-0.02em;">
                 New notify signup
               </p>
-              <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;font-family:Arial,Helvetica,sans-serif;">
+              <p style="margin:8px 0 0;color:#ECE6DA;font-size:14px;line-height:1.5;font-family:Arial,Helvetica,sans-serif;">
                 Someone registered on the coming soon page to hear when ${escapeHtml(SITE_NAME)} opens.
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:16px 28px 8px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#16120e;border:1px solid #3d3220;border-radius:12px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#112338;border:1px solid #204060;border-radius:12px;">
                 <tr>
                   <td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif;">
-                    <p style="margin:0 0 12px;color:#c9a361;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Details</p>
-                    <p style="margin:0 0 10px;color:#fcfaf5;font-size:15px;line-height:1.45;">
-                      <span style="color:#9a8f80;">Name</span><br/>
+                    <p style="margin:0 0 12px;color:#C9A361;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;">Details</p>
+                    <p style="margin:0 0 10px;color:#FFFFFF;font-size:15px;line-height:1.45;">
+                      <span style="color:#D9D2C2;">Name</span><br/>
                       <strong>${escapeHtml(name)}</strong>
                     </p>
-                    <p style="margin:0 0 10px;color:#fcfaf5;font-size:15px;line-height:1.45;">
-                      <span style="color:#9a8f80;">Email</span><br/>
-                      <a href="mailto:${escapeHtml(signup.email)}" style="color:#c9a361;text-decoration:none;"><strong>${escapeHtml(signup.email)}</strong></a>
+                    <p style="margin:0 0 10px;color:#FFFFFF;font-size:15px;line-height:1.45;">
+                      <span style="color:#D9D2C2;">Email</span><br/>
+                      <a href="mailto:${escapeHtml(signup.email)}" style="color:#C9A361;text-decoration:none;"><strong>${escapeHtml(signup.email)}</strong></a>
                     </p>
-                    <p style="margin:0;color:#fcfaf5;font-size:15px;line-height:1.45;">
-                      <span style="color:#9a8f80;">Signed up</span><br/>
+                    <p style="margin:0;color:#FFFFFF;font-size:15px;line-height:1.45;">
+                      <span style="color:#D9D2C2;">Signed up</span><br/>
                       <strong>${escapeHtml(when)}</strong>
                     </p>
                   </td>
@@ -127,12 +127,12 @@ function mailBody(signup: ComingSoonSignup) {
           <tr>
             <td style="padding:20px 28px 28px;text-align:center;font-family:Arial,Helvetica,sans-serif;">
               <a href="mailto:${escapeHtml(signup.email)}?subject=${encodeURIComponent(`${SITE_NAME} is opening soon`)}"
-                 style="display:inline-block;background:#d3a150;color:#0c0c0c;text-decoration:none;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;">
+                 style="display:inline-block;background:#D3A150;color:#17304D;text-decoration:none;font-weight:700;font-size:14px;padding:12px 24px;border-radius:8px;">
                 Reply to ${escapeHtml(name)}
               </a>
-              <p style="margin:16px 0 0;color:#6e655a;font-size:12px;line-height:1.45;">
+              <p style="margin:16px 0 0;color:#ECE6DA;font-size:12px;line-height:1.45;">
                 Reply-To is already set to this visitor.<br/>
-                <a href="${escapeHtml(siteUrl)}" style="color:#d3a150;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
+                <a href="${escapeHtml(siteUrl)}" style="color:#D3A150;text-decoration:none;">${escapeHtml(siteUrl.replace(/^https?:\/\//, ''))}</a>
               </p>
             </td>
           </tr>
@@ -308,31 +308,31 @@ function quoteMailBody(quote: QuoteRequest) {
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8" /><title>${escapeHtml(subject)}</title></head>
-<body style="margin:0;padding:0;background:#f4efe4;font-family:Arial,Helvetica,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4efe4;padding:24px 12px;">
+<body style="margin:0;padding:0;background:#F4F0E8;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F0E8;padding:24px 12px;">
     <tr><td align="center">
-      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0c0c0c;border-radius:16px;overflow:hidden;">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#17304D;border-radius:16px;overflow:hidden;box-shadow:0 12px 28px rgba(23,48,77,0.15);">
         <tr><td style="padding:28px;text-align:center;">
           <img src="${escapeHtml(logoUrl)}" width="180" alt="${escapeHtml(SITE_NAME)}" style="display:inline-block;width:180px;height:auto;" />
-          <p style="margin:12px 0 0;color:#d3a150;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;">${escapeHtml(SITE_TAGLINE)}</p>
+          <p style="margin:12px 0 0;color:#C9A361;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;">${escapeHtml(SITE_TAGLINE)}</p>
         </td></tr>
         <tr><td style="padding:0 28px 8px;">
-          <p style="margin:0;color:#fbf7ef;font-size:22px;font-weight:700;">New ${escapeHtml(kindLabel)}</p>
-          <p style="margin:8px 0 0;color:#d4c4a8;font-size:14px;line-height:1.5;">A visitor submitted a website lead. Call from ${escapeHtml(SITE_PHONE)} within one working day.</p>
+          <p style="margin:0;color:#FFFFFF;font-size:22px;font-weight:700;">New ${escapeHtml(kindLabel)}</p>
+          <p style="margin:8px 0 0;color:#ECE6DA;font-size:14px;line-height:1.5;">A visitor submitted a website lead. Call from ${escapeHtml(SITE_PHONE)} within one working day.</p>
         </td></tr>
         <tr><td style="padding:16px 28px 28px;">
-          <table role="presentation" width="100%" style="background:#1a1510;border-radius:12px;color:#fcfaf5;font-size:14px;">
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Source</strong><br/>${escapeHtml(quote.source || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Name</strong><br/>${escapeHtml(quote.name)}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Email</strong><br/>${escapeHtml(quote.email || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Phone</strong><br/>${escapeHtml(quote.phone || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Interest</strong><br/>${escapeHtml(quote.interest || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Programme</strong><br/>${escapeHtml(quote.program || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Class / qualification</strong><br/>${escapeHtml(quote.qualification || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;border-bottom:1px solid #2a241c;"><strong>Message</strong><br/>${escapeHtml(quote.message || '—')}</td></tr>
-            <tr><td style="padding:14px 16px;"><strong>Notes</strong><br/>${escapeHtml(quote.extra || '—')}</td></tr>
+          <table role="presentation" width="100%" style="background:#112338;border:1px solid #204060;border-radius:12px;color:#FFFFFF;font-size:14px;">
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Source</strong><br/>${escapeHtml(quote.source || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Name</strong><br/>${escapeHtml(quote.name)}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Email</strong><br/>${escapeHtml(quote.email || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Phone</strong><br/>${escapeHtml(quote.phone || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Interest</strong><br/>${escapeHtml(quote.interest || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Programme</strong><br/>${escapeHtml(quote.program || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Class / qualification</strong><br/>${escapeHtml(quote.qualification || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;border-bottom:1px solid #204060;"><strong style="color:#C9A361;">Message</strong><br/>${escapeHtml(quote.message || '—')}</td></tr>
+            <tr><td style="padding:14px 16px;"><strong style="color:#C9A361;">Notes</strong><br/>${escapeHtml(quote.extra || '—')}</td></tr>
           </table>
-          <p style="margin:16px 0 0;color:#8b6240;font-size:11px;">${escapeHtml(SITE_NAME)} · ${escapeHtml(kindLabel)} · ${escapeHtml(when)}</p>
+          <p style="margin:16px 0 0;color:#D9D2C2;font-size:11px;">${escapeHtml(SITE_NAME)} · ${escapeHtml(kindLabel)} · ${escapeHtml(when)}</p>
         </td></tr>
       </table>
     </td></tr>

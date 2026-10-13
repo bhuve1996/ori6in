@@ -22,19 +22,20 @@
 @source '../../../../packages/ui/src/**/*.{js,ts,jsx,tsx}';
 
 @theme {
-  --color-ink: #0c0c0c;
-  --color-ink-deep: #0c0c0c;
-  --color-ink-soft: #3d3832;
-  --color-paper: #fcfaf5;
-  --color-paper-elevated: #fbf7ef;
-  --color-gold: #d3a150;
-  --color-gold-bright: #c9a361;
-  --color-brown: #8b6240;
-  --color-cream: #f4efe4;
-  --color-line: #e3dbcb;
-  --color-muted: #6e655a;
-  --color-teal: #c9a361;
-  --color-accent: #d3a150;
+  --color-ink: #17304D;
+  --color-ink-deep: #17304D;
+  --color-ink-soft: #5A554C;
+  --color-paper: #F4F0E8;
+  --color-paper-elevated: #FFFFFF;
+  --color-gold: #D3A150;
+  --color-gold-bright: #C9A361;
+  --color-brown: #5A554C;
+  --color-cream: #F4F0E8;
+  --color-deep-cream: #ECE6DA;
+  --color-line: #D9D2C2;
+  --color-muted: #888080;
+  --color-teal: #C9A361;
+  --color-accent: #17304D;
   --radius-sm: 0.55rem;
   --radius-md: 0.95rem;
   --radius-lg: 1.4rem;

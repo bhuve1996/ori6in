@@ -4,6 +4,7 @@ import { COMPANY, ED6E_EXPANSION, ED6E_STAGES } from '@ori6in/shared';
 import { HOME } from '../../lib/media';
 import { useLead } from '../leads/LeadContext';
 import { goldSixNodes, Kicker } from './GoldSix';
+import { ReviewsGallery } from './ReviewsGallery';
 
 export function PublicHome() {
   const { openLead } = useLead();
@@ -135,12 +136,7 @@ export function PublicHome() {
         </div>
       </section>
 
-      <section className="pub-section pub-trust">
-        <p>
-          <strong>5.0</strong> · 10 reviews on Google
-        </p>
-        <p>Where we are: Bengaluru · pan-India · online · Jayanagar centre</p>
-      </section>
+      <ReviewsGallery />
 
       <section className="navy-cta">
         <h2>Everything starts here.</h2>

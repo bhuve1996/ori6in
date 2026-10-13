@@ -15,10 +15,10 @@
   padding: clamp(1.5rem, 4vw, 3rem);
   padding-top: max(clamp(1.5rem, 4vw, 3rem), env(safe-area-inset-top, 0px));
   background:
-    radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in srgb, var(--gold) 28%, transparent), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 90% 80%, color-mix(in srgb, var(--cream) 55%, transparent), transparent 50%),
-    linear-gradient(165deg, #1a1510 0%, var(--ink-deep) 42%, #16120e 100%);
-  color: #fcfaf5;
+    radial-gradient(ellipse 80% 60% at 15% 20%, color-mix(in srgb, var(--gold-brand) 20%, transparent), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 80%, color-mix(in srgb, var(--cream) 15%, transparent), transparent 50%),
+    linear-gradient(165deg, #112338 0%, var(--navy) 50%, #0d1a29 100%);
+  color: var(--white);
 }
 
 .coming-soon__glow {

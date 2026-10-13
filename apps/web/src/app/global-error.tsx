@@ -23,32 +23,32 @@ export default function GlobalError({
           placeItems: 'center',
           padding: '2rem',
           fontFamily: 'system-ui, sans-serif',
-          background: '#fcfaf5',
-          color: '#0c0c0c',
+          background: '#F4F0E8',
+          color: '#17304D',
         }}
       >
         <div style={{ maxWidth: '28rem', textAlign: 'center' }}>
-          <p style={{ letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8b6240' }}>
-            ORI6IN
+          <p style={{ letterSpacing: '0.16em', textTransform: 'uppercase', color: '#C9A361', fontWeight: 700 }}>
+            ORI6IN EDUCATION
           </p>
-          <h1 style={{ fontSize: '1.75rem', margin: '0.5rem 0 0.75rem' }}>Something went wrong</h1>
-          <p style={{ color: '#3d3832', lineHeight: 1.5 }}>
+          <h1 style={{ fontSize: '1.85rem', margin: '0.5rem 0 0.75rem', color: '#17304D' }}>Something went wrong</h1>
+          <p style={{ color: '#5A554C', lineHeight: 1.6 }}>
             A critical error stopped this page from rendering. Retry, or refresh the browser.
           </p>
           {error.digest ? (
-            <p style={{ color: '#6e655a', fontSize: '0.9rem' }}>Ref: {error.digest}</p>
+            <p style={{ color: '#888080', fontSize: '0.9rem' }}>Ref: {error.digest}</p>
           ) : null}
           <button
             type="button"
             onClick={reset}
             style={{
               marginTop: '1.25rem',
-              padding: '0.75rem 1.25rem',
+              padding: '0.75rem 1.45rem',
               borderRadius: '0.95rem',
-              border: '1px solid #d3a150',
-              background: '#d3a150',
-              color: '#0c0c0c',
-              fontWeight: 650,
+              border: '1px solid #17304D',
+              background: '#17304D',
+              color: '#FFFFFF',
+              fontWeight: 600,
               cursor: 'pointer',
             }}
           >

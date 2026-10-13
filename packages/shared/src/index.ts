@@ -14,3 +14,5 @@ export * from './certificate.js';
 export * from './mentor.js';
 export * from './admin.js';
 export * from './profile.js';
+export * from './reviews-content.js';
+export * from './parent-reviews-content.js';

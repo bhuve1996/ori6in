@@ -1,53 +1,77 @@
 :root {
-  /* ORI6IN Display (--font-brand) is for the wordmark, kickers and the 6 only;
-     headings and body both read in ORI6IN Sans. */
-  --font-display: var(--font-body);
-  /* Ink black (original brand) with the ORI6IN web kit gold and cream */
-  --ink: #0c0c0c;
-  --ink-deep: #0c0c0c; /* dark surfaces (hero, header, footer) */
-  --ink-soft: #3d3832;
-  --paper: #fcfaf5;
-  --paper-elevated: #fbf7ef;
-  --accent: #d3a150;
-  --accent-ink: #0c0c0c;
-  --teal: #c9a361; /* legacy token → brand gold family */
-  --gold: #d3a150;
-  --gold-bright: #c9a361;
-  --brown: #8b6240;
-  --cream: #f4efe4;
-  --line: #e3dbcb;
-  --muted: #6e655a;
+  /* ORI6IN Education Typography:
+     Cinzel Bold for wordmark and EDUCATION;
+     Outfit Medium for taglines/meta;
+     Inter for body;
+     Cormorant Garamond Italic for editorial accents. */
+  --font-wordmark: 'Cinzel', var(--font-brand), Georgia, serif;
+  --font-descriptor: 'Cinzel', var(--font-brand), Georgia, serif;
+  --font-meta: 'Outfit', var(--font-body), system-ui, sans-serif;
+  --font-body-family: 'Inter', var(--font-body), system-ui, -apple-system, sans-serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-display: var(--font-meta);
+
+  /* Official October 2026 Brand Palette */
+  --navy: #17304D;
+  --gold-brand: #D3A150;       /* Logo 6 and ≤10% accents */
+  --gold-descriptor: #C9A361;  /* Subtitles / descriptors */
+  --cream: #F4F0E8;            /* Primary light background */
+  --white: #FFFFFF;
+  --deep-cream: #ECE6DA;       /* Secondary light background */
+  --warm-grey: #5A554C;        /* Secondary copy / subtle text */
+  --muted-grey: #888080;       /* Muted / borders */
+  --hairline: #D9D2C2;         /* Borders / dividers */
+
+  /* Semantic aliases adhering to light backgrounds and Navy-led hierarchy */
+  --ink: #17304D;              /* Navy-led hierarchy */
+  --ink-deep: #17304D;         /* Dark surfaces when required */
+  --ink-soft: #5A554C;         /* Warm Grey for body copy & subheadings */
+  --paper: #F4F0E8;            /* Cream */
+  --paper-elevated: #FFFFFF;   /* White card / elevated surfaces */
+  --accent: #D3A150;           /* Golden button / accent */
+  --accent-ink: #17304D;       /* Navy text on gold button */
+  --teal: #C9A361;             /* Descriptor Gold */
+  --gold: #D3A150;             /* Brand Gold (logo 6 & ≤10% accents) */
+  --gold-bright: #C9A361;      /* Descriptor Gold */
+  --brown: #5A554C;            /* Warm Grey */
+  --line: #D9D2C2;             /* Hairline */
+  --muted: #888080;            /* Muted Grey */
+
   --header-h: 4.25rem;
   --ticker-h: 2.15rem;
   --chrome-h: calc(var(--ticker-h) + var(--header-h));
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --theme-a: #efe6d6;
-  --theme-b: #e8dfd0;
-  --theme-c: #f4efe4;
-  --theme-d: #e5d5b8;
-  --theme-e: #0c0c0c;
+
+  --theme-a: #ECE6DA;          /* Deep Cream */
+  --theme-b: #F4F0E8;          /* Cream */
+  --theme-c: #FFFFFF;          /* White */
+  --theme-d: #ECE6DA;          /* Deep Cream */
+  --theme-e: #17304D;          /* Navy */
+
   --radius-sm: 0.55rem;
   --radius-md: 0.95rem;
   --radius-lg: 1.4rem;
   --radius-blob: 42% 58% 55% 45% / 48% 42% 58% 52%;
   --radius-media: 1.35rem 0.7rem 1.55rem 0.95rem;
-  /* Soft 3D tiles — warm ink, one shadow stack (no glow) */
-  --tile-border: 1px solid color-mix(in srgb, var(--ink) 11%, transparent);
-  --tile-border-hover: 1px solid color-mix(in srgb, var(--gold) 42%, var(--line));
+
+  /* Refined, elegant hairline tile borders & premium soft shadows */
+  --tile-border: 1px solid var(--hairline);
+  --tile-border-hover: 1px solid var(--gold-descriptor);
   --tile-shadow:
-    0 1px 0 color-mix(in srgb, #fff 65%, transparent),
-    0 2px 4px rgba(12, 12, 12, 0.04),
-    0 10px 22px -8px rgba(61, 50, 32, 0.22);
+    0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(23, 48, 77, 0.04),
+    0 12px 28px -8px rgba(23, 48, 77, 0.08);
   --tile-shadow-hover:
-    0 1px 0 color-mix(in srgb, #fff 75%, transparent),
-    0 4px 8px rgba(12, 12, 12, 0.06),
-    0 18px 36px -10px rgba(61, 50, 32, 0.3);
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 10px rgba(23, 48, 77, 0.06),
+    0 20px 40px -10px rgba(23, 48, 77, 0.12);
   --tile-shadow-dark:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 2px 4px rgba(0, 0, 0, 0.18),
-    0 14px 28px -10px rgba(0, 0, 0, 0.45);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 4px rgba(10, 20, 32, 0.18),
+    0 14px 28px -10px rgba(10, 20, 32, 0.35);
   --tile-shadow-dark-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 4px 10px rgba(0, 0, 0, 0.22),
-    0 22px 40px -12px rgba(0, 0, 0, 0.55);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 4px 10px rgba(10, 20, 32, 0.22),
+    0 22px 40px -12px rgba(10, 20, 32, 0.45);
 }
+

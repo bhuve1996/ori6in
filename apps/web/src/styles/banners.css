@@ -29,9 +29,9 @@
   inset: 0;
   background: linear-gradient(
     115deg,
-    rgba(12, 12, 12, 0.88) 0%,
-    rgba(12, 12, 12, 0.55) 50%,
-    rgba(61, 50, 32, 0.35) 100%
+    rgba(23, 48, 77, 0.90) 0%,
+    rgba(23, 48, 77, 0.65) 50%,
+    rgba(23, 48, 77, 0.35) 100%
   );
 }
 
@@ -41,9 +41,9 @@
   inset: 0;
   background: linear-gradient(
     115deg,
-    rgba(247, 243, 236, 0.94) 0%,
-    rgba(247, 243, 236, 0.6) 60%,
-    rgba(247, 243, 236, 0.22) 100%
+    rgba(244, 240, 232, 0.95) 0%,
+    rgba(244, 240, 232, 0.7) 60%,
+    rgba(244, 240, 232, 0.3) 100%
   );
 }
 
@@ -190,3 +190,128 @@
 .media-card:hover .media-card__image img {
   transform: scale(1.04);
 }
+
+/* ——— Floating Discovery Session Pill ——— */
+.floating-discovery-wrapper {
+  position: fixed;
+  right: clamp(0.85rem, 3vw, 1.5rem);
+  bottom: calc(clamp(0.85rem, 3vw, 1.5rem) + 4.8rem);
+  z-index: 85;
+  pointer-events: none;
+}
+
+.floating-discovery-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.15rem 0.65rem 0.95rem;
+  border-radius: 999px;
+  background: var(--gold-brand);
+  color: var(--navy);
+  border: 1.5px solid color-mix(in srgb, var(--navy) 15%, transparent);
+  box-shadow:
+    0 8px 24px -4px rgba(23, 48, 77, 0.28),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-meta), 'Outfit', system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  backdrop-filter: blur(8px);
+}
+
+.floating-discovery-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: color-mix(in srgb, var(--gold-brand) 92%, #fff);
+  box-shadow:
+    0 12px 28px -4px rgba(23, 48, 77, 0.35),
+    0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.floating-discovery-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold-brand);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.floating-discovery-btn__text-short {
+  display: none;
+}
+
+.floating-discovery-close {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .floating-discovery-wrapper {
+    right: 0.85rem;
+    bottom: calc(max(0.85rem, env(safe-area-inset-bottom, 0px)) + 4.3rem);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* Default unexpanded mobile state: compact circular action FAB */
+  .floating-discovery-wrapper:not(.is-expanded) .floating-discovery-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow:
+      0 6px 18px rgba(23, 48, 77, 0.35),
+      0 0 0 2px color-mix(in srgb, var(--gold-brand) 30%, transparent);
+  }
+
+  .floating-discovery-wrapper:not(.is-expanded) .floating-discovery-btn__icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.95rem;
+    background: transparent;
+    color: var(--navy);
+  }
+
+  .floating-discovery-wrapper:not(.is-expanded) .floating-discovery-btn__text-long,
+  .floating-discovery-wrapper:not(.is-expanded) .floating-discovery-btn__text-short {
+    display: none !important;
+  }
+
+  /* Expanded state on tap: reveals Book Discovery label with dismiss cross */
+  .floating-discovery-wrapper.is-expanded .floating-discovery-btn {
+    padding: 0.55rem 0.95rem 0.55rem 0.75rem;
+    font-size: 0.82rem;
+    animation: toast-in 0.22s var(--ease-out);
+  }
+
+  .floating-discovery-wrapper.is-expanded .floating-discovery-btn__text-short {
+    display: inline;
+  }
+
+  .floating-discovery-wrapper.is-expanded .floating-discovery-btn__text-long {
+    display: none;
+  }
+
+  .floating-discovery-close {
+    pointer-events: auto;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--hairline);
+    background: var(--paper-elevated);
+    color: var(--navy);
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+}
+

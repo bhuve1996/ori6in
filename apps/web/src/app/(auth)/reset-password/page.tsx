@@ -35,30 +35,71 @@ function ResetPasswordForm() {
 
   return (
     <AuthFrame title="Reset password" lead="Choose a new password, then sign in.">
-      {done ? (
-        <p className="text-success">Password updated. Redirecting to sign in…</p>
-      ) : (
-        <form onSubmit={onSubmit} className="form-grid">
-          <input
-            placeholder="Reset token"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="New password (min 8)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            minLength={8}
-            required
-          />
-          {error && <p className="text-error">{error}</p>}
-          <button className="btn btn-accent" type="submit">
-            Update password
-          </button>
-        </form>
-      )}
+      <div className="auth-card">
+        {done ? (
+          <div className="auth-alert" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534' }}>
+            <span className="auth-alert-icon">✓</span>
+            <span>Password updated successfully. Redirecting to sign in…</span>
+          </div>
+        ) : (
+          <form onSubmit={onSubmit} className="auth-form">
+            <div className="auth-field">
+              <label htmlFor="reset-token" className="auth-label">
+                Reset Token
+              </label>
+              <div className="auth-input-wrapper">
+                <span className="auth-input-icon" aria-hidden="true">🔑</span>
+                <input
+                  id="reset-token"
+                  className="auth-input"
+                  placeholder="Paste reset token"
+                  value={token}
+                  onChange={(e) => setToken(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="reset-new-password" className="auth-label">
+                New Password
+              </label>
+              <div className="auth-input-wrapper">
+                <span className="auth-input-icon" aria-hidden="true">🔒</span>
+                <input
+                  id="reset-new-password"
+                  className="auth-input"
+                  type="password"
+                  placeholder="Minimum 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  minLength={8}
+                  required
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="auth-alert is-error" role="alert">
+                <span className="auth-alert-icon">⚠</span>
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button className="auth-submit-btn" type="submit">
+              Update Password
+            </button>
+          </form>
+        )}
+
+        <div className="auth-card__footer">
+          <p className="auth-card__footer-text">
+            <a href="/login" className="auth-card__footer-link">
+              Back to sign in
+            </a>
+          </p>
+        </div>
+      </div>
     </AuthFrame>
   );
 }

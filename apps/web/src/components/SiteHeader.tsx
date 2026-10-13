@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { clearSession, getStoredRole, getToken } from '../lib/auth';
 import { BRAND } from '../lib/media';
 import { isPortalChromePath, navLinksForPath, splitPublicNav } from '../lib/routes';
@@ -26,7 +27,7 @@ export function SiteHeader() {
   const { openLead } = useLead();
   const [open, setOpen] = useState(false);
   const [compactNav, setCompactNav] = useState(false);
-  const [tone, setTone] = useState<'light' | 'dark'>(() => (pathname === '/' ? 'dark' : 'light'));
+  const [tone, setTone] = useState<'light' | 'dark'>('dark');
   const [role, setRole] = useState<string | null>(null);
   const links = useMemo(() => navLinksForPath(pathname, role), [pathname, role]);
   const portal = isPortalChromePath(pathname);
@@ -38,7 +39,7 @@ export function SiteHeader() {
   }, [links, portal]);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 820px)');
+    const mq = window.matchMedia('(max-width: 1024px)');
     const sync = () => {
       setCompactNav(mq.matches);
       if (!mq.matches) setOpen(false);
@@ -80,23 +81,7 @@ export function SiteHeader() {
   }, [open, compactNav]);
 
   useEffect(() => {
-    if (pathname !== '/') {
-      setTone('light');
-      return;
-    }
-
-    const sync = () => {
-      const theme = document.body.dataset.homeTheme ?? 'hero';
-      setTone(DARK_THEMES.has(theme) ? 'dark' : 'light');
-    };
-
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['data-home-theme'],
-    });
-    return () => observer.disconnect();
+    setTone('dark');
   }, [pathname]);
 
   const onNavClick = useCallback(
@@ -125,14 +110,14 @@ export function SiteHeader() {
             : null;
     const current = pathMatches(pathname, link.href);
     const anchor = (
-      <a
+      <Link
         className={extraClass}
         href={link.href === '#logout' ? '/' : link.href}
         onClick={(e) => onNavClick(e, link.href)}
         aria-current={current ? 'page' : undefined}
       >
         {goldSixNodes(link.label)}
-      </a>
+      </Link>
     );
     return tip ? (
       <Tooltip key={`${link.href}-${link.label}`} label={tip} side="bottom">
@@ -147,7 +132,7 @@ export function SiteHeader() {
     <div className="site-chrome" data-ticker={showTicker ? 'true' : undefined} data-tone={tone}>
       {showTicker ? <AnnouncementTicker /> : null}
       <header className="site-header" data-tone={tone}>
-        <a href="/" className="brand" aria-label="ORI6IN home">
+        <Link href="/" className="brand" aria-label="ORI6IN home">
           <img src={BRAND.owl} alt="" className="brand__mark" width={40} height={40} />
           <img
             src={tone === 'dark' ? BRAND.logoDark : BRAND.logo}
@@ -156,7 +141,7 @@ export function SiteHeader() {
             width={160}
             height={55}
           />
-        </a>
+        </Link>
         <button
           type="button"
           className="nav-toggle"
@@ -167,29 +152,50 @@ export function SiteHeader() {
         >
           <span className="nav-toggle-bars" aria-hidden="true" />
         </button>
+
+        {/* Mobile Backdrop Overlay */}
+        <div
+          className={`site-nav-backdrop ${open ? 'is-visible' : ''}`}
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+
         <nav
           id="site-nav"
           aria-label="Primary"
           data-open={open ? 'true' : 'false'}
           {...(navInert ? { inert: true } : {})}
         >
-          {chrome.map((link) => renderLink(link))}
+          <div className="site-nav__drawer-header">
+            <div className="site-nav__drawer-brand">
+              <img src={BRAND.owl} alt="" width={32} height={32} className="brand__mark" />
+              <img
+                src={tone === 'dark' ? BRAND.logoDark : BRAND.logo}
+                alt="ORI6IN"
+                className="brand__logo"
+                width={120}
+                height={40}
+              />
+            </div>
+            <button
+              type="button"
+              className="site-nav__close-btn"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="site-nav__links">
+            {chrome.map((link) => renderLink(link))}
+          </div>
+          <div className="site-nav__mobile-actions">
+            {actions.map((link) => renderLink(link, 'site-nav__mobile-signin'))}
+          </div>
         </nav>
         <div className="site-header__actions">
           {actions.map((link) => renderLink(link, 'site-header__signin'))}
-          {showDiscovery ? (
-            <button
-              type="button"
-              className="btn btn-accent site-header__book"
-              onClick={() => {
-                setOpen(false);
-                openLead({ kind: 'discovery' });
-              }}
-            >
-              <span className="site-header__book-long">Book a free Discovery Session</span>
-              <span className="site-header__book-short">Book a session</span>
-            </button>
-          ) : null}
         </div>
       </header>
     </div>
