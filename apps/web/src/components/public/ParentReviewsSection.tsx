@@ -120,10 +120,15 @@ export function ParentReviewsSection({
             <div className="parent-review-card__top">
               <div className="parent-review-card__avatar">{r.initials}</div>
               <div className="parent-review-card__info">
-                <h3 className="parent-review-card__name">{r.parentName}</h3>
+                <div className="parent-review-card__name-row">
+                  <h3 className="parent-review-card__name">{r.parentName}</h3>
+                  <span className="parent-review-card__location-pill">
+                    <span className="parent-review-card__location-dot">📍</span>
+                    {r.location}
+                  </span>
+                </div>
                 <p className="parent-review-card__context">{r.studentContext}</p>
               </div>
-              <span className="parent-review-card__location">{r.location}</span>
             </div>
 
             <div className="parent-review-card__rating">
