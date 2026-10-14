@@ -544,8 +544,18 @@
     color: var(--navy) !important;
   }
 
+  html.nav-open,
   body.nav-open {
-    overflow: hidden;
+    overflow: hidden !important;
+    height: 100% !important;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  /* Allow drawer navigation to scroll internally */
+  .site-header nav[data-open='true'] {
+    touch-action: pan-y !important;
+    overscroll-behavior-y: contain;
   }
 }
 

@@ -76,8 +76,25 @@ export function SiteHeader() {
   }, [open]);
 
   useEffect(() => {
-    document.body.classList.toggle('nav-open', open && compactNav);
-    return () => document.body.classList.remove('nav-open');
+    if (open && compactNav) {
+      document.body.classList.add('nav-open');
+      document.documentElement.classList.add('nav-open');
+      // Store current scroll position to prevent jumps on iOS
+      const originalOverflow = document.body.style.overflow;
+      const originalTouchAction = document.body.style.touchAction;
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+
+      return () => {
+        document.body.classList.remove('nav-open');
+        document.documentElement.classList.remove('nav-open');
+        document.body.style.overflow = originalOverflow;
+        document.body.style.touchAction = originalTouchAction;
+      };
+    } else {
+      document.body.classList.remove('nav-open');
+      document.documentElement.classList.remove('nav-open');
+    }
   }, [open, compactNav]);
 
   useEffect(() => {
