@@ -242,6 +242,13 @@ body.nav-open .site-chrome {
   /* Touch-friendly hit area (Apple HIG / Material ~44px) */
   min-width: 2.75rem;
   min-height: 2.75rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.site-header[data-tone='dark'] .nav-toggle {
+  border-color: rgba(217, 210, 194, 0.35);
+  color: var(--white);
 }
 
 .nav-toggle-bars {
@@ -250,6 +257,7 @@ body.nav-open .site-chrome {
   height: 2px;
   background: currentColor;
   position: relative;
+  transition: background 0.2s ease;
 }
 
 .nav-toggle-bars::before,
@@ -260,6 +268,7 @@ body.nav-open .site-chrome {
   width: 100%;
   height: 2px;
   background: currentColor;
+  transition: transform 0.25s ease, top 0.25s ease;
 }
 
 .nav-toggle-bars::before {
@@ -268,6 +277,21 @@ body.nav-open .site-chrome {
 
 .nav-toggle-bars::after {
   top: 6px;
+}
+
+/* Morph hamburger into X when open */
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars {
+  background: transparent !important;
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle-bars::after {
+  top: 0;
+  transform: rotate(-45deg);
 }
 
 .brand {
@@ -383,7 +407,7 @@ body.nav-open .site-chrome {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    padding: 1.25rem 1.25rem 2.5rem;
+    padding: 0 1.25rem calc(2rem + env(safe-area-inset-bottom, 0px));
     background: var(--paper-elevated);
     box-shadow: 16px 0 60px rgba(0, 0, 0, 0.65);
     border-right: 1.5px solid var(--hairline);
@@ -412,17 +436,28 @@ body.nav-open .site-chrome {
     pointer-events: auto;
   }
 
+  /* Sticky Drawer Header - NEVER scrolls out of view and accounts for mobile safe area */
   .site-nav__drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 1.15rem;
-    margin-bottom: 1.15rem;
+    padding-top: max(1.15rem, calc(0.85rem + env(safe-area-inset-top, 0px)));
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background: var(--paper-elevated);
     border-bottom: 1px solid var(--hairline);
     flex-shrink: 0;
   }
 
   .site-header[data-tone='dark'] .site-nav__drawer-header {
+    background: var(--navy);
     border-bottom-color: rgba(217, 210, 194, 0.2);
   }
 
@@ -438,30 +473,30 @@ body.nav-open .site-chrome {
     min-width: 2.75rem;
     min-height: 2.75rem;
     border-radius: 50%;
-    border: 1.5px solid color-mix(in srgb, var(--gold-brand) 50%, var(--hairline));
-    background: color-mix(in srgb, var(--cream) 80%, #fff);
+    border: 2px solid var(--gold-brand);
+    background: var(--gold-brand);
     color: var(--navy);
-    display: grid;
-    place-items: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
     flex-shrink: 0;
   }
 
   .site-header[data-tone='dark'] .site-nav__close-btn {
-    background: color-mix(in srgb, var(--navy) 40%, var(--gold-brand) 20%);
+    background: var(--gold-brand);
     border-color: var(--gold-brand);
-    color: #fff;
+    color: var(--navy);
   }
 
   .site-nav__close-btn:hover,
   .site-nav__close-btn:active {
-    background: var(--gold-brand) !important;
+    background: #FFFFFF !important;
     color: var(--navy) !important;
-    transform: scale(1.06);
+    border-color: #FFFFFF !important;
+    transform: scale(1.08);
   }
 
   .site-nav__links {
