@@ -1187,6 +1187,19 @@ figure.mkt-program-card:hover {
   padding: 0.7rem 0.85rem;
 }
 
+.quote-form__field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2317304D' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.05rem;
+  padding-right: 2.75rem;
+  cursor: pointer;
+}
+
 .quote-form__field textarea {
   resize: vertical;
   min-height: 6.5rem;
@@ -1358,6 +1371,10 @@ a.tools-hub-card:hover {
   letter-spacing: 0;
   text-transform: none;
   padding: 0.65rem 0.8rem;
+}
+
+.tool-form select {
+  padding-right: 2.5rem;
 }
 
 .tool-form input[type='range'] {
