@@ -208,6 +208,93 @@
   color: var(--brown);
 }
 
+/* ——— 6RIP Test Prep Header & Pricing Badges ——— */
+.grip-test-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.grip-test-header h2 {
+  margin: 0;
+}
+
+.grip-price-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold-brand) 18%, #fff);
+  border: 1px solid var(--gold-descriptor);
+  color: var(--navy);
+  font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 6px rgba(211, 161, 80, 0.15);
+}
+
+.grip-price-pill__sparkle {
+  color: var(--gold-brand);
+}
+
+.grip-test-summary {
+  font-size: 0.94rem;
+  color: var(--warm-grey);
+  margin-bottom: 0.5rem;
+  max-width: 48rem;
+  line-height: 1.5;
+}
+
+.grip-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.grip-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-descriptor);
+  box-shadow: 0 12px 28px rgba(23, 48, 77, 0.08);
+}
+
+.grip-card__top {
+  margin-bottom: 1.15rem;
+}
+
+.grip-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 0.5rem;
+}
+
+.grip-card__price-sub {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-descriptor);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.grip-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: auto;
+}
+
+.grip-card__actions .btn {
+  margin-top: 0;
+  width: 100%;
+}
+
 .pub-table {
   margin: 1.25rem 0;
   border: var(--tile-border);

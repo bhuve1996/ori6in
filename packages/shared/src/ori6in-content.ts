@@ -183,11 +183,24 @@ export const CATALOGUE: CatalogueItem[] = [
   { id: 'sat-regular', group: 'D', label: 'SAT — Regular (8–10 wk)' },
   { id: 'sat-intensive', group: 'D', label: 'SAT — Intensive (6 wk)' },
   { id: 'sat-121', group: 'D', label: 'SAT — One-to-One' },
-  { id: 'german-a1', group: 'D', label: 'German — A1 (8 wk)' },
-  { id: 'german-a2', group: 'D', label: 'German — A2 (8 wk)' },
-  { id: 'german-b1', group: 'D', label: 'German — B1 (10 wk)' },
-  { id: 'german-b2', group: 'D', label: 'German — B2 (12 wk)' },
-  { id: 'german-121', group: 'D', label: 'German — One-to-One (per level)' },
+  { id: 'pte-regular', group: 'D', label: 'PTE Academic — Regular (6 wk)' },
+  { id: 'pte-fast', group: 'D', label: 'PTE Academic — Fast Track (4 wk)' },
+  { id: 'pte-121', group: 'D', label: 'PTE Academic — One-to-One' },
+  { id: 'det-regular', group: 'D', label: 'Duolingo (DET) — Comprehensive (4–6 wk)' },
+  { id: 'det-fast', group: 'D', label: 'Duolingo (DET) — Fast Track (2–3 wk)' },
+  { id: 'det-121', group: 'D', label: 'Duolingo (DET) — One-to-One' },
+  { id: 'german-a1', group: 'D', label: 'German Language — A1 (8 wk)' },
+  { id: 'german-a2', group: 'D', label: 'German Language — A2 (8 wk)' },
+  { id: 'german-b1', group: 'D', label: 'German Language — B1 (10 wk)' },
+  { id: 'german-b2', group: 'D', label: 'German Language — B2 (12 wk)' },
+  { id: 'german-121', group: 'D', label: 'German Language — One-to-One (per level)' },
+  { id: 'french-a1', group: 'D', label: 'French Language — A1 (8 wk)' },
+  { id: 'french-a2', group: 'D', label: 'French Language — A2 (8 wk)' },
+  { id: 'french-b1', group: 'D', label: 'French Language — B1 (10 wk)' },
+  { id: 'french-121', group: 'D', label: 'French Language — One-to-One' },
+  { id: 'japanese-n5', group: 'D', label: 'Japanese Language — N5 (10–12 wk)' },
+  { id: 'japanese-n4', group: 'D', label: 'Japanese Language — N4 (12 wk)' },
+  { id: 'japanese-121', group: 'D', label: 'Japanese Language — One-to-One' },
   { id: 'dmat', group: 'D', label: 'dMAT preparation' },
   { id: 'bundle-ielts-global', group: 'E', label: 'IELTS + 6LOBAL counselling' },
   { id: 'bundle-gre-global', group: 'E', label: 'GRE + 6LOBAL counselling' },
@@ -424,38 +437,108 @@ export const BRI6GE_STAGES = [
   },
 ] as const;
 
-export const GRIP_TESTS = [
+export type GripTestItem = {
+  id: string;
+  name: string;
+  startingPrice: string;
+  startingPriceInr: number;
+  badge?: string;
+  summary?: string;
+  variants: readonly string[];
+};
+
+export const GRIP_TESTS: readonly GripTestItem[] = [
   {
     id: 'ielts',
-    name: 'IELTS',
+    name: 'IELTS Academic & General',
+    startingPrice: '₹15,000',
+    startingPriceInr: 15000,
+    badge: 'Starts from ₹15k',
+    summary: 'Band 7.5+ coaching with live Cambridge diagnostic mocks & 1-on-1 speaking reviews.',
     variants: ['ielts-regular', 'ielts-fast', 'ielts-weekend', 'ielts-121'] as const,
   },
   {
     id: 'toefl',
     name: 'TOEFL iBT',
+    startingPrice: '₹15,000',
+    startingPriceInr: 15000,
+    badge: 'Starts from ₹15k',
+    summary: 'Score 100+ targeted training with computer-based mock analytics and speech reviews.',
     variants: ['toefl-regular', 'toefl-fast', 'toefl-121'] as const,
   },
   {
     id: 'gre',
-    name: 'GRE',
+    name: 'GRE General',
+    startingPrice: '₹35,000',
+    startingPriceInr: 35000,
+    badge: 'Starts from ₹35k',
+    summary: '325+ target prep covering Quant shortcuts, high-frequency Verbal vocab & AWA strategy.',
     variants: ['gre-regular', 'gre-intensive', 'gre-121'] as const,
   },
   {
     id: 'gmat',
-    name: 'GMAT Focus',
+    name: 'GMAT Focus Edition',
+    startingPrice: '₹35,000',
+    startingPriceInr: 35000,
+    badge: 'Starts from ₹35k',
+    summary: 'Top B-school focus with Quant mastery, Data Insights case prep & adaptive mocks.',
     variants: ['gmat-regular', 'gmat-intensive', 'gmat-121'] as const,
   },
   {
     id: 'sat',
-    name: 'SAT',
+    name: 'Digital SAT',
+    startingPrice: '₹40,000',
+    startingPriceInr: 40000,
+    badge: 'Starts from ₹40k',
+    summary: '1500+ Ivy & top US university target prep with Bluebook app mocks & Math mastery.',
     variants: ['sat-regular', 'sat-intensive', 'sat-121'] as const,
   },
   {
+    id: 'pte',
+    name: 'PTE Academic',
+    startingPrice: '₹15,000',
+    startingPriceInr: 15000,
+    badge: 'Starts from ₹15k',
+    summary: 'Fast-track Pearson scoring for Australia, UK, and Canada university & visa requirements.',
+    variants: ['pte-regular', 'pte-fast', 'pte-121'] as const,
+  },
+  {
+    id: 'det',
+    name: 'Duolingo English Test (DET)',
+    startingPrice: '₹15,000',
+    startingPriceInr: 15000,
+    badge: 'Starts from ₹15k',
+    summary: 'Target 125+ with computer-adaptive test strategies, mock evaluations & rapid feedback.',
+    variants: ['det-regular', 'det-fast', 'det-121'] as const,
+  },
+  {
     id: 'german',
-    name: 'German',
+    name: 'German Language (A1 – B2)',
+    startingPrice: '₹25,000',
+    startingPriceInr: 25000,
+    badge: 'Starts from ₹25k',
+    summary: 'Goethe-Institut & TestDaF curriculum for German university tuition-free admissions & APS visa.',
     variants: ['german-a1', 'german-a2', 'german-b1', 'german-b2', 'german-121'] as const,
   },
-] as const;
+  {
+    id: 'french',
+    name: 'French Language (A1 – B1)',
+    startingPrice: '₹32,000',
+    startingPriceInr: 32000,
+    badge: 'Starts from ₹32k',
+    summary: 'DELF/DALF certified syllabus for France and Canada (bonus Express Entry points).',
+    variants: ['french-a1', 'french-a2', 'french-b1', 'french-121'] as const,
+  },
+  {
+    id: 'japanese',
+    name: 'Japanese Language (JLPT N5 – N4)',
+    startingPrice: '₹30,000',
+    startingPriceInr: 30000,
+    badge: 'Starts from ₹30k',
+    summary: 'JLPT certified coaching for Japan university admissions, MEXT scholarships & tech careers.',
+    variants: ['japanese-n5', 'japanese-n4', 'japanese-121'] as const,
+  },
+];
 
 export const GRIP_FORMAT_LINE = 'Small-batch and one-to-one · Jayanagar centre and online';
 

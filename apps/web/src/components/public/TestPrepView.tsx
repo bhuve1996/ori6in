@@ -19,18 +19,30 @@ export function TestPrepView() {
 
       {GRIP_TESTS.map((test) => (
         <section key={test.id} className="pub-section">
-          <h2>{goldSixNodes(test.name)}</h2>
+          <div className="grip-test-header">
+            <h2>{goldSixNodes(test.name)}</h2>
+            <div className="grip-price-pill">
+              <span className="grip-price-pill__sparkle">✦</span>
+              <span>{test.badge || `Starts from ${test.startingPrice}`}</span>
+            </div>
+          </div>
+          {test.summary ? <p className="grip-test-summary">{test.summary}</p> : null}
           <p className="type-meta">{GRIP_FORMAT_LINE}</p>
           <div className="pub-cards pub-cards--3">
             {test.variants.map((id) => {
               const item = catalogueById(id);
               if (!item) return null;
               return (
-                <article key={id}>
-                  <h3>{item.label}</h3>
-                  <LeadButton kind="quote" programmeId={id}>
-                    Get a quote
-                  </LeadButton>
+                <article key={id} className="grip-card">
+                  <div className="grip-card__top">
+                    <span className="grip-card__price-sub">{test.startingPrice} onwards</span>
+                    <h3 className="grip-card__title">{item.label}</h3>
+                  </div>
+                  <div className="grip-card__actions">
+                    <LeadButton kind="quote" programmeId={id}>
+                      Get a quote
+                    </LeadButton>
+                  </div>
                 </article>
               );
             })}
