@@ -402,7 +402,8 @@ body:has(.home) .site-footer {
 }
 
 .lead-form__consent input {
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
 }
 
 .quote-form__field--span2 {
