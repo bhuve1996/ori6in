@@ -1,7 +1,7 @@
 'use client';
 
 import { COMPANY, OFFICE_LOCATIONS, SOCIAL_LINKS } from '@ori6in/shared';
-import { BANNERS } from '../../lib/media';
+import { BANNERS, GALLERY } from '../../lib/media';
 import { LeadForm } from '../leads/LeadForm';
 import { PublicHero } from './PublicHero';
 
@@ -114,6 +114,14 @@ export function ContactView() {
         <div className="contact-location-grid">
           {/* Main Headquarters Detail Card */}
           <div className="office-card office-card--hq">
+            <div className="office-card__photo">
+              <img
+                src={GALLERY.office}
+                alt="ORI6IN Education Flagship Campus, Jayanagar Bengaluru"
+                loading="lazy"
+              />
+              <span className="office-card__photo-badge">✦ Jayanagar 9th Block Centre</span>
+            </div>
             <div className="office-card__badge">Flagship Campus & HQ</div>
             <h3>{hq.name}</h3>
             <p className="office-card__address">{hq.address}</p>
@@ -235,6 +243,55 @@ export function ContactView() {
             <p className="type-meta" style={{ marginTop: 'auto' }}>
               Online counselling sessions are available across all Indian time zones daily.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Photopedia / Campus Gallery Showcase */}
+      <section className="pub-section contact-gallery-section" id="photopedia">
+        <div className="contact-location-header">
+          <p className="type-kicker">Photopedia · Campus Life</p>
+          <h2>Inside our centres & student spaces</h2>
+          <p className="type-lead">
+            Modern, student-first consultation suites, test preparation diagnostic labs, and dedicated mentor spaces.
+          </p>
+        </div>
+
+        <div className="contact-gallery-grid">
+          {/* Main Featured Office Image */}
+          <div className="gallery-featured-card">
+            <img
+              src={GALLERY.office}
+              alt="ORI6IN Education Flagship Campus, Jayanagar Bengaluru"
+              className="gallery-featured-card__img"
+              loading="lazy"
+            />
+            <div className="gallery-featured-card__overlay">
+              <span className="gallery-featured-card__badge">✦ Flagship Campus & Headquarters</span>
+              <h3 className="gallery-featured-card__title">ORI6IN Education Flagship Campus</h3>
+              <p className="gallery-featured-card__desc">
+                1315, 25th Main Road, 9th Block Jayanagar, Bengaluru. Open 6 days a week for in-person profile reviews, test prep coaching, and parent sessions.
+              </p>
+            </div>
+          </div>
+
+          {/* Side Cards: Space Highlights & Events Ready */}
+          <div className="gallery-side-col">
+            <div className="gallery-info-card">
+              <span className="gallery-info-card__tag">Spaces & Facilities</span>
+              <h4>Diagnostic Labs & 1-on-1 Suites</h4>
+              <p>
+                Acoustically treated diagnostic testing cabins for IELTS, TOEFL, and GRE mocks, paired with private breakout rooms for confidential family counselling.
+              </p>
+            </div>
+
+            <div className="gallery-info-card">
+              <span className="gallery-info-card__tag">Events & Workshops</span>
+              <h4>University Roundtables & Masterclasses</h4>
+              <p>
+                Hosting regular university delegation meets, alumni admit panels, and Visa Day preparation workshops throughout the year.
+              </p>
+            </div>
           </div>
         </div>
       </section>

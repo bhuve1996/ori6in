@@ -1188,6 +1188,41 @@
   border-top: 3px solid var(--navy);
 }
 
+.office-card__photo {
+  position: relative;
+  width: calc(100% + 3.5rem);
+  margin: -1.75rem -1.75rem 1.25rem -1.75rem;
+  height: 220px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.office-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.office-card:hover .office-card__photo img {
+  transform: scale(1.04);
+}
+
+.office-card__photo-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.85rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(14, 28, 46, 0.88);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(211, 161, 80, 0.4);
+}
+
 .office-card__badge {
   display: inline-block;
   align-self: flex-start;
@@ -1200,6 +1235,132 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-bottom: 0.85rem;
+}
+
+/* ——— Photopedia / Campus Gallery Showcase ——— */
+.contact-gallery-section {
+  padding-top: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.contact-gallery-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.gallery-featured-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: var(--tile-border);
+  box-shadow: var(--tile-shadow);
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--navy);
+}
+
+.gallery-featured-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-featured-card:hover .gallery-featured-card__img {
+  transform: scale(1.03);
+}
+
+.gallery-featured-card__overlay {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1.75rem;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(14, 28, 46, 0.4) 30%,
+    rgba(10, 18, 30, 0.94) 100%
+  );
+  color: #fff;
+}
+
+.gallery-featured-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(211, 161, 80, 0.22);
+  border: 1px solid var(--gold-brand);
+  color: var(--gold-brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+.gallery-featured-card__title {
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display), sans-serif;
+}
+
+.gallery-featured-card__desc {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(244, 240, 232, 0.88);
+  margin: 0;
+  max-width: 32rem;
+}
+
+.gallery-side-col {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.gallery-info-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: var(--tile-border);
+  background: var(--paper-elevated);
+  box-shadow: var(--tile-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gallery-info-card__tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-descriptor);
+  margin-bottom: 0.45rem;
+}
+
+.gallery-info-card h4 {
+  font-size: 1.15rem;
+  margin: 0 0 0.45rem;
+  color: var(--navy);
+}
+
+.gallery-info-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--warm-grey);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .contact-gallery-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .office-card h3 {

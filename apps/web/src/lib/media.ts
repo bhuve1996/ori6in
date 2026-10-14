@@ -154,6 +154,11 @@ export const BANNERS = {
   internships: '/banners/internships.jpg',
   companies: '/banners/companies.jpg',
   parents: '/banners/parents.jpg',
+  office: '/gallery/ori6in-office.jpeg',
+} as const;
+
+export const GALLERY = {
+  office: '/gallery/ori6in-office.jpeg',
 } as const;
 
 export const HOME = {
