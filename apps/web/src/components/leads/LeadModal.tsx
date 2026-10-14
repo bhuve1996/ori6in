@@ -27,15 +27,23 @@ export function LeadModal({ opts, onClose }: { opts: LeadOpenOpts; onClose: () =
         if (e.target === dialogRef.current) onClose();
       }}
     >
-      <button type="button" className="lead-modal__close" onClick={onClose} aria-label="Close">
-        ×
-      </button>
-      <LeadForm
-        kind={opts.kind}
-        programmeId={opts.programmeId}
-        programmeLabel={opts.programmeLabel}
-        interest={opts.interest}
-      />
+      <div className="lead-modal__card">
+        <button
+          type="button"
+          className="lead-modal__close"
+          onClick={onClose}
+          aria-label="Close dialog"
+          title="Close (Esc)"
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
+        <LeadForm
+          kind={opts.kind}
+          programmeId={opts.programmeId}
+          programmeLabel={opts.programmeLabel}
+          interest={opts.interest}
+        />
+      </div>
     </dialog>
   );
 }
