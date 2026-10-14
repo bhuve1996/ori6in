@@ -15,6 +15,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.base.js
 COPY apps/web/package.json ./apps/web/
 COPY packages/shared/package.json ./packages/shared/
 COPY packages/ui/package.json ./packages/ui/
+COPY packages/config/package.json ./packages/config/
+COPY packages/db/package.json ./packages/db/
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
@@ -31,6 +33,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY apps/web ./apps/web
 COPY packages/shared ./packages/shared
 COPY packages/ui ./packages/ui
+COPY packages/config ./packages/config
 RUN DEPLOY_ID="${NEXT_PUBLIC_DEPLOY_ID:-${RAILWAY_GIT_COMMIT_SHA:-}}" \
   && if [ -z "$DEPLOY_ID" ]; then DEPLOY_ID="b$(date -u +%Y%m%d%H%M%S)"; fi \
   && export NEXT_PUBLIC_DEPLOY_ID="$DEPLOY_ID" \
