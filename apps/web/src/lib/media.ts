@@ -211,3 +211,26 @@ export function scholarshipLeadImage(type: string, id: string) {
   const pool = byType[type] ?? UNI_CAMPUS_FALLBACK;
   return pool[hashSeed(id) % pool.length];
 }
+
+/** Distinctive stage hero images for ED6E (Class 8–12) */
+export function ed6eStageImage(catalogueId: string) {
+  const map: Record<string, string> = {
+    'ed6e-class-8': '/programs/learning.jpg',         // Discover (aptitude, reading habits)
+    'ed6e-class-9': '/programs/startup.jpg',          // Explore (taster projects, competitions)
+    'ed6e-class-10': '/programs/career.jpg',          // Define (streams, essays, summer programs)
+    'ed6e-class-11': '/programs/leadership.jpg',      // Differentiate (signature project, external validation)
+    'ed6e-class-12': '/programs/career-launchpad.jpg',// Position (applications, essays, interviews)
+  };
+  return map[catalogueId] ?? '/programs/learning.jpg';
+}
+
+/** Distinctive stage hero images for BRI6GE (UG Year 1–3) */
+export function bri6geStageImage(catalogueId: string) {
+  const map: Record<string, string> = {
+    'bri6ge-y1': '/programs/ai-foundations.jpg', // Foundation (profile audit, research exposure)
+    'bri6ge-y2': '/programs/tech.jpg',           // Momentum (signature project, GRE/IELTS calendar)
+    'bri6ge-y3': '/programs/leadership.jpg',     // Execution (applications, statements, endorsements)
+  };
+  return map[catalogueId] ?? '/home/internships.jpg';
+}
+

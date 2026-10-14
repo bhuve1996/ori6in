@@ -1,7 +1,7 @@
 'use client';
 
 import { ED6E_EXPANSION, ED6E_PILLARS, ED6E_STAGES, ED6E_PARENT_REVIEWS } from '@ori6in/shared';
-import { BANNERS, HOME } from '../../lib/media';
+import { BANNERS, ed6eStageImage } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { ParentReviewsSection } from './ParentReviewsSection';
 import { PublicHero } from './PublicHero';
@@ -39,9 +39,17 @@ export function Ed6eView() {
         <div className="pub-cards pub-cards--3">
           {ED6E_STAGES.map((stage) => (
             <article key={stage.catalogueId}>
-              <img className="pub-card-media" src={HOME.pathPrograms} alt="" />
+              <div className="pub-card-media-wrapper">
+                <img
+                  className="pub-card-media"
+                  src={ed6eStageImage(stage.catalogueId)}
+                  alt={`${stage.entry} — ${stage.stage}`}
+                  loading="lazy"
+                />
+                <span className="pub-card-badge">{stage.years}</span>
+              </div>
               <h3>
-                Entry {stage.entry} — {stage.stage} ({stage.years})
+                Entry {stage.entry} — {stage.stage}
               </h3>
               <p>{stage.focus}</p>
               <LeadButton kind="quote" programmeId={stage.catalogueId}>

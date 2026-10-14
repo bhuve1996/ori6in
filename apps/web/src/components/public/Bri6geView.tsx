@@ -1,7 +1,7 @@
 'use client';
 
 import { BRI6GE_PARENT_REVIEWS, BRI6GE_STAGES, ED6E_EXPANSION } from '@ori6in/shared';
-import { BANNERS, HOME } from '../../lib/media';
+import { BANNERS, bri6geStageImage } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { GrantStrip } from './GrantStrip';
 import { ParentReviewsSection } from './ParentReviewsSection';
@@ -33,9 +33,17 @@ export function Bri6geView() {
         <div className="pub-cards pub-cards--3">
           {BRI6GE_STAGES.map((stage) => (
             <article key={stage.catalogueId}>
-              <img className="pub-card-media" src={HOME.internships} alt="" />
+              <div className="pub-card-media-wrapper">
+                <img
+                  className="pub-card-media"
+                  src={bri6geStageImage(stage.catalogueId)}
+                  alt={`${stage.entry} — ${stage.stage}`}
+                  loading="lazy"
+                />
+                <span className="pub-card-badge">{stage.years}</span>
+              </div>
               <h3>
-                Entry {stage.entry} — {stage.stage} ({stage.years})
+                Entry {stage.entry} — {stage.stage}
               </h3>
               <p>{stage.focus}</p>
               <LeadButton kind="quote" programmeId={stage.catalogueId}>

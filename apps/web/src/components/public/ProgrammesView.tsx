@@ -13,25 +13,37 @@ export function ProgrammesView() {
       <section className="pub-section">
         <div className="pub-cards pub-cards--4">
           <article>
-            <img className="pub-card-media" src={HOME.pathPrograms} alt="" />
+            <div className="pub-card-media-wrapper">
+              <img className="pub-card-media" src={HOME.pathPrograms} alt="ED6E" loading="lazy" />
+              <span className="pub-card-badge">Class 8–12</span>
+            </div>
             <h3>01 ED6E</h3>
             <p>Profile building, Class 8–12 — multi-year programme, monthly parent letter, compounding profile.</p>
             <a href="/ed6e">Explore ED6E</a>
           </article>
           <article>
-            <img className="pub-card-media" src={HOME.internships} alt="" />
+            <div className="pub-card-media-wrapper">
+              <img className="pub-card-media" src={HOME.internships} alt="BRI6GE" loading="lazy" />
+              <span className="pub-card-badge">UG 1–3</span>
+            </div>
             <h3>02 BRI6GE</h3>
             <p>The college years, UG Year 1–3 — the bridge from an Indian UG degree to a global master’s.</p>
             <a href="/bri6ge">Explore BRI6GE</a>
           </article>
           <article>
-            <img className="pub-card-media" src={BANNERS.programs} alt="" />
+            <div className="pub-card-media-wrapper">
+              <img className="pub-card-media" src={BANNERS.programs} alt="6LOBAL" loading="lazy" />
+              <span className="pub-card-badge">Study Abroad</span>
+            </div>
             <h3>03 6LOBAL</h3>
             <p>Admission counselling, UG/MS/MBA/PhD — one counsellor from first call to departure.</p>
             <a href="/study-abroad">Explore 6LOBAL</a>
           </article>
           <article>
-            <img className="pub-card-media" src={BANNERS.blog} alt="" />
+            <div className="pub-card-media-wrapper">
+              <img className="pub-card-media" src={BANNERS.blog} alt="6RIP" loading="lazy" />
+              <span className="pub-card-badge">Test Prep</span>
+            </div>
             <h3>04 6RIP</h3>
             <p>Test preparation — IELTS · TOEFL · GRE · GMAT · SAT · German · dMAT.</p>
             <a href="/test-prep">Explore 6RIP</a>
