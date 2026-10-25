@@ -1,7 +1,7 @@
 'use client';
 
 import { useLead } from '../leads/LeadContext';
-import { HOME } from '../../lib/media';
+import { BANNERS, HOW_IT_WORKS_STEPS } from '../../lib/media';
 import { goldSixNodes } from './GoldSix';
 import { PublicHero } from './PublicHero';
 
@@ -10,37 +10,37 @@ const STEPS = [
     n: '01',
     title: 'Discovery Session',
     body: 'Free, student and parents together — an honest profile audit.',
-    image: HOME.mentors,
+    image: HOW_IT_WORKS_STEPS.step1,
   },
   {
     n: '02',
     title: 'Personalised roadmap',
     body: 'Direction, milestones, and a term-by-term plan.',
-    image: HOME.pathPrograms,
+    image: HOW_IT_WORKS_STEPS.step2,
   },
   {
     n: '03',
     title: 'Build',
     body: 'Projects, portfolio, exposure, skills, and communication.',
-    image: HOME.outcomesPortfolio,
+    image: HOW_IT_WORKS_STEPS.step3,
   },
   {
     n: '04',
     title: 'Progress, in writing',
     body: 'A monthly letter to parents plus a weekly counsellor cadence.',
-    image: HOME.outcomesFeedback,
+    image: HOW_IT_WORKS_STEPS.step4,
   },
   {
     n: '05',
     title: 'Position',
     body: 'Applications, essays, tests, interviews.',
-    image: HOME.pathMentors,
+    image: HOW_IT_WORKS_STEPS.step5,
   },
   {
     n: '06',
     title: 'Admission',
     body: 'India or abroad — the right university.',
-    image: HOME.outcomesReady,
+    image: HOW_IT_WORKS_STEPS.step6,
   },
 ] as const;
 
@@ -53,7 +53,7 @@ export function HowItWorksView() {
         kicker="How it works"
         title="Six steps. One counsellor. No guesswork."
         lead="From the first complimentary session to the admission letter."
-        image={HOME.pathInternships}
+        image={BANNERS.howItWorks}
       />
 
       <section className="pub-section">

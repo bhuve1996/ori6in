@@ -14,7 +14,7 @@ export function StudyAbroadView() {
         kicker="6LOBAL by Edumillenia · Overseas counselling"
         title="Four tracks. One counsellor. Zero guesswork."
         lead="One counsellor stays with you from the first call to departure. We assess your profile, build a Reach, Match and Safe shortlist, guide your SOP, LOR and CV, follow up on offers and scholarships, prepare your visa file and interview, and help with pre-departure and forex."
-        image={BANNERS.programs}
+        image={BANNERS.globalHero}
       />
 
       <section className="pub-section">

@@ -31,7 +31,7 @@ export function Ed6eView() {
         kicker="ED6E by ORI6IN · Class 8–12"
         title="Start where you are. Rise to who you’re meant to become."
         lead={`ED6E builds what a student can do beyond the marksheet, one stage per class, measured on four pillars: ${ED6E_EXPANSION.replace('ED6E = ', '')}.`}
-        image={BANNERS.student}
+        image={BANNERS.ed6eHero}
       />
 
       <section className="pub-section">

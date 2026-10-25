@@ -25,7 +25,7 @@ export function Bri6geView() {
         kicker="BRI6GE by ORI6IN · UG Year 1–3"
         title="In college in India. Headed abroad for your master’s."
         lead={`A profile-building runway during the UG years — internships, research, projects and a test calendar — so the final-year application lands with three years of evidence, not three months of panic. Same four measured pillars as ED6E: ${ED6E_EXPANSION.replace('ED6E = ', '')}.`}
-        image={BANNERS.internships}
+        image={BANNERS.bri6geHero}
       />
 
       <section className="pub-section">

@@ -145,7 +145,7 @@ export const BANNERS = {
   mentors: '/banners/mentors.jpg',
   blog: '/banners/blog.jpg',
   about: '/banners/about.jpg',
-  howItWorks: '/banners/how-it-works.jpg',
+  howItWorks: '/photos/02-how-it-works/hiw-hero-discovery.webp',
   pricing: '/banners/pricing.jpg',
   auth: '/banners/auth.jpg',
   student: '/banners/student.jpg',
@@ -155,6 +155,9 @@ export const BANNERS = {
   companies: '/banners/companies.jpg',
   parents: '/banners/parents.jpg',
   office: '/gallery/ori6in-office.jpeg',
+  ed6eHero: '/photos/03-ed6e/ed6e-hero.webp',
+  bri6geHero: '/photos/04-bri6ge/bri6ge-hero.webp',
+  globalHero: '/photos/05-6lobal/6lobal-hero.webp',
 } as const;
 
 export const GALLERY = {
@@ -162,7 +165,7 @@ export const GALLERY = {
 } as const;
 
 export const HOME = {
-  hero: '/home/hero.jpg',
+  hero: '/photos/01-home/journey-card-stairs.webp',
   mentors: '/home/mentors.jpg',
   internships: '/home/internships.jpg',
   pathPrograms: '/home/path-programs.jpg',
@@ -171,6 +174,15 @@ export const HOME = {
   outcomesPortfolio: '/home/outcomes-portfolio.jpg',
   outcomesFeedback: '/home/outcomes-feedback.jpg',
   outcomesReady: '/home/outcomes-ready.jpg',
+} as const;
+
+export const HOW_IT_WORKS_STEPS = {
+  step1: '/photos/02-how-it-works/hiw-01-discovery.webp',
+  step2: '/photos/02-how-it-works/hiw-02-roadmap.webp',
+  step3: '/photos/02-how-it-works/hiw-03-build.webp',
+  step4: '/photos/02-how-it-works/hiw-04-progress.webp',
+  step5: '/photos/02-how-it-works/hiw-05-position.webp',
+  step6: '/photos/02-how-it-works/hiw-06-admission.webp',
 } as const;
 
 /** Campus / atmosphere thumbs for University Finder cards (illustrative — not official logos). */
@@ -215,22 +227,22 @@ export function scholarshipLeadImage(type: string, id: string) {
 /** Distinctive stage hero images for ED6E (Class 8–12) */
 export function ed6eStageImage(catalogueId: string) {
   const map: Record<string, string> = {
-    'ed6e-class-8': '/programs/learning.jpg',         // Discover (aptitude, reading habits)
-    'ed6e-class-9': '/programs/startup.jpg',          // Explore (taster projects, competitions)
-    'ed6e-class-10': '/programs/career.jpg',          // Define (streams, essays, summer programs)
-    'ed6e-class-11': '/programs/leadership.jpg',      // Differentiate (signature project, external validation)
-    'ed6e-class-12': '/programs/career-launchpad.jpg',// Position (applications, essays, interviews)
+    'ed6e-class-8': '/photos/03-ed6e/ed6e-08-discover.webp',         // Discover (aptitude, reading habits)
+    'ed6e-class-9': '/photos/03-ed6e/ed6e-09-explore.webp',          // Explore (taster projects, competitions)
+    'ed6e-class-10': '/photos/03-ed6e/ed6e-10-define.webp',          // Define (streams, essays, summer programs)
+    'ed6e-class-11': '/photos/03-ed6e/ed6e-11-differentiate.webp',   // Differentiate (signature project, external validation)
+    'ed6e-class-12': '/photos/03-ed6e/ed6e-12-position.webp',        // Position (applications, essays, interviews)
   };
-  return map[catalogueId] ?? '/programs/learning.jpg';
+  return map[catalogueId] ?? '/photos/03-ed6e/ed6e-hero.webp';
 }
 
 /** Distinctive stage hero images for BRI6GE (UG Year 1–3) */
 export function bri6geStageImage(catalogueId: string) {
   const map: Record<string, string> = {
-    'bri6ge-y1': '/programs/ai-foundations.jpg', // Foundation (profile audit, research exposure)
-    'bri6ge-y2': '/programs/tech.jpg',           // Momentum (signature project, GRE/IELTS calendar)
-    'bri6ge-y3': '/programs/leadership.jpg',     // Execution (applications, statements, endorsements)
+    'bri6ge-y1': '/photos/04-bri6ge/bri6ge-y1-foundation.webp', // Foundation (profile audit, research exposure)
+    'bri6ge-y2': '/photos/04-bri6ge/bri6ge-y2-momentum.webp',   // Momentum (signature project, GRE/IELTS calendar)
+    'bri6ge-y3': '/photos/04-bri6ge/bri6ge-y3-launch.webp',     // Execution (applications, statements, endorsements)
   };
-  return map[catalogueId] ?? '/home/internships.jpg';
+  return map[catalogueId] ?? '/photos/04-bri6ge/bri6ge-hero.webp';
 }
 

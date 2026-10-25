@@ -1,4 +1,4 @@
-import { BANNERS, HOME } from '../../lib/media';
+import { BANNERS, ed6eStageImage, bri6geStageImage } from '../../lib/media';
 import { PublicHero } from './PublicHero';
 
 export function ProgrammesView() {
@@ -14,7 +14,7 @@ export function ProgrammesView() {
         <div className="pub-cards pub-cards--4">
           <article>
             <div className="pub-card-media-wrapper">
-              <img className="pub-card-media" src={HOME.pathPrograms} alt="ED6E" loading="lazy" />
+              <img className="pub-card-media" src={ed6eStageImage('ed6e-class-8')} alt="ED6E" loading="lazy" />
               <span className="pub-card-badge">Class 8–12</span>
             </div>
             <h3>01 ED6E</h3>
@@ -23,7 +23,7 @@ export function ProgrammesView() {
           </article>
           <article>
             <div className="pub-card-media-wrapper">
-              <img className="pub-card-media" src={HOME.internships} alt="BRI6GE" loading="lazy" />
+              <img className="pub-card-media" src={bri6geStageImage('bri6ge-y1')} alt="BRI6GE" loading="lazy" />
               <span className="pub-card-badge">UG 1–3</span>
             </div>
             <h3>02 BRI6GE</h3>
@@ -32,7 +32,7 @@ export function ProgrammesView() {
           </article>
           <article>
             <div className="pub-card-media-wrapper">
-              <img className="pub-card-media" src={BANNERS.programs} alt="6LOBAL" loading="lazy" />
+              <img className="pub-card-media" src={BANNERS.globalHero} alt="6LOBAL" loading="lazy" />
               <span className="pub-card-badge">Study Abroad</span>
             </div>
             <h3>03 6LOBAL</h3>
