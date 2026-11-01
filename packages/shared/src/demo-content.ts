@@ -4,7 +4,7 @@ import { toSeedPrograms } from './education-catalog.js';
 /**
  * Single source of truth for demo catalog content.
  * Seeded into the DB when ENABLE_DEMO_LOGINS=true (see DemoContentService).
- * Public CMS/blog/mentor copy follows the September 2026 brief (ED6E · BRI6GE · 6LOBAL · 6RIP).
+ * Public CMS/blog/mentor copy follows the September 2026 brief (ED6E · BRID6E · 6LOBAL · 6RIP).
  * Internal demo enrolment still uses DEMO_FLAGSHIP_PROGRAM_SLUG.
  */
 
@@ -19,7 +19,7 @@ export const DEMO_PAGES = [
     title: 'About ORI6IN Education',
     body: `ORI6IN Education Private Limited is a profile-building platform for students from Class 8 onwards. Everything starts here.
 
-Four product lines, one counsellor, one plan: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL by Edumillenia for study-abroad counselling, and 6RIP test preparation.
+Four product lines, one counsellor, one plan: ED6E (Class 8–12), BRID6E (UG Year 1–3), 6LOBAL by Edumillenia for study-abroad counselling, and 6RIP test preparation.
 
 We counsel from Jayanagar, Bengaluru — pan-India and online — for USA, UK, Canada, Germany, Ireland, Netherlands, Singapore, and Australia. Fees are quoted privately. The first Discovery Session is complimentary for student and parents together.`,
     published: true,
@@ -41,11 +41,11 @@ export const DEMO_POSTS = [
     excerpt: 'Profile building from Class 8. Everything starts here.',
     body: `ORI6IN Education is built around one line: Everything starts here.
 
-From Class 8 we build evidence beyond the marksheet. After Class 12 the same counsellor can continue into BRI6GE (the college years) or straight into 6LOBAL study-abroad counselling. Tests sit in 6RIP when the journey needs them.
+From Class 8 we build evidence beyond the marksheet. After Class 12 the same counsellor can continue into BRID6E (the college years) or straight into 6LOBAL study-abroad counselling. Tests sit in 6RIP when the journey needs them.
 
 ## The four product lines
 - ED6E — Class 8–12 profile building, monthly parent letter
-- BRI6GE — UG Year 1–3 runway to a global master’s
+- BRID6E — UG Year 1–3 runway to a global master’s
 - 6LOBAL by Edumillenia — UG, master’s, MBA, and PhD counselling
 - 6RIP — IELTS, TOEFL, GRE, GMAT Focus, SAT, German, dMAT
 
@@ -58,14 +58,14 @@ Every plan is quoted for the family. Start with a complimentary Discovery Sessio
   {
     slug: 'choosing-your-first-program',
     title: 'Choosing your first ORI6IN programme',
-    excerpt: 'ED6E, BRI6GE, 6LOBAL, or 6RIP — start where you are.',
+    excerpt: 'ED6E, BRID6E, 6LOBAL, or 6RIP — start where you are.',
     body: `Start where you are. The plan is not a template.
 
 ## Still in school (Class 8–12)
 ED6E is the multi-year profile-building programme. Join at the current class. Parents receive a monthly letter.
 
 ## Already in an Indian UG degree
-BRI6GE is the college-years runway — Foundation (Year 1), Momentum (Year 2), or Launch (Year 3) — then 6LOBAL for the applications.
+BRID6E is the college-years runway — Foundation (Year 1), Momentum (Year 2), or Launch (Year 3) — then 6LOBAL for the applications.
 
 ## Ready to apply abroad
 6LOBAL covers UG, master’s, MBA, and PhD with one counsellor from first call to departure. Country notes live on /destinations. Check /eligibility if you want a first read.

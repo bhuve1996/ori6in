@@ -236,7 +236,7 @@ export function ed6eStageImage(catalogueId: string) {
   return map[catalogueId] ?? '/photos/03-ed6e/ed6e-hero.webp';
 }
 
-/** Distinctive stage hero images for BRI6GE (UG Year 1–3) */
+/** Distinctive stage hero images for BRID6E (UG Year 1–3) */
 export function bri6geStageImage(catalogueId: string) {
   const map: Record<string, string> = {
     'bri6ge-y1': '/photos/04-bri6ge/bri6ge-y1-foundation.webp', // Foundation (profile audit, research exposure)

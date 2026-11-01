@@ -119,7 +119,7 @@ export default function RegisterPage() {
                 : 'You have been added to the waitlist'}
             </h2>
             <p className="waitlist-card__msg">
-              Welcome, <strong>{waitlistState.registeredUser?.fullName || 'Student'}</strong>! We are onboarding students in curated batches to maintain 1:1 counsellor quality across <strong>ED6E</strong> and <strong>BRI6GE</strong>.
+              Welcome, <strong>{waitlistState.registeredUser?.fullName || 'Student'}</strong>! We are onboarding students in curated batches to maintain 1:1 counsellor quality across <strong>ED6E</strong> and <strong>BRID6E</strong>.
             </p>
             <div className="waitlist-card__meta-pill">
               <span>Registered Email:</span>

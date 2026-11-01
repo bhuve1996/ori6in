@@ -8,14 +8,14 @@ import { PublicHero } from './PublicHero';
 const STEPS = [
   {
     n: '01',
-    title: 'Discovery Session',
-    body: 'Free, student and parents together — an honest profile audit.',
+    title: 'Complimentary Session',
+    body: 'Students + Parents + Counsellor – An honest profile audit.',
     image: HOW_IT_WORKS_STEPS.step1,
   },
   {
     n: '02',
     title: 'Personalised roadmap',
-    body: 'Direction, milestones, and a term-by-term plan.',
+    body: 'Direction, milestones, and a step-by-step plan.',
     image: HOW_IT_WORKS_STEPS.step2,
   },
   {
@@ -73,7 +73,7 @@ export function HowItWorksView() {
       <section className="pub-section pub-note">
         <p>
           {goldSixNodes(
-            'ED6E students continue into BRI6GE or straight into 6LOBAL study-abroad counselling under the same counsellor.',
+            'ED6E students continue into BRID6E or straight into 6LOBAL study-abroad counselling under the same counsellor.',
           )}
         </p>
       </section>

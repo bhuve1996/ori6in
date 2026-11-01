@@ -1,6 +1,6 @@
 'use client';
 
-import { BRI6GE_PARENT_REVIEWS, BRI6GE_STAGES, ED6E_EXPANSION } from '@ori6in/shared';
+import { BRID6E_PARENT_REVIEWS, BRID6E_STAGES, ED6E_EXPANSION } from '@ori6in/shared';
 import { BANNERS, bri6geStageImage } from '../../lib/media';
 import { LeadButton } from '../leads/LeadButton';
 import { GrantStrip } from './GrantStrip';
@@ -22,8 +22,8 @@ export function Bri6geView() {
   return (
     <main id="main-content" className="pub">
       <PublicHero
-        kicker="BRI6GE by ORI6IN · UG Year 1–3"
-        title="In college in India. Headed abroad for your master’s."
+        kicker="BRID6E by ORI6IN · UG Year 1–3"
+        title="Studying in India? Head abroad for your master’s!"
         lead={`A profile-building runway during the UG years — internships, research, projects and a test calendar — so the final-year application lands with three years of evidence, not three months of panic. Same four measured pillars as ED6E: ${ED6E_EXPANSION.replace('ED6E = ', '')}.`}
         image={BANNERS.bri6geHero}
       />
@@ -31,7 +31,7 @@ export function Bri6geView() {
       <section className="pub-section">
         <h2>Join in your current UG year</h2>
         <div className="pub-cards pub-cards--3">
-          {BRI6GE_STAGES.map((stage) => (
+          {BRID6E_STAGES.map((stage) => (
             <article key={stage.catalogueId}>
               <div className="pub-card-media-wrapper">
                 <img
@@ -65,12 +65,12 @@ export function Bri6geView() {
 
       <section className="pub-note pub-section">
         <h2>Three years of evidence beats three months of panic.</h2>
-        <p>Universities read trajectories, not just final-year documents — BRI6GE builds the trajectory.</p>
+        <p>Universities read trajectories, not just final-year documents — BRID6E builds the trajectory.</p>
       </section>
 
       <section className="pub-section">
         <p>
-          BRI6GE students move into 6LOBAL admission counselling in the final year — same counsellor wherever possible.
+          BRID6E students move into 6LOBAL admission counselling in the final year — same counsellor wherever possible.
           Bundle pricing available.
         </p>
         <div className="pub-actions">
@@ -85,10 +85,10 @@ export function Bri6geView() {
 
       <ParentReviewsSection
         kicker="College Parents"
-        title="What parents say about BRI6GE"
+        title="What parents say about BRID6E"
         lead="How the UG runway prepared their college students for elite master’s and scholarships."
-        reviews={BRI6GE_PARENT_REVIEWS}
-        programmeTag="BRI6GE · UG Year 1–3"
+        reviews={BRID6E_PARENT_REVIEWS}
+        programmeTag="BRID6E · UG Year 1–3"
       />
 
       <GrantStrip intro="Milestone rewards if you continue into 6LOBAL." />
@@ -98,7 +98,7 @@ export function Bri6geView() {
         <p>Start with a complimentary Discovery Session — student and parents together.</p>
         <div className="pub-actions">
           <LeadButton kind="discovery">Book the discovery session</LeadButton>
-          <LeadButton kind="brochure" interest="BRI6GE (UG Year 1–3)" className="btn btn-secondary">
+          <LeadButton kind="brochure" interest="BRID6E (UG Year 1–3)" className="btn btn-secondary">
             Download the brochure
           </LeadButton>
           <LeadButton kind="quote" programmeId="bri6ge-y1" className="btn btn-secondary">

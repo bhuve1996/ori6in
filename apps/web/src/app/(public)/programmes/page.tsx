@@ -3,7 +3,7 @@ import { pageMeta } from '../../../lib/seo';
 
 export const metadata = pageMeta({
   title: 'Programmes',
-  description: 'ED6E, BRI6GE, 6LOBAL and 6RIP — quoted per family, never listed as public fees.',
+  description: 'ED6E, BRID6E, 6LOBAL and 6RIP — quoted per family, never listed as public fees.',
   path: '/programmes',
 });
 

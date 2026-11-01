@@ -112,7 +112,7 @@ export class AiChatController {
     const reply = {
       role: 'assistant',
       content:
-        'I can help with ED6E, BRI6GE, 6LOBAL, and 6RIP. Fees are quoted privately. Book a Discovery Session from the public site, or ask your counsellor here.',
+        'I can help with ED6E, BRID6E, 6LOBAL, and 6RIP. Fees are quoted privately. Book a Discovery Session from the public site, or ask your counsellor here.',
     };
     history.push(reply);
     chatSessions.set(req.user.sub, history);

@@ -16,8 +16,8 @@ export function PublicHome() {
           <Kicker>ORI6IN Education</Kicker>
           <h1 className="type-display-lg">Find what you’re capable of. Then build on it.</h1>
           <p className="type-lead">
-            A profile-building platform for students from Class 8 onwards — discover strengths, define
-            direction, and arrive at the right university in India or abroad.
+            A profile-building platform for students from Class 8 onwards — Discover strengths, define
+            direction, and choose the right university for you in India or abroad.
           </p>
           <div className="pub-actions">
             <button type="button" className="btn btn-accent" onClick={() => openLead({ kind: 'discovery' })}>
@@ -54,7 +54,7 @@ export function PublicHome() {
               <span>05</span> Position
             </li>
           </ol>
-          <p className="pub-journey__next">After Class 12 → BRI6GE for the college years → 6LOBAL for the applications</p>
+          <p className="pub-journey__next">After Class 12 → BRID6E for the college years → 6LOBAL for the applications</p>
         </aside>
       </section>
 
@@ -111,11 +111,11 @@ export function PublicHome() {
         <h2>Where the journey lands</h2>
         <div className="pub-cards pub-cards--3">
           <article>
-            <h3>{goldSixNodes('BRI6GE')}</h3>
+            <h3>{goldSixNodes('BRID6E')}</h3>
             <p>
               For students already in an Indian UG degree who want a master’s abroad — the college-years runway.
             </p>
-            <a href="/bri6ge">{goldSixNodes('Explore BRI6GE')}</a>
+            <a href="/bri6ge">{goldSixNodes('Explore BRID6E')}</a>
           </article>
           <article>
             <h3>{goldSixNodes('6LOBAL Study Abroad')}</h3>

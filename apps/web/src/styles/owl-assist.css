@@ -41,8 +41,8 @@
   width: 3.15rem;
   height: 3.15rem;
   border-radius: 50%;
-  object-fit: cover;
-  background: var(--ink-deep);
+  object-fit: contain;
+  background: var(--paper-elevated);
 }
 
 .owl-assist__fab-label {
@@ -93,7 +93,7 @@
   height: 2.6rem;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--navy);
+  background: var(--paper-elevated);
 }
 
 .owl-assist__head strong {
@@ -458,7 +458,7 @@
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  background: var(--navy);
+  background: var(--paper-elevated);
   border: 2px solid var(--gold-brand);
   box-shadow:
     0 8px 24px rgba(23, 48, 77, 0.35),

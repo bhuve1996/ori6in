@@ -109,23 +109,24 @@ body.nav-open .site-chrome {
   width: 2.35rem;
   height: 2.35rem;
   border-radius: 50%;
-  object-fit: cover;
-  background: color-mix(in srgb, var(--cream) 80%, #fff);
-  border: 1px solid rgba(217, 210, 194, 0.4);
+  object-fit: contain;
+  background: var(--paper-elevated);
+  border: 1px solid rgba(217, 210, 194, 0.45);
+  box-shadow: 0 1px 4px rgba(23, 48, 77, 0.08);
   flex-shrink: 0;
 }
 
 .brand__logo {
   display: block;
-  height: 2.2rem;
-  width: 9.4rem;
-  max-width: min(9.4rem, 42vw);
-  object-fit: cover;
-  object-position: 50% 0;
+  height: 2.85rem;
+  width: auto;
+  max-width: min(10.5rem, 42vw);
+  object-fit: contain;
+  object-position: left center;
 }
 
 .site-header[data-tone='dark'] .brand__logo {
-  height: 2.2rem;
+  height: 2.85rem;
 }
 
 .brand__word {
@@ -355,8 +356,10 @@ body.nav-open .site-chrome {
   }
 
   .brand__logo {
-    width: 6.8rem;
-    height: 1.7rem;
+    width: auto;
+    height: 2.3rem;
+    max-width: 8.5rem;
+    object-fit: contain;
   }
 
   .site-header__actions {
@@ -626,8 +629,10 @@ body.nav-open .site-chrome {
   }
 
   .brand__logo {
-    width: 6.4rem;
-    height: 1.6rem;
+    width: auto;
+    height: 2.1rem;
+    max-width: 7.5rem;
+    object-fit: contain;
   }
 
   .site-header__actions {

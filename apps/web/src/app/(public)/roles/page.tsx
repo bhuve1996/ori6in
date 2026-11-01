@@ -24,7 +24,7 @@ const ROLES: RoleBlock[] = [
     role: 'Student',
     headline: 'Plan, prepare, and apply for study abroad with counsellor support.',
     canDo: [
-      'Browse ORI6IN programmes (ED6E, BRI6GE, 6LOBAL, 6RIP)',
+      'Browse ORI6IN programmes (ED6E, BRID6E, 6LOBAL, 6RIP)',
       'Use free tools: University Finder, Course Finder, Scholarships, Cost Calculator',
       'Request a personalised quote (no public price list)',
       'Take courses and lessons for enrolled programs',

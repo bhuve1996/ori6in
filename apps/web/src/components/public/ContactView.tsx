@@ -40,6 +40,9 @@ export function ContactView() {
             <p>
               <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
             </p>
+            <p style={{ marginTop: '0.25rem', fontSize: '0.88rem' }}>
+              <a href={`mailto:${COMPANY.partnershipsEmail}`}>{COMPANY.partnershipsEmail}</a>
+            </p>
           </article>
           <article>
             <h3>Visit HQ</h3>

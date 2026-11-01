@@ -123,7 +123,9 @@ export const ED6E_PARENT_REVIEWS: ParentReview[] = [
   },
 ];
 
-export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
+export const BRI6GE_PARENT_REVIEWS = BRID6E_PARENT_REVIEWS;
+
+export const BRID6E_PARENT_REVIEWS: ParentReview[] = [
   {
     id: 'bri6ge-1',
     parentName: 'Muralidhar & Shanthi K.',
@@ -132,7 +134,7 @@ export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
     location: 'Bengaluru',
     rating: 5,
     date: '1 month ago',
-    quote: 'Our son wanted a Master’s abroad but was clueless how college CGPA compares with research and internships. BRI6GE structured his entire second year semester-by-semester. He secured his first paid research intern!',
+    quote: 'Our son wanted a Master’s abroad but was clueless how college CGPA compares with research and internships. BRID6E structured his entire second year semester-by-semester. He secured his first paid research intern!',
     outcomeOrHighlight: 'Secured Tier-1 research internship & maintained 9.1 CGPA',
   },
   {
@@ -143,7 +145,7 @@ export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
     location: 'Bengaluru',
     rating: 5,
     date: '2 months ago',
-    quote: 'Most overseas consultants only look at you in the final year when it’s too late. BRI6GE took our daughter right in Year 1. She now has a clear roadmap towards LSE and Bocconi.',
+    quote: 'Most overseas consultants only look at you in the final year when it’s too late. BRID6E took our daughter right in Year 1. She now has a clear roadmap towards LSE and Bocconi.',
     outcomeOrHighlight: 'Completed micro-internship and academic writing portfolio',
   },
   {
@@ -165,7 +167,7 @@ export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
     location: 'Pune / Online',
     rating: 5,
     date: '2 months ago',
-    quote: 'Our son is aiming for German public universities (TU9). BRI6GE planned his German language A1-B2 journey and uni-assist documentation two years in advance. Remarkable foresight.',
+    quote: 'Our son is aiming for German public universities (TU9). BRID6E planned his German language A1-B2 journey and uni-assist documentation two years in advance. Remarkable foresight.',
     outcomeOrHighlight: 'Completed German B1 exam & verified APS requirements',
   },
   {
@@ -176,7 +178,7 @@ export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
     location: 'Bengaluru',
     rating: 5,
     date: '1 month ago',
-    quote: 'Having the college-years runway took away all the typical last-minute panic. The handover from BRI6GE to 6LOBAL for application shortlists happened effortlessly.',
+    quote: 'Having the college-years runway took away all the typical last-minute panic. The handover from BRID6E to 6LOBAL for application shortlists happened effortlessly.',
     outcomeOrHighlight: 'Seamless transition into 6LOBAL admissions pipeline',
   },
   {
@@ -198,7 +200,7 @@ export const BRI6GE_PARENT_REVIEWS: ParentReview[] = [
     location: 'Bengaluru',
     rating: 5,
     date: '4 weeks ago',
-    quote: 'As parents, we didn’t know how to evaluate professors or lab internships. BRI6GE mentor walked our daughter through cold-emailing protocols and interview prep. She got selected for a hospital research lab.',
+    quote: 'As parents, we didn’t know how to evaluate professors or lab internships. BRID6E mentor walked our daughter through cold-emailing protocols and interview prep. She got selected for a hospital research lab.',
     outcomeOrHighlight: 'Hospital lab research fellowship secured',
   },
   {

@@ -29,7 +29,7 @@ export function Ed6eView() {
     <main id="main-content" className="pub">
       <PublicHero
         kicker="ED6E by ORI6IN · Class 8–12"
-        title="Start where you are. Rise to who you’re meant to become."
+        title="Start where you are. Make sure you reach where you’ve dreamt of reaching!"
         lead={`ED6E builds what a student can do beyond the marksheet, one stage per class, measured on four pillars: ${ED6E_EXPANSION.replace('ED6E = ', '')}.`}
         image={BANNERS.ed6eHero}
       />
@@ -106,12 +106,12 @@ export function Ed6eView() {
       <section className="pub-note pub-section">
         <h2>After Class 12, the journey continues</h2>
         <p>
-          Students headed for a master’s abroad move to BRI6GE during their UG years, then to 6LOBAL for the
+          Students headed for a master’s abroad move to BRID6E during their UG years, then to 6LOBAL for the
           applications. Same counsellor, same record, no re-telling the story.
         </p>
         <div className="pub-actions">
           <a className="btn btn-secondary" href="/bri6ge">
-            BRI6GE
+            BRID6E
           </a>
           <a className="btn btn-secondary" href="/study-abroad">
             6LOBAL

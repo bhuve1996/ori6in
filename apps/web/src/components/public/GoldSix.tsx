@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-const BRAND_NAMES = ['BRI6GE', 'ORI6IN', '6LOBAL', '6RANT', '6RAND', 'ED6E', '6RIP'] as const;
+const BRAND_NAMES = ['BRID6E', 'ORI6IN', '6LOBAL', '6RANT', '6RAND', 'ED6E', '6RIP'] as const;
 
 /**
- * Gold brand 6 in brand names. Longer tokens first so BRI6GE is matched whole.
+ * Gold brand 6 in brand names. Longer tokens first so BRID6E is matched whole.
  * The ORI6IN fonts draw the brand 6 for the letter G under `ss03`, so the visible
  * glyph is a G and a hidden "6" keeps the text correct for screen readers and search.
  */

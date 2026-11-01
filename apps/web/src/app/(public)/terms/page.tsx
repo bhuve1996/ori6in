@@ -18,7 +18,7 @@ export default function TermsPage() {
       <section className="pub-section prose">
         <h2>1. Services</h2>
         <p>
-          Counselling, ED6E and BRI6GE profile building, and related software. Nothing is a guarantee of admission,
+          Counselling, ED6E and BRID6E profile building, and related software. Nothing is a guarantee of admission,
           scholarship or visa.
         </p>
         <h2>2. 6RANT</h2>

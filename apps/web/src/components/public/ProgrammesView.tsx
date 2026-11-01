@@ -7,7 +7,7 @@ export function ProgrammesView() {
       <PublicHero
         kicker="Programmes"
         title="Four product lines. One counsellor, one plan."
-        lead="Profile building from Class 8 (ED6E), the college-years runway (BRI6GE), admission counselling for study abroad (6LOBAL), and every test the journey needs (6RIP) — quoted for each family, with no one-size price list."
+        lead="Profile building from Class 8 (ED6E), the college-years runway (BRID6E), admission counselling for study abroad (6LOBAL), and every test the journey needs (6RIP) — quoted for each family, with no one-size price list."
         image={BANNERS.programs}
       />
       <section className="pub-section">
@@ -23,12 +23,12 @@ export function ProgrammesView() {
           </article>
           <article>
             <div className="pub-card-media-wrapper">
-              <img className="pub-card-media" src={bri6geStageImage('bri6ge-y1')} alt="BRI6GE" loading="lazy" />
+              <img className="pub-card-media" src={bri6geStageImage('bri6ge-y1')} alt="BRID6E" loading="lazy" />
               <span className="pub-card-badge">UG 1–3</span>
             </div>
-            <h3>02 BRI6GE</h3>
+            <h3>02 BRID6E</h3>
             <p>The college years, UG Year 1–3 — the bridge from an Indian UG degree to a global master’s.</p>
-            <a href="/bri6ge">Explore BRI6GE</a>
+            <a href="/bri6ge">Explore BRID6E</a>
           </article>
           <article>
             <div className="pub-card-media-wrapper">

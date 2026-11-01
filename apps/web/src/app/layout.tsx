@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     'ORI6IN',
     'ORI6IN Education',
     'ED6E',
-    'BRI6GE',
+    'BRID6E',
     '6LOBAL',
     '6RIP',
     'study abroad',

@@ -99,7 +99,7 @@ export function ComingSoonView() {
           <h1 className="coming-soon__title type-display">Coming soon</h1>
           <p className="coming-soon__lead type-lead">
             {goldSixNodes(
-              'Study-abroad counselling, ED6E profile building, BRI6GE, and 6RIP test prep. Everything starts here. Register to get notified the moment we open.',
+              'Study-abroad counselling, ED6E profile building, BRID6E, and 6RIP test prep. Everything starts here. Register to get notified the moment we open.',
             )}
           </p>
           <p className="coming-soon__contact">

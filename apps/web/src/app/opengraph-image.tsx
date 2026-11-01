@@ -132,7 +132,7 @@ export default function OpenGraphImage() {
               fontFamily: 'system-ui, -apple-system, sans-serif',
             }}
           >
-            ED6E · BRI6GE · 6LOBAL · 6RIP — Profile building platform from Class 8
+            ED6E · BRID6E · 6LOBAL · 6RIP — Profile building platform from Class 8
           </div>
         </div>
 

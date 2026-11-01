@@ -13,7 +13,7 @@ type Turn = { role: 'user' | 'assistant'; content: string };
 
 const QUICK = [
   { label: 'ED6E', prompt: 'What is ED6E?' },
-  { label: 'BRI6GE', prompt: 'What is BRI6GE?' },
+  { label: 'BRID6E', prompt: 'What is BRID6E?' },
   { label: '6LOBAL', prompt: 'How does study-abroad counselling work?' },
   { label: 'Discovery', prompt: 'How do I book a Discovery Session?' },
 ] as const;
@@ -34,7 +34,7 @@ function localReply(message: string): string {
     return 'ED6E is the Class 8–12 profile-building programme: Excellence · Direction · Growth · Exposure. One counsellor, a monthly parent letter, and a compounding profile. Read /ed6e or book a free Discovery Session.';
   }
   if (q.includes('bri6ge') || q.includes('ug year') || q.includes('college year')) {
-    return 'BRI6GE is the UG Year 1–3 runway from an Indian undergraduate degree to a global master’s — Foundation, Momentum, or Launch. Same counsellor as ED6E. See /bri6ge.';
+    return 'BRID6E is the UG Year 1–3 runway from an Indian undergraduate degree to a global master’s — Foundation, Momentum, or Launch. Same counsellor as ED6E. See /bri6ge.';
   }
   if (
     q.includes('6lobal') ||
@@ -84,7 +84,7 @@ function localReply(message: string): string {
     return 'We counsel for USA, UK, Canada, Germany, Ireland, Netherlands, Singapore, and Australia. Country notes: /destinations. Compare in /tools/compare if you want a planning sketch.';
   }
   if (q.includes('how') || q.includes('work') || q.includes('step') || q.includes('path')) {
-    return 'Six steps, one counsellor: Discovery Session, personalised roadmap, build, progress in writing, position, admission. After Class 12, ED6E continues into BRI6GE or 6LOBAL. See /how-it-works.';
+    return 'Six steps, one counsellor: Discovery Session, personalised roadmap, build, progress in writing, position, admission. After Class 12, ED6E continues into BRID6E or 6LOBAL. See /how-it-works.';
   }
   if (q.includes('mentor') || q.includes('counsellor') || q.includes('counselor')) {
     return 'You work with one counsellor, not a rotating desk. Meet published counsellors on /mentors. Book Discovery to be assigned.';
@@ -102,9 +102,9 @@ function localReply(message: string): string {
     return 'Student Hub is at /hub — country communities, webinars, and pre-departure notes. Create an account to go deeper.';
   }
   if (q.includes('program') || q.includes('course') || q.includes('offer') || q.includes('package')) {
-    return 'Four product lines: ED6E (Class 8–12), BRI6GE (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted for each family, with no one-size price list.';
+    return 'Four product lines: ED6E (Class 8–12), BRID6E (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted for each family, with no one-size price list.';
   }
-  return `I am Ori. ${BRAND.tagline} Ask about ED6E, BRI6GE, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
+  return `I am Ori. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
 }
 
 export function OwlAssistant() {
@@ -116,7 +116,7 @@ export function OwlAssistant() {
   const [turns, setTurns] = useState<Turn[]>([
     {
       role: 'assistant',
-      content: `Hi — I am Ori. ${BRAND.tagline} Ask about ED6E, BRI6GE, 6LOBAL, 6RIP, or a free Discovery Session.`,
+      content: `Hi — I am Ori. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session.`,
     },
   ]);
   const listRef = useRef<HTMLDivElement>(null);

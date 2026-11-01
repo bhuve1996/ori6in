@@ -58,13 +58,13 @@ export function EligibilityView() {
           <p>{ELIGIBILITY_VERDICTS[verdict].body}</p>
           {bri6ge ? (
             <p>
-              You are in the BRI6GE window: a master’s from an Indian bachelor’s. We will route your read toward the
+              You are in the BRID6E window: a master’s from an Indian bachelor’s. We will route your read toward the
               college-years programme.
             </p>
           ) : null}
           <LeadForm
             kind="eligibility"
-            interest={bri6ge ? 'BRI6GE (UG Year 1–3)' : undefined}
+            interest={bri6ge ? 'BRID6E (UG Year 1–3)' : undefined}
             eligibility={answers as Record<string, string>}
           />
         </section>

@@ -13,7 +13,7 @@ export function StudyAbroadView() {
       <PublicHero
         kicker="6LOBAL by Edumillenia · Overseas counselling"
         title="Four tracks. One counsellor. Zero guesswork."
-        lead="One counsellor stays with you from the first call to departure. We assess your profile, build a Reach, Match and Safe shortlist, guide your SOP, LOR and CV, follow up on offers and scholarships, prepare your visa file and interview, and help with pre-departure and forex."
+        lead="One counsellor stays with you from the first call to departure. We assess your profile, build a Reach, Match and Safe shortlist, critique and enrich your SOP, LOR and CV, follow up on offers and scholarships, prepare your visa file and interview, and help with pre-departure and forex."
         image={BANNERS.globalHero}
       />
 
@@ -38,13 +38,13 @@ export function StudyAbroadView() {
               MS/MSc across Engineering, CS/Data, Management, Finance and Design. GRE/IELTS/TOEFL planning · German
               public-university route (uni-assist, APS, dMAT from 2027) · September/January intakes.
             </p>
-            <p>In college now? Start earlier with BRI6GE.</p>
+            <p>In college now? Start earlier with BRID6E.</p>
             <div className="pub-actions">
               <LeadButton kind="quote" programmeId="global-essential-ug-ms">
                 Get a quote
               </LeadButton>
               <a className="btn btn-secondary" href="/bri6ge">
-                BRI6GE
+                BRID6E
               </a>
             </div>
           </article>

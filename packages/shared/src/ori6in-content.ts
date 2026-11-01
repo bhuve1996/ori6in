@@ -9,6 +9,18 @@ export const COMPANY = {
   cin: 'U85500KA2025PTC201843',
   founder: 'Rishi Parashar',
   founderTitle: 'Founder & Director',
+  founderPhoneDisplay: '+91 91130 88519',
+  founderPhoneTel: '+919113088519',
+  founderWhatsappUrl: 'https://wa.me/919113088519',
+  founderEmail: 'rishi@ori6ineducation.com',
+
+  executiveDirector: 'Munmi Hazarika',
+  executiveDirectorTitle: 'Executive Director',
+  executiveDirectorPhoneDisplay: '+91 98450 27912',
+  executiveDirectorPhoneTel: '+919845027912',
+  executiveDirectorWhatsappUrl: 'https://wa.me/919845027912',
+  executiveDirectorEmail: 'munmi.hazarika@ori6ineducation.com',
+
   address:
     '1315, 2nd Floor, 25th Main Road, Kottapalya, Puttaiahna Palya 9th Block, Jayanagar, Bengaluru 560041',
   cityShort: 'Jayanagar, Bengaluru',
@@ -16,18 +28,19 @@ export const COMPANY = {
   phoneTel: '+919113088519',
   whatsappUrl: 'https://wa.me/919113088519',
   email: 'info@ori6ineducation.com',
+  partnershipsEmail: 'partnerships@ori6ineducation.com',
   tagline: 'Everything starts here.',
   coverage: 'Bengaluru (Jayanagar centre) · pan-India · online',
   governingLaw: 'India — courts at Bengaluru have exclusive jurisdiction',
   houseBrandLine: '6LOBAL by Edumillenia',
   brandsLegal:
-    'Edumillenia · ED6E · BRI6GE · 6LOBAL · 6RIP · 6RAND · 6RANT are brands of ORI6IN Education Private Limited',
+    'Edumillenia · ED6E · BRID6E · 6LOBAL · 6RIP · 6RAND · 6RANT are brands of ORI6IN Education Private Limited',
   copyrightYear: 2026,
 } as const;
 
 export const SITE_PUBLIC_NAME = 'ORI6IN';
 export const SITE_PUBLIC_DESCRIPTION =
-  'ORI6IN Education is a profile-building platform for students from Class 8 onwards — ED6E, BRI6GE, 6LOBAL study-abroad counselling, and 6RIP test preparation. Everything starts here.';
+  'ORI6IN Education is a profile-building platform for students from Class 8 onwards — ED6E, BRID6E, 6LOBAL study-abroad counselling, and 6RIP test preparation. Everything starts here.';
 
 export const ED6E_PILLARS = ['Excellence', 'Direction', 'Growth', 'Exposure'] as const;
 export const ED6E_EXPANSION = 'ED6E = Excellence · Direction · Growth · Exposure';
@@ -35,7 +48,7 @@ export const ED6E_EXPANSION = 'ED6E = Excellence · Direction · Growth · Expos
 export const TICKER_ITEMS = [
   'Complimentary Profile Discovery Session — for students and parents',
   'ED6E admissions open for Class 8–12',
-  'BRI6GE — for UG students planning a master’s abroad',
+  'BRID6E — for UG students planning a master’s abroad',
   'Study-abroad counselling for 2027 intakes',
   `Call ${COMPANY.phoneDisplay}`,
 ] as const;
@@ -44,7 +57,7 @@ export const HEADER_NAV = [
   { href: '/', label: 'Home' },
   { href: '/how-it-works', label: 'How it works' },
   { href: '/ed6e', label: 'ED6E' },
-  { href: '/bri6ge', label: 'BRI6GE' },
+  { href: '/bri6ge', label: 'BRID6E' },
   { href: '/study-abroad', label: '6LOBAL' },
   { href: '/test-prep', label: '6RIP' },
   { href: '/about', label: 'About' },
@@ -54,7 +67,7 @@ export const HEADER_NAV = [
 
 export const FOOTER_PROGRAMMES = [
   { href: '/ed6e', label: 'ED6E (Class 8–12)' },
-  { href: '/bri6ge', label: 'BRI6GE (UG Year 1–3)' },
+  { href: '/bri6ge', label: 'BRID6E (UG Year 1–3)' },
   { href: '/study-abroad', label: '6LOBAL — Study Abroad' },
   { href: '/test-prep', label: '6RIP — Test Preparation' },
   { href: '/how-it-works', label: 'How it works' },
@@ -74,7 +87,7 @@ export const FOOTER_ACCOUNTS = [
   { href: '/login', label: 'Counsellor & staff' },
 ] as const;
 
-/** 6RANT forex credits — same numbers on BRI6GE, 6LOBAL, and Terms. Not on 6RAND. */
+/** 6RANT forex credits — same numbers on BRID6E, 6LOBAL, and Terms. Not on 6RAND. */
 export const GRANT_MILESTONES = [
   { id: 'counselling', label: 'Counselling', amountInr: 2000 },
   { id: 'ielts', label: 'IELTS', amountInr: 3000 },
@@ -104,7 +117,7 @@ export type CatalogueItem = {
 
 export const CATALOGUE_GROUPS: { id: CatalogueGroupId; label: string }[] = [
   { id: 'A', label: 'ED6E — Class 8–12' },
-  { id: 'B', label: 'BRI6GE — UG Year 1–3' },
+  { id: 'B', label: 'BRID6E — UG Year 1–3' },
   { id: 'C', label: '6LOBAL — Admission counselling' },
   { id: 'D', label: '6RIP — Test preparation' },
   { id: 'E', label: 'Bundles' },
@@ -139,17 +152,17 @@ export const CATALOGUE: CatalogueItem[] = [
   {
     id: 'bri6ge-y1',
     group: 'B',
-    label: 'BRI6GE — entry UG Year 1 (Foundation · 3 years)',
+    label: 'BRID6E — entry UG Year 1 (Foundation · 3 years)',
   },
   {
     id: 'bri6ge-y2',
     group: 'B',
-    label: 'BRI6GE — entry UG Year 2 (Momentum · 2 years)',
+    label: 'BRID6E — entry UG Year 2 (Momentum · 2 years)',
   },
   {
     id: 'bri6ge-y3',
     group: 'B',
-    label: 'BRI6GE — entry UG Year 3 (Launch · 1 year)',
+    label: 'BRID6E — entry UG Year 3 (Launch · 1 year)',
   },
   {
     id: 'global-essential-ug-ms',
@@ -167,39 +180,39 @@ export const CATALOGUE: CatalogueItem[] = [
     label: '6RAND — concierge tier (three tiers)',
   },
   { id: 'phd-guidance', group: 'C', label: 'PhD guidance' },
-  { id: 'ielts-regular', group: 'D', label: 'IELTS — Regular (6 wk)' },
-  { id: 'ielts-fast', group: 'D', label: 'IELTS — Fast Track (4 wk)' },
-  { id: 'ielts-weekend', group: 'D', label: 'IELTS — Weekend (8 wk)' },
+  { id: 'ielts-regular', group: 'D', label: 'IELTS — Regular (6 weeks)' },
+  { id: 'ielts-fast', group: 'D', label: 'IELTS — Fast Track (4 weeks)' },
+  { id: 'ielts-weekend', group: 'D', label: 'IELTS — Weekend (8 weeks)' },
   { id: 'ielts-121', group: 'D', label: 'IELTS — One-to-One' },
-  { id: 'toefl-regular', group: 'D', label: 'TOEFL iBT — Regular (6 wk)' },
-  { id: 'toefl-fast', group: 'D', label: 'TOEFL iBT — Fast Track (4 wk)' },
+  { id: 'toefl-regular', group: 'D', label: 'TOEFL iBT — Regular (6 weeks)' },
+  { id: 'toefl-fast', group: 'D', label: 'TOEFL iBT — Fast Track (4 weeks)' },
   { id: 'toefl-121', group: 'D', label: 'TOEFL iBT — One-to-One' },
-  { id: 'gre-regular', group: 'D', label: 'GRE — Regular (10–12 wk)' },
-  { id: 'gre-intensive', group: 'D', label: 'GRE — Intensive (8 wk)' },
+  { id: 'gre-regular', group: 'D', label: 'GRE — Regular (10–12 weeks)' },
+  { id: 'gre-intensive', group: 'D', label: 'GRE — Intensive (8 weeks)' },
   { id: 'gre-121', group: 'D', label: 'GRE — One-to-One' },
-  { id: 'gmat-regular', group: 'D', label: 'GMAT Focus — Regular (10–12 wk)' },
-  { id: 'gmat-intensive', group: 'D', label: 'GMAT Focus — Intensive (8 wk)' },
+  { id: 'gmat-regular', group: 'D', label: 'GMAT Focus — Regular (10–12 weeks)' },
+  { id: 'gmat-intensive', group: 'D', label: 'GMAT Focus — Intensive (8 weeks)' },
   { id: 'gmat-121', group: 'D', label: 'GMAT Focus — One-to-One' },
-  { id: 'sat-regular', group: 'D', label: 'SAT — Regular (8–10 wk)' },
-  { id: 'sat-intensive', group: 'D', label: 'SAT — Intensive (6 wk)' },
+  { id: 'sat-regular', group: 'D', label: 'SAT — Regular (8–10 weeks)' },
+  { id: 'sat-intensive', group: 'D', label: 'SAT — Intensive (6 weeks)' },
   { id: 'sat-121', group: 'D', label: 'SAT — One-to-One' },
-  { id: 'pte-regular', group: 'D', label: 'PTE Academic — Regular (6 wk)' },
-  { id: 'pte-fast', group: 'D', label: 'PTE Academic — Fast Track (4 wk)' },
+  { id: 'pte-regular', group: 'D', label: 'PTE Academic — Regular (6 weeks)' },
+  { id: 'pte-fast', group: 'D', label: 'PTE Academic — Fast Track (4 weeks)' },
   { id: 'pte-121', group: 'D', label: 'PTE Academic — One-to-One' },
-  { id: 'det-regular', group: 'D', label: 'Duolingo (DET) — Comprehensive (4–6 wk)' },
-  { id: 'det-fast', group: 'D', label: 'Duolingo (DET) — Fast Track (2–3 wk)' },
+  { id: 'det-regular', group: 'D', label: 'Duolingo (DET) — Comprehensive (4–6 weeks)' },
+  { id: 'det-fast', group: 'D', label: 'Duolingo (DET) — Fast Track (2–3 weeks)' },
   { id: 'det-121', group: 'D', label: 'Duolingo (DET) — One-to-One' },
-  { id: 'german-a1', group: 'D', label: 'German Language — A1 (8 wk)' },
-  { id: 'german-a2', group: 'D', label: 'German Language — A2 (8 wk)' },
-  { id: 'german-b1', group: 'D', label: 'German Language — B1 (10 wk)' },
-  { id: 'german-b2', group: 'D', label: 'German Language — B2 (12 wk)' },
+  { id: 'german-a1', group: 'D', label: 'German Language — A1 (8 weeks)' },
+  { id: 'german-a2', group: 'D', label: 'German Language — A2 (8 weeks)' },
+  { id: 'german-b1', group: 'D', label: 'German Language — B1 (10 weeks)' },
+  { id: 'german-b2', group: 'D', label: 'German Language — B2 (12 weeks)' },
   { id: 'german-121', group: 'D', label: 'German Language — One-to-One (per level)' },
-  { id: 'french-a1', group: 'D', label: 'French Language — A1 (8 wk)' },
-  { id: 'french-a2', group: 'D', label: 'French Language — A2 (8 wk)' },
-  { id: 'french-b1', group: 'D', label: 'French Language — B1 (10 wk)' },
+  { id: 'french-a1', group: 'D', label: 'French Language — A1 (8 weeks)' },
+  { id: 'french-a2', group: 'D', label: 'French Language — A2 (8 weeks)' },
+  { id: 'french-b1', group: 'D', label: 'French Language — B1 (10 weeks)' },
   { id: 'french-121', group: 'D', label: 'French Language — One-to-One' },
-  { id: 'japanese-n5', group: 'D', label: 'Japanese Language — N5 (10–12 wk)' },
-  { id: 'japanese-n4', group: 'D', label: 'Japanese Language — N4 (12 wk)' },
+  { id: 'japanese-n5', group: 'D', label: 'Japanese Language — N5 (10–12 weeks)' },
+  { id: 'japanese-n4', group: 'D', label: 'Japanese Language — N4 (12 weeks)' },
   { id: 'japanese-121', group: 'D', label: 'Japanese Language — One-to-One' },
   { id: 'dmat', group: 'D', label: 'dMAT preparation' },
   { id: 'bundle-ielts-global', group: 'E', label: 'IELTS + 6LOBAL counselling' },
@@ -207,8 +220,8 @@ export const CATALOGUE: CatalogueItem[] = [
   { id: 'bundle-gmat-global', group: 'E', label: 'GMAT + 6LOBAL counselling' },
   { id: 'bundle-german-global', group: 'E', label: 'German A1 + 6LOBAL counselling' },
   { id: 'bundle-ielts-german', group: 'E', label: 'IELTS + German A1' },
-  { id: 'bundle-bri6ge-global', group: 'E', label: 'BRI6GE + 6LOBAL counselling' },
-  { id: 'bundle-bri6ge-grip', group: 'E', label: 'BRI6GE + 6RIP (GRE + IELTS)' },
+  { id: 'bundle-bri6ge-global', group: 'E', label: 'BRID6E + 6LOBAL counselling' },
+  { id: 'bundle-bri6ge-grip', group: 'E', label: 'BRID6E + 6RIP (GRE + IELTS)' },
 ];
 
 export function catalogueById(id: string) {
@@ -225,7 +238,7 @@ export function catalogueGrouped() {
 /** Discovery / brochure / contact interest picklist */
 export const INTEREST_OPTIONS = [
   'ED6E (Class 8–12)',
-  'BRI6GE (UG Year 1–3)',
+  'BRID6E (UG Year 1–3)',
   '6LOBAL — Study Abroad',
   '6RIP — Test Preparation',
   'Not sure yet',
@@ -367,7 +380,7 @@ export const ELIGIBILITY_VERDICTS: Record<
   },
 };
 
-/** Master’s + Bachelor’s (UG years) should be flagged toward BRI6GE. */
+/** Master’s + Bachelor’s (UG years) should be flagged toward BRID6E. */
 export function eligibilitySuggestsBri6ge(answers: Partial<EligibilityAnswers>) {
   return answers.aim === 'Master’s' && answers.qualification === 'Bachelor’s';
 }
@@ -436,6 +449,8 @@ export const BRI6GE_STAGES = [
       'Final profile polish, tests completed, shortlist drafted, handover to 6LOBAL for the applications.',
   },
 ] as const;
+
+export const BRID6E_STAGES = BRI6GE_STAGES;
 
 export type GripTestItem = {
   id: string;
