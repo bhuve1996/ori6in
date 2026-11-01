@@ -123,8 +123,6 @@ export const ED6E_PARENT_REVIEWS: ParentReview[] = [
   },
 ];
 
-export const BRI6GE_PARENT_REVIEWS = BRID6E_PARENT_REVIEWS;
-
 export const BRID6E_PARENT_REVIEWS: ParentReview[] = [
   {
     id: 'bri6ge-1',
@@ -463,3 +461,5 @@ export const GRIP_PARENT_REVIEWS: ParentReview[] = [
     outcomeOrHighlight: 'Qualified for top US university scholarship benchmarks',
   },
 ];
+
+export const BRI6GE_PARENT_REVIEWS = BRID6E_PARENT_REVIEWS;
