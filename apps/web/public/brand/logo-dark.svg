@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256" fill="none" role="img" aria-labelledby="ori6in-dark-title ori6in-dark-desc">
   <title id="ori6in-dark-title">ORI6IN Education</title>
-  <desc id="ori6in-dark-desc">ORI6IN Education — Dream. Apply. Fly.</desc>
+  <desc id="ori6in-dark-desc">ORI6IN Education — Everything starts here.</desc>
   <!-- Dark-surface wordmark: White letters, Brand Gold 6, Descriptor Gold subtitle -->
   <g text-anchor="middle">
     <text x="320" y="112" font-family="'Cinzel', Georgia, serif" font-size="82" font-weight="700" letter-spacing="0.06em" fill="#FFFFFF">
@@ -23,6 +23,6 @@
       font-style="italic"
       letter-spacing="0.04em"
       fill="#ECE6DA"
-    >Dream. Apply. Fly.</text>
+    >Everything starts here.</text>
   </g>
 </svg>
