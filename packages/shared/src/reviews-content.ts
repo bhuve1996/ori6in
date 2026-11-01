@@ -230,7 +230,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     state: 'Karnataka',
     address:
       'Ori6in Education, 1315, 25th Main Rd, Kottapalya, Jayanagara 9th Block, JAYANAGAR, Bengaluru, Karnataka 560041',
-    phone: '+91 91130 88519',
+    phone: '+91 91879 78521',
     email: 'info@ori6ineducation.com',
     hours: 'Mon – Sat: 9:30 AM – 7:00 PM · Sunday by appointment',
     mapsQuery: 'Ori6in+Education+1315+25th+Main+Rd+Kottapalya+Jayanagara+9th+Block+Bengaluru+Karnataka+560041',
@@ -242,7 +242,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     city: 'Guwahati',
     state: 'Assam',
     address: 'Satellite Office · Northeast Regional Desk, Guwahati, Assam',
-    phone: '+91 91130 88519',
+    phone: '+91 91879 78521',
     email: 'guwahati@ori6ineducation.com',
     hours: 'Mon – Sat: 10:00 AM – 6:30 PM (Counselling by Appointment & Online)',
     mapsQuery: 'Guwahati+Assam',
@@ -264,8 +264,8 @@ export const SOCIAL_LINKS = [
   },
   {
     name: 'WhatsApp',
-    handle: '+91 91130 88519',
-    url: 'https://wa.me/919113088519',
+    handle: '+91 91879 78521',
+    url: 'https://wa.me/919187978521',
     icon: 'whatsapp',
   },
   {

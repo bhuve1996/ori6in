@@ -50,7 +50,7 @@ export default function HomePage() {
               postalCode: '560041',
               addressCountry: 'IN',
             },
-            telephone: '+91 91130 88519',
+            telephone: '+91 91879 78521',
             email: 'info@ori6ineducation.com',
           },
           {

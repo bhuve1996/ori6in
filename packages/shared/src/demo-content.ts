@@ -29,7 +29,7 @@ We counsel from Jayanagar, Bengaluru — pan-India and online — for USA, UK, C
     title: 'Get a quote',
     body: `Every family’s plan is quoted after a Discovery Session.
 
-Write via /contact with your current class or UG year, destination interest, and timeline. A counsellor will call from +91 91130 88519 within one working day.`,
+Write via /contact with your current class or UG year, destination interest, and timeline. A counsellor will call from +91 91879 78521 within one working day.`,
     published: true,
   },
 ] as const;
