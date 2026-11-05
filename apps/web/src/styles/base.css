@@ -57,7 +57,7 @@ body {
   flex: 1 0 auto;
   width: 100%;
   min-width: 0;
-  /* Clear fixed Ori FAB + home indicator */
+  /* Clear fixed Hooty FAB + home indicator */
   padding-bottom: max(5.5rem, calc(4.25rem + env(safe-area-inset-bottom, 0px)));
 }
 

@@ -104,7 +104,7 @@ function localReply(message: string): string {
   if (q.includes('program') || q.includes('course') || q.includes('offer') || q.includes('package')) {
     return 'Four product lines: ED6E (Class 8–12), BRID6E (UG Year 1–3), 6LOBAL study-abroad counselling, and 6RIP tests. Overview: /programmes. Quoted for each family, with no one-size price list.';
   }
-  return `I am Ori. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
+  return `I am Hooty. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session — or open /how-it-works.`;
 }
 
 export function OwlAssistant() {
@@ -116,7 +116,7 @@ export function OwlAssistant() {
   const [turns, setTurns] = useState<Turn[]>([
     {
       role: 'assistant',
-      content: `Hi — I am Ori. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session.`,
+      content: `Hi — I am Hooty. ${BRAND.tagline} Ask about ED6E, BRID6E, 6LOBAL, 6RIP, or a free Discovery Session.`,
     },
   ]);
   const listRef = useRef<HTMLDivElement>(null);
@@ -178,7 +178,7 @@ export function OwlAssistant() {
             id={panelId}
             className="owl-assist__panel"
             role="dialog"
-            aria-label="Ori, ORI6IN assistant"
+            aria-label="Hooty, ORI6IN assistant"
             aria-modal="false"
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -188,7 +188,7 @@ export function OwlAssistant() {
             <header className="owl-assist__head">
               <img src={BRAND.owl} alt="" width={44} height={44} className="owl-assist__avatar" />
               <div>
-                <strong>Ori</strong>
+                <strong>Hooty</strong>
                 <p>Your ORI6IN guide</p>
               </div>
               <button
@@ -229,7 +229,7 @@ export function OwlAssistant() {
                   </motion.div>
                 ))}
               </AnimatePresence>
-              {busy ? <p className="owl-assist__typing">Ori is thinking…</p> : null}
+              {busy ? <p className="owl-assist__typing">Hooty is thinking…</p> : null}
             </div>
 
             <form className="owl-assist__form" onSubmit={onSubmit}>
@@ -238,8 +238,8 @@ export function OwlAssistant() {
                 rows={2}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Ask Ori…"
-                aria-label="Message Ori"
+                placeholder="Ask Hooty…"
+                aria-label="Message Hooty"
                 disabled={busy}
               />
               <button className="btn btn-accent" type="submit" disabled={busy || !message.trim()}>
@@ -255,14 +255,14 @@ export function OwlAssistant() {
         className="owl-assist__fab"
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
-        aria-label={open ? 'Close Ori assistant' : 'Open Ori assistant'}
+        aria-label={open ? 'Close Hooty assistant' : 'Open Hooty assistant'}
         onClick={() => setOpen((v) => !v)}
         whileHover={{ y: -2, scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         transition={softSpring}
       >
         <img src={BRAND.owl} alt="" width={56} height={56} />
-        <span className="owl-assist__fab-label">Ask Ori</span>
+        <span className="owl-assist__fab-label">Ask Hooty</span>
       </motion.button>
     </div>
   );
